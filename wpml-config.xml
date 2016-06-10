@@ -1,0 +1,11 @@
+<wpml-config>
+	<custom-fields>
+		<custom-field action="copy">_tm_testimonial_</custom-field>
+	</custom-fields>
+	<custom-types>
+		<custom-type translate="1">tm-testimonials</custom-type>
+	</custom-types>
+	<taxonomies>
+		<taxonomy translate="1">tm-testimonials_category</taxonomy>
+	</taxonomies>
+</wpml-config>

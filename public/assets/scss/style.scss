@@ -1,0 +1,142 @@
+.tm-testi {
+	&__title {
+		text-align: center;
+	}
+	&__item {
+		&:after {
+			display: table;
+			clear: both;
+			content: '';
+		}
+		blockquote {
+			position: relative;
+			margin: 0;
+			&:before {
+				font-size: 40px;
+				font-style: normal;
+				font-weight: bold;
+				position: absolute;
+				z-index: 9;
+				top: 15px;
+				left: 15px;
+				content: '\201D';
+				// Power-builder hack
+				#tm_builder_outer_content & {
+					content: '\201D';
+				}
+			}
+			p {
+				&:last-child {
+					margin-bottom: 0;
+				}
+			}
+		}
+		&-avatar {
+			display: block;
+			margin: 0 auto 1.5em;
+			@media (min-width: 992px) {
+				float: left;
+				margin-right: 1.5em;
+			}
+		}
+		& + .tm-testi__item {
+			margin-top: 2.5em;
+			.tm-testi-shortcode--slider & {
+				margin-top: 0;
+			}
+		}
+		.tm-testi-tmpl-default.tm-testi-shortcode--list & {
+			@media (min-width: 992px) {
+				&:nth-child(even) {
+					.tm-testi__item-avatar {
+						float: right;
+						margin-right: 0;
+						margin-left: 1.5em;
+					}
+				}
+			}
+		}
+	}
+	// Default layout
+	&-tmpl-default {
+		blockquote {
+			&:before {
+				content: '';
+				// Power-builder hack
+				#tm_builder_outer_content & {
+					content: '';
+				}
+			}
+		}
+		.tm-testi__item-body {
+			overflow: hidden;
+		}
+	}
+	// Speech Bubble layout
+	&-tmpl-speech-bubble {
+		blockquote {
+			padding: 0;
+			color: inherit;
+			border: none;
+			background-color: transparent;
+		}
+		.tm-testi__item-body {
+			position: relative;
+			padding: 1.5em;
+			border: 1px solid currentColor;
+			&:after {
+				position: absolute;
+				top: 100%;
+				left: 50%;
+				width: 0;
+				height: 0;
+				margin: 0 0 0 -8px;
+				content: '';
+				border-width: 8px 8px 0 8px;
+				border-style: solid;
+				border-color: currentColor transparent transparent transparent;
+				@media (min-width: 992px) {
+					left: 38px;
+				}
+			}
+		}
+		.tm-testi__item-meta {
+			padding-top: 1.5em;
+			&:after {
+				display: table;
+				clear: both;
+				content: '';
+			}
+		}
+		.tm-testi__item-avatar {
+			@media (min-width: 992px) {
+				margin-top: 0;
+				margin-bottom: 0;
+			}
+		}
+	}
+	// Boxed layout
+	&-tmpl-boxed {
+		blockquote {
+			padding: 0 1.5em 1.5em;
+			color: inherit;
+			border: 1px solid currentColor;
+			background-color: transparent;
+			&:before {
+				right: 15px;
+				left: auto;
+			}
+		}
+		.tm-testi__inner {
+			padding-top: 1.5em;
+		}
+		.tm-testi__item-avatar {
+			@media (min-width: 992px) {
+				float: none;
+				margin-top: -1.5em;
+				margin-right: 0;
+				margin-left: 0;
+			}
+		}
+	}
+}
