@@ -69,7 +69,7 @@ if ( ! class_exists( 'TM_Testimonials_Plugin' ) ) {
 
 			// Init the core.
 			add_action( 'after_setup_theme', array( $this, 'get_core' ), 1 );
-			// add_action( 'after_setup_theme', array( 'Cherry_Core', 'load_all_modules' ), 3 );
+			add_action( 'after_setup_theme', array( 'Cherry_Core', 'load_all_modules' ), 2 );
 
 			add_action( 'after_setup_theme', array( $this, 'add_theme_support' ) );
 
