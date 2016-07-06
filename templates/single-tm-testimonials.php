@@ -12,7 +12,7 @@
 if ( ! did_action( 'get_header' ) ) {
 	get_header(); ?>
 
-	<?php do_action( 'tm_testiminials_content_before' ); ?>
+	<?php do_action( 'tm_testimonials_content_before' ); ?>
 
 		<div id="primary" class="content-area">
 			<main id="main" class="site-main" role="main">
@@ -37,7 +37,7 @@ endwhile; ?>
 
 <?php do_action( 'tm_testiminials_entry_after' ); ?>
 
-<?php if ( did_action( 'tm_testiminials_content_before' ) ) { ?>
+<?php if ( did_action( 'tm_testimonials_content_before' ) ) { ?>
 				</article><!-- #post-## -->
 			</main><!-- .site-main -->
 		</div><!-- .content-area -->
