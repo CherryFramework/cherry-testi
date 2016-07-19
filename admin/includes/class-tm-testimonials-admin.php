@@ -37,7 +37,7 @@ class TM_Testimonials_Admin {
 
 		// Only run our customization on the 'edit.php' page in the admin.
 		add_action( 'load-edit.php', array( $this, 'load_edit' ) );
-		add_action( 'load-tm-testimonials_page_settings', array( $this, 'print_settings_styles' ) );
+		add_action( 'admin_head-tm-testimonials_page_settings', array( $this, 'print_settings_styles' ) );
 
 		add_action( 'admin_menu', array( $this, 'add_submenu_page' ), 0 );
 
