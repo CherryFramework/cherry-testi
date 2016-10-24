@@ -582,7 +582,7 @@ class TM_Testimonials_Data {
 		 * @since 1.0.0
 		 * @param string $prefix.
 		 */
-		$prefix = apply_filters( 'tm_testimonials_template_class_prefix', 'tm-testi-tmpl' );
+		$prefix = apply_filters( 'tm_testimonials_template_class_prefix', 'tm-testi-' );
 		$class  = sprintf( '%s-%s', esc_attr( $prefix ), esc_attr( str_replace( '.tmpl', '', $template ) ) );
 
 		return $class;

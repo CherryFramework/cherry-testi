@@ -20,10 +20,11 @@ if ( ! did_action( 'get_header' ) ) {
 <?php } ?>
 
 <?php $args = apply_filters( 'tm_testimonials_single_template_args', array(
-	'ids'          => get_the_ID(),
-	'template'     => 'default.tmpl',
-	'custom_class' => 'tm-testi-page-single',
-	'echo'         => false,
+	'ids'            => get_the_ID(),
+	'template'       => 'default.tmpl',
+	'content_length' => -1,
+	'custom_class'   => 'tm-testi__wrap--single-page',
+	'echo'           => false,
 ) );
 $args['echo'] = false;
 $data = TM_Testimonials_Data::get_instance();
@@ -38,7 +39,7 @@ endwhile; ?>
 <?php do_action( 'tm_testiminials_entry_after' ); ?>
 
 <?php if ( did_action( 'tm_testimonials_content_before' ) ) { ?>
-				</article><!-- #post-## -->
+				</article>
 			</main><!-- .site-main -->
 		</div><!-- .content-area -->
 

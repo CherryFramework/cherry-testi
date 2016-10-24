@@ -63,18 +63,23 @@ if ( ! class_exists( 'TM_Testimonials_Plugin' ) ) {
 		 */
 		public function __construct() {}
 
+		/**
+		 * Sets up initial actions.
+		 *
+		 * @since 1.0.0
+		 */
 		public function actions() {
-			// Load the installer core.
-			add_action( 'after_setup_theme', require( trailingslashit( __DIR__ ) . 'cherry-framework/setup.php' ), 0 );
 
-			// Init the core.
+			// Set up a Cherry core.
+			add_action( 'after_setup_theme', require( trailingslashit( __DIR__ ) . 'cherry-framework/setup.php' ), 0 );
 			add_action( 'after_setup_theme', array( $this, 'get_core' ), 1 );
 			add_action( 'after_setup_theme', array( 'Cherry_Core', 'load_all_modules' ), 2 );
 
-			add_action( 'after_setup_theme', array( $this, 'add_theme_support' ) );
-
 			// Internationalize the text strings used.
 			add_action( 'plugins_loaded', array( $this, 'lang' ) );
+
+			// Registers theme support for a `post-thumbnails` feature.
+			add_action( 'after_setup_theme', array( $this, 'add_theme_support' ) );
 
 			// Load public-facing stylesheet.
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ), 9 );
@@ -138,6 +143,14 @@ if ( ! class_exists( 'TM_Testimonials_Plugin' ) ) {
 		 * @since 1.0.0
 		 */
 		public function get_core() {
+
+			/**
+			 * Fires before loads the core.
+			 *
+			 * @since 1.0.0
+			 */
+			do_action( 'tm_testimonials_core_before' );
+
 			global $chery_core_version;
 
 			if ( null !== $this->core ) {
@@ -163,6 +176,9 @@ if ( ! class_exists( 'TM_Testimonials_Plugin' ) ) {
 						'autoload' => false,
 					),
 					'cherry-ui-elements' => array(
+						'autoload' => false,
+					),
+					'cherry-interface-builder' => array(
 						'autoload' => false,
 					),
 					'cherry-post-meta' => array(
