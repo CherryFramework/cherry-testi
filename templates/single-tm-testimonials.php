@@ -23,7 +23,7 @@ if ( ! did_action( 'get_header' ) ) {
 	'ids'            => get_the_ID(),
 	'template'       => 'default.tmpl',
 	'content_length' => -1,
-	'custom_class'   => 'tm-testi__wrap--single-page',
+	'custom_class'   => 'tm-testi-page tm-testi-page--single',
 	'echo'           => false,
 ) );
 $args['echo'] = false;

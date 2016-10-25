@@ -39,10 +39,6 @@
 	margin-bottom: 20px;
 }
 
-.tm-testi__item-body {
-	// flex-shrink: 1;
-}
-
 
 // Default layout
 .tm-testi--default blockquote {
@@ -133,7 +129,8 @@
 		flex-direction: row;
 	}
 
-	.tm-testi__wrap--perview-1 .tm-testi__item blockquote {
+	.tm-testi__wrap--perview-1 .tm-testi__item blockquote,
+	.tm-testi-page--archive .tm-testi__item blockquote {
 		flex-direction: row;
 	}
 }

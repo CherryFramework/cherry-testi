@@ -236,7 +236,7 @@ if ( ! class_exists( 'TM_Testimonials_Plugin' ) ) {
 			wp_enqueue_style( 'cherry-testi', plugins_url( "public/assets/css/style{$suffix}.css", __FILE__ ), array( 'jquery-swiper' ), TM_TESTI_VERSION );
 
 			wp_register_script( 'jquery-swiper', plugins_url( 'includes/swiper/js/swiper.jquery.min.js', __FILE__ ), array( 'jquery' ), '3.3.1', true );
-			wp_register_script( 'cherry-testi-script', plugins_url( 'public/assets/js/public.js', __FILE__ ), array( 'jquery-swiper' ), TM_TESTI_VERSION, true );
+			wp_register_script( 'cherry-testi-script', plugins_url( 'public/assets/js/public.min.js', __FILE__ ), array( 'jquery-swiper' ), TM_TESTI_VERSION, true );
 		}
 
 		/**

@@ -24,7 +24,7 @@ if ( ! did_action( 'get_header' ) ) {
 	'limit'        => TM_Testimonials_Page_Template::$posts_per_page,
 	'pager'        => 'true',
 	'template'     => 'default.tmpl',
-	'custom_class' => 'tm-testi-page tm-testi-page-archive',
+	'custom_class' => 'tm-testi-page tm-testi-page--archive',
 	'category'     => ! empty( $wp_query->query_vars['term'] ) ? $wp_query->query_vars['term'] : '',
 ) );
 $data = TM_Testimonials_Data::get_instance(); ?>
