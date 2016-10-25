@@ -113,7 +113,7 @@ class TM_Testimonials_Data {
 		 * @since 1.0.0
 		 * @param array Arguments.
 		 */
-		$args  = apply_filters( 'tm_the_testimonials_args', $args );
+		$args = apply_filters( 'tm_the_testimonials_args', $args );
 
 		/**
 		 * Filter before the Testimonials.
@@ -146,6 +146,13 @@ class TM_Testimonials_Data {
 
 		// Prepare CSS-class.
 		$css_classes = array( 'tm-testi__wrap' );
+
+		if ( ! empty( $args['slides_per_view'] ) ) {
+			$css_classes[] = sprintf(
+				'tm-testi__wrap--perview-%d',
+				intval( $args['slides_per_view'] )
+			);
+		}
 
 		if ( ! empty( $args['custom_class'] ) ) {
 			$css_classes[] = esc_attr( $args['custom_class'] );

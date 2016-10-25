@@ -2,18 +2,22 @@
 	"use strict";
 
 	$(function() {
-		$( '.tm-testi-shortcode--slider' ).each( function() {
+		$( '.tm-testi-slider' ).each( function() {
 			var $container = $( this ),
 				atts = $container.data( 'atts' ),
 				params = {
-					pagination: '.tm-testi__pagination',
-					nextButton: '.tm-testi__button-next',
-					prevButton: '.tm-testi__button-prev',
+					pagination: '#tm-testi-slider-pagination-' + atts.id,
+					nextButton: '#tm-testi-slider-next-' + atts.id,
+					prevButton: '#tm-testi-slider-prev-' + atts.id,
 					paginationClickable: true,
 					autoHeight: false,
-					onInit: function(){
-						$( '.tm-testi__button-next' ).css({ 'display': 'block' });
-						$( '.tm-testi__button-prev' ).css({ 'display': 'block' });
+					breakpoints: {
+						991: {
+							slidesPerView: 2
+						},
+						767: {
+							slidesPerView: 1
+						}
 					}
 				},
 				swiper = null,

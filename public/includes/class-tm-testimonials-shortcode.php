@@ -259,9 +259,9 @@ class TM_Testimonials_Shortcode {
 		$custom_class  = $atts['custom_class'];
 
 		if ( 'list' === $atts['type']  ) {
-			$extra_classes = array( 'tm-testi-shortcode', 'tm-testi-shortcode--list' );
+			$extra_classes = array( 'tm-testi__wrap--shortcode', 'tm-testi__wrap--listing' );
 		} else {
-			$extra_classes = array( 'swiper-container', 'tm-testi-shortcode', 'tm-testi-shortcode--slider' );
+			$extra_classes = array( 'tm-testi__wrap--shortcode', 'swiper-container', 'tm-testi-slider' );
 			$atts          = $this->prepare_slider_atts( $defaults, $atts );
 		}
 
@@ -272,6 +272,7 @@ class TM_Testimonials_Shortcode {
 		$atts['custom_class'] = join( ' ', $extra_classes );
 
 		$data = TM_Testimonials_Data::get_instance();
+
 		return $data->the_testimonials( $atts );
 	}
 
@@ -313,33 +314,20 @@ class TM_Testimonials_Shortcode {
 			'spaceBetween'  => 0,
 		), $defaults, $atts );
 
-		$atts = wp_parse_args( $atts, $data_defaults );
-
-		// Fix integers.
-		$atts['autoplay']        = intval( $atts['autoplay'] );
-		$atts['slides_per_view'] = intval( $atts['slides_per_view'] );
-		$atts['space_between']   = intval( $atts['space_between'] );
-
 		$atts['data_atts'] = apply_filters( 'tm_testimonials_slider_data_atts', array(
-			'autoplay'      => $atts['autoplay'],
+			'autoplay'      => intval( $atts['autoplay'] ),
 			'effect'        => sanitize_key( $atts['effect'] ),
-			'loop'          => $atts['loop'],
-			'slidesPerView' => $atts['slides_per_view'],
-			'spaceBetween'  => $atts['space_between'],
+			'loop'          => (bool) $atts['loop'],
+			'slidesPerView' => intval( $atts['slides_per_view'] ),
+			'spaceBetween'  => intval( $atts['space_between'] ),
 		), $defaults, $atts );
 
 		add_filter( 'tm_testimonials_wrapper_format', array( 'TM_Testimonials_Hook', 'slider_settings' ), 10, 2 );
 		add_filter( 'tm_the_testimonials_args',       array( 'TM_Testimonials_Hook', 'slider_container_class' ) );
 		add_filter( 'tm_testimonials_item_classes',   array( 'TM_Testimonials_Hook', 'slider_item_class' ), 10, 2 );
 		add_filter( 'tm_testimonials_html',           array( 'TM_Testimonials_Hook', 'slider_script' ), 10, 3 );
-
-		if ( $atts['pagination'] ) {
-			add_filter( 'tm_testimonials_loop_after', array( 'TM_Testimonials_Hook', 'slider_pagination' ), 10, 2 );
-		}
-
-		if ( $atts['navigation'] ) {
-			add_filter( 'tm_testimonials_loop_after', array( 'TM_Testimonials_Hook', 'slider_navigation' ), 10, 2 );
-		}
+		add_filter( 'tm_testimonials_loop_after',     array( 'TM_Testimonials_Hook', 'slider_pagination' ), 10, 2 );
+		add_filter( 'tm_testimonials_loop_after',     array( 'TM_Testimonials_Hook', 'slider_navigation' ), 10, 2 );
 
 		return $atts;
 	}

@@ -1,0 +1,139 @@
+.tm-testi__title {
+	text-align: center;
+}
+
+.tm-testi__item {
+	margin-top: 30px;
+
+	&:first-child {
+		margin-top: 0;
+	}
+}
+
+.tm-testi__item blockquote {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	margin: 0;
+
+	&:before {
+		position: absolute;
+		z-index: 9;
+		top: 15px;
+		left: 15px;
+		font-size: 40px;
+		font-weight: bold;
+		font-style: normal;
+		content: '\201D';
+
+		// Power-builder hack
+		#tm_builder_outer_content & {
+			content: '\201D';
+		}
+	}
+}
+
+.tm-testi__item-avatar {
+	flex-shrink: 0;
+	align-self: center;
+	margin-bottom: 20px;
+}
+
+.tm-testi__item-body {
+	// flex-shrink: 1;
+}
+
+
+// Default layout
+.tm-testi--default blockquote {
+	&:before {
+		content: '';
+
+		// Power-builder hack
+		#tm_builder_outer_content & {
+			content: '';
+		}
+	}
+}
+
+
+// Speech Bubble layout
+.tm-testi--speech-bubble blockquote {
+	display: block;
+	padding: 0;
+	border: none;
+	background-color: transparent;
+	color: inherit;
+}
+
+.tm-testi--speech-bubble .tm-testi__item-body {
+	position: relative;
+	padding: 25px 25px 25px 45px;
+	border: 1px solid currentColor;
+	&:after {
+		position: absolute;
+		top: 100%;
+		left: 50%;
+		width: 0;
+		height: 0;
+		margin-left: -8px;
+		content: '';
+		border-width: 8px 8px 0 8px;
+		border-style: solid;
+		border-color: currentColor transparent transparent transparent;
+	}
+}
+
+.tm-testi--speech-bubble .tm-testi__item-meta {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: column;
+	padding-top: 20px;
+}
+
+.tm-testi--speech-bubble .tm-testi__item-meta footer {
+	flex-grow: 1;
+}
+
+.tm-testi--speech-bubble .tm-testi__item-avatar {
+	margin-right: 0;
+	margin-left: 0;
+}
+
+
+// Boxed layout
+.tm-testi--boxed blockquote {
+	padding: 25px 40px 25px 25px;
+	border: 1px solid currentColor;
+	&:before {
+		right: 15px;
+		left: auto;
+	}
+}
+
+@media( min-width: $laptop ) {
+	.tm-testi__item-avatar {
+		align-self: flex-start;
+		margin-right: 20px;
+	}
+
+	.tm-testi--speech-bubble .tm-testi__item-avatar {
+		margin-right: 20px;
+		margin-bottom: 0;
+	}
+
+	.tm-testi--speech-bubble .tm-testi__item-body {
+		&:after {
+			left: 38px;
+		}
+	}
+
+	.tm-testi__wrap--perview-1.tm-testi--speech-bubble .tm-testi__item-meta {
+		flex-wrap: nowrap;
+		flex-direction: row;
+	}
+
+	.tm-testi__wrap--perview-1 .tm-testi__item blockquote {
+		flex-direction: row;
+	}
+}

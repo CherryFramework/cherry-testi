@@ -16,6 +16,8 @@
  */
 class TM_Testimonials_Hook {
 
+	public static $instance = 0;
+
 	/**
 	 * PHP-constructor.
 	 *
@@ -33,13 +35,14 @@ class TM_Testimonials_Hook {
 			return $format;
 		}
 
-		$data_atts = wp_json_encode( $args['data_atts'] );
+		$atts      = wp_parse_args( array( 'id' => self::$instance ), $args['data_atts'] );
+		$data_atts = wp_json_encode( $atts );
 
 		if ( false === $data_atts ) {
 			return $format;
 		}
 
-		$format = "<div class='tm-testi'>%s<div class='%s' data-atts='" . $data_atts . "'>%s</div></div>";
+		$format = "<div class='tm-testi'>%s<div id='tm-testi-slider-" . self::$instance . "' class='%s' data-atts='" . $data_atts . "'>%s</div></div>";
 
 		return $format;
 	}
@@ -57,8 +60,10 @@ class TM_Testimonials_Hook {
 			return $args;
 		}
 
+		self::$instance++;
+
 		if ( isset( $args['container'] ) ) {
-			$args['container'] = '<div class="tm-testi__list swiper-wrapper">%s</div>';
+			$args['container'] = '<div class="tm-testi__list swiper-wrapper tm-testi-slider__items">%s</div>';
 		}
 
 		return $args;
@@ -79,6 +84,7 @@ class TM_Testimonials_Hook {
 		}
 
 		$classes[] = 'swiper-slide';
+		$classes[] = 'tm-testi-slider__item';
 
 		return $classes;
 	}
@@ -97,7 +103,15 @@ class TM_Testimonials_Hook {
 			return $output;
 		}
 
-		return $output . '<div class="tm-testi__pagination swiper-pagination"></div>';
+		if ( ! $args['pagination'] ) {
+			return $output;
+		}
+
+		return sprintf(
+			'%s<div id="tm-testi-slider-pagination-%d" class="swiper-pagination tm-testi-slider__pags"></div>',
+			$output,
+			self::$instance
+		);
 	}
 
 	/**
@@ -114,8 +128,15 @@ class TM_Testimonials_Hook {
 			return $output;
 		}
 
-		return $output . '<div class="tm-testi__button-next swiper-button-next"></div>
-		<div class="tm-testi__button-prev swiper-button-prev"></div>';
+		if ( ! $args['navigation'] ) {
+			return $output;
+		}
+
+		return sprintf(
+			'%1$s<div id="tm-testi-slider-next-%2$d" class="swiper-button-next tm-testi-slider__next"></div><div  id="tm-testi-slider-prev-%2$d" class="swiper-button-prev tm-testi-slider__prev"></div>',
+			$output,
+			self::$instance
+		);
 	}
 
 	/**

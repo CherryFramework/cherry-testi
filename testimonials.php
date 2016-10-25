@@ -81,8 +81,8 @@ if ( ! class_exists( 'TM_Testimonials_Plugin' ) ) {
 			// Registers theme support for a `post-thumbnails` feature.
 			add_action( 'after_setup_theme', array( $this, 'add_theme_support' ) );
 
-			// Load public-facing stylesheet.
-			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ), 9 );
+			// Load public-facing stylesheet and javascript.
+			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_assets' ), 9 );
 
 			// Register activation and deactivation hook.
 			register_activation_hook( __FILE__, array( $this, 'activation' ) );
@@ -225,7 +225,7 @@ if ( ! class_exists( 'TM_Testimonials_Plugin' ) ) {
 		 *
 		 * @since 1.0.0
 		 */
-		public function enqueue_styles() {
+		public function enqueue_assets() {
 			$suffix = '';
 
 			if ( is_rtl() ) {
@@ -236,7 +236,7 @@ if ( ! class_exists( 'TM_Testimonials_Plugin' ) ) {
 			wp_enqueue_style( 'cherry-testi', plugins_url( "public/assets/css/style{$suffix}.css", __FILE__ ), array( 'jquery-swiper' ), TM_TESTI_VERSION );
 
 			wp_register_script( 'jquery-swiper', plugins_url( 'includes/swiper/js/swiper.jquery.min.js', __FILE__ ), array( 'jquery' ), '3.3.1', true );
-			wp_register_script( 'cherry-testi-script', plugins_url( 'public/assets/js/public.min.js', __FILE__ ), array( 'jquery-swiper' ), TM_TESTI_VERSION, true );
+			wp_register_script( 'cherry-testi-script', plugins_url( 'public/assets/js/public.js', __FILE__ ), array( 'jquery-swiper' ), TM_TESTI_VERSION, true );
 		}
 
 		/**
