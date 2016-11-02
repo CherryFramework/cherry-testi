@@ -169,9 +169,6 @@ if ( ! class_exists( 'TM_Testimonials_Plugin' ) ) {
 				'base_dir' => TM_TESTI_DIR . 'cherry-framework',
 				'base_url' => TM_TESTI_URI . 'cherry-framework',
 				'modules'  => array(
-					'cherry-utility' => array(
-						'autoload' => true,
-					),
 					'cherry-js-core' => array(
 						'autoload' => false,
 					),

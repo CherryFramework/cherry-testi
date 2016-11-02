@@ -31,20 +31,29 @@ class TM_Testimonials_Admin {
 	 * @return void
 	 */
 	public function __construct() {
+		$this->plugin    = tm_testimonials_plugin();
+		$this->post_type = $this->plugin->get_post_type_name();
+		$menu_slug       = $this->get_menu_slug();
+
 		// Load post meta boxes on the post editing screen.
 		add_action( 'load-post.php', array( $this, 'init_post_meta' ) );
 		add_action( 'load-post-new.php', array( $this, 'init_post_meta' ) );
 
 		// Only run our customization on the 'edit.php' page in the admin.
 		add_action( 'load-edit.php', array( $this, 'load_edit' ) );
-		add_action( 'admin_head-tm-testimonials_page_settings', array( $this, 'print_settings_styles' ) );
+		// add_action( 'admin_head-tm-testimonials_page_settings', array( $this, 'print_settings_styles' ) );
 
-		add_action( 'admin_menu', array( $this, 'add_submenu_page' ), 0 );
+		add_action( "load-{$this->post_type}_page_{$menu_slug}", array( $this, 'init_modules' ) );
+
+		// add_action( 'admin_menu', array( $this, 'add_submenu_page' ), 0 );
+		add_action( 'admin_menu', array( $this, '_add_submenu_page' ) );
 
 		add_action( 'tm_testimonials_plugin_activation', array( $this, 'create_options' ) );
+	}
 
-		$this->plugin    = tm_testimonials_plugin();
-		$this->post_type = $this->plugin->get_post_type_name();
+	public function init_modules() {
+		$this->plugin->get_core()->init_module( 'cherry-js-core' );
+		$this->plugin->get_core()->init_module( 'cherry-interface-builder' );
 	}
 
 	/**
@@ -118,6 +127,128 @@ class TM_Testimonials_Admin {
 		$this->plugin->get_core()->init_module( 'cherry-post-meta', $metabox_args );
 	}
 
+	public function _add_submenu_page() {
+		add_submenu_page(
+			'edit.php?post_type=' . $this->plugin->get_post_type_name(),
+			esc_html__( 'Settings', 'cherry-testi' ),
+			esc_html__( 'Settings', 'cherry-testi' ),
+			'manage_options',
+			$this->get_menu_slug(),
+			array( $this, 'settings_callback' )
+		);
+	}
+
+	public function settings_callback() {
+		$builder = $this->plugin->get_core()->modules['cherry-interface-builder'];
+
+		$builder->register_section( array(
+			'option_section' => array(
+				'type'   => 'section',
+				'scroll' => false,
+				'title'  => esc_html__( 'Settings', 'cherry-testi' ),
+			) )
+		);
+
+		$builder->register_form(
+				array(
+					'option_form' => array(
+					'type'              => 'form',
+					'parent'            => 'option_section',
+					'action'            => 'my_action.php',
+				),
+			)
+		);
+
+		$builder->register_settings(
+			array(
+				'ui_elements' => array(
+					'type'              => 'settings',
+					'parent'            => 'option_section',
+					'title'             => esc_html__( 'Title', 'text-domain' ),
+					'description'       => esc_html__( 'Description', 'text-domain' ),
+				),
+				'bi_elements' => array(
+					'type'              => 'settings',
+					'parent'            => 'option_section',
+					'title'             => esc_html__( 'Title', 'text-domain' ),
+					'description'       => esc_html__( 'Description', 'text-domain' ),
+				),
+			)
+		);
+
+		$builder->register_component(
+			array(
+				'accordion' => array(
+					'type'              => 'component-accordion',
+					'parent'            => 'bi_elements',
+					'title'             => esc_html__( 'Title', 'text-domain' ),
+					'description'       => esc_html__( 'Description', 'text-domain' ),
+				),
+				'toggle' => array(
+					'type'              => 'component-toggle',
+					'parent'            => 'bi_elements',
+					'title'             => esc_html__( 'Title', 'text-domain' ),
+					'description'       => esc_html__( 'Description', 'text-domain' ),
+				),
+				'tab_vertical' => array(
+					'type'              => 'component-tab-vertical',
+					'parent'            => 'bi_elements',
+					'title'             => esc_html__( 'Title', 'text-domain' ),
+					'description'       => esc_html__( 'Description', 'text-domain' ),
+				),
+				'tab_horizontal' => array(
+					'type'              => 'component-tab-horizontal',
+					'parent'            => 'bi_elements',
+					'title'             => esc_html__( 'Title', 'text-domain' ),
+					'description'       => esc_html__( 'Description', 'text-domain' ),
+				),
+			)
+		);
+
+		$builder->register_control(
+				array(
+					'checkbox' => array(
+						'type'        => 'checkbox',
+						'parent'      => 'ui_elements',
+						'title'       => esc_html__( 'Title', 'text-domain' ),
+						'description' => esc_html__( 'Description', 'text-domain' ),
+						'class'       => '',
+						'value'       => array(
+							'checkbox' => 'true',
+						),
+						'options' => array(
+							'checkbox' => esc_html__( 'Check Me', 'text-domain' ),
+						),
+					),
+					'checkbox_multi' => array(
+						'type'        => 'checkbox',
+						'parent'      => 'ui_elements',
+						'title'       => esc_html__( 'Title', 'text-domain' ),
+						'description' => esc_html__( 'Description', 'text-domain' ),
+						'class'       => '',
+						'value'       => array(
+							'checkbox-0' => 'false',
+							'checkbox-1' => 'false',
+							'checkbox-2' => 'false',
+							'checkbox-3' => 'true',
+							'checkbox-4' => 'true',
+						),
+						'options' => array(
+							'checkbox-0' => array(
+								'label' => esc_html__( 'Check Me #1', 'text-domain' ),
+							),
+							'checkbox-1' => esc_html__( 'Check Me #2', 'text-domain' ),
+							'checkbox-2' => esc_html__( 'Check Me #3', 'text-domain' ),
+							'checkbox-3' => esc_html__( 'Check Me #4', 'text-domain' ),
+							'checkbox-4' => esc_html__( 'Check Me #5', 'text-domain' ),
+						),
+					),
+				)
+			);
+
+		$builder->render();
+	}
+
 	/**
 	 * Add a submenu page.
 	 *
@@ -126,6 +257,7 @@ class TM_Testimonials_Admin {
 	public function add_submenu_page() {
 		$this->plugin->get_core()->init_module( 'cherry-js-core' );
 		$this->plugin->get_core()->init_module( 'cherry-page-builder' );
+		$this->plugin->get_core()->init_module( 'cherry-interface-builder' );
 		$this->plugin->get_core()->init_module( 'cherry-ui-elements', array(
 			'ui_elements' => array(
 				'text',
@@ -260,9 +392,6 @@ class TM_Testimonials_Admin {
 	 * @return array
 	 */
 	public function get_settings() {
-		$shortcode = TM_Testimonials_Shortcode::get_instance();
-		$prefix    = $shortcode->get_prefix();
-
 		return apply_filters( 'tm_testimonials_get_page_settings', array(
 			'tm_testimonials_general' => array(
 				array(
@@ -355,6 +484,10 @@ class TM_Testimonials_Admin {
 		}
 
 		return $pages;
+	}
+
+	public function get_menu_slug() {
+		return apply_filters( 'tm_testimonials_menu_slug', 'settings' );
 	}
 
 	/**
