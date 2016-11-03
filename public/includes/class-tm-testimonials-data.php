@@ -403,9 +403,8 @@ class TM_Testimonials_Data {
 		$classes = apply_filters( 'tm_testimonials_item_classes', $classes, $args );
 
 		// Get settings.
-		$general_settings = get_option( 'tm_testimonials_general', array() );
-		$page_slug        = empty( $general_settings['page'] ) ? '' : $general_settings['page'];
-		$is_listing       = false;
+		$page_slug  = tm_testimonials_plugin_get_option( 'archive_page' );
+		$is_listing = false;
 
 		if ( ( $this->wp_query->is_page( $page_slug ) && '' !== $page_slug )
 			|| $this->wp_query->is_post_type_archive( $this->post_type )

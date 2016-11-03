@@ -153,7 +153,7 @@ class TM_Testimonials_Hook {
 			return $output;
 		}
 
-		wp_enqueue_script( 'cherry-testi-script' );
+		wp_enqueue_script( 'cherry-testi-public' );
 		return $output;
 	}
 

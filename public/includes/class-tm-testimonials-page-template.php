@@ -41,10 +41,6 @@ class TM_Testimonials_Page_Template {
 		$this->plugin    = tm_testimonials_plugin();
 		$this->post_type = $this->plugin->get_post_type_name();
 
-		// Get settings.
-		$general_settings = get_option( 'tm_testimonials_general', array() );
-		$posts_per_page   = empty( $general_settings['posts_per_page'] ) ? 6 : $general_settings['posts_per_page'];
-
 		// Add a filter to load a custom templates.
 		add_filter( 'template_include', array( $this, 'get_view_template' ) );
 		add_filter( 'single_template', array( $this, 'get_single_template' ) );
@@ -60,7 +56,7 @@ class TM_Testimonials_Page_Template {
 		 */
 		self::$posts_per_page = apply_filters(
 			'tm_testimonials_posts_per_page',
-			$posts_per_page
+			tm_testimonials_plugin_get_option( 'posts_per_page' )
 		);
 	}
 
@@ -87,9 +83,7 @@ class TM_Testimonials_Page_Template {
 	public function get_view_template( $template ) {
 		global $post;
 
-		// Get settings.
-		$general_settings = get_option( 'tm_testimonials_general', array() );
-		$page_slug        = empty( $general_settings['page'] ) ? '' : $general_settings['page'];
+		$page_slug = tm_testimonials_plugin_get_option( 'archive_page' );
 
 		if ( ( is_page( $page_slug ) && '' !== $page_slug )
 			|| is_post_type_archive( $this->post_type )

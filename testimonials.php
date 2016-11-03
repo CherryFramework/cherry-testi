@@ -61,22 +61,17 @@ if ( ! class_exists( 'TM_Testimonials_Plugin' ) ) {
 		 *
 		 * @since 1.0.0
 		 */
-		public function __construct() {}
+		public function __construct() {
 
-		/**
-		 * Sets up initial actions.
-		 *
-		 * @since 1.0.0
-		 */
-		public function actions() {
+			// Internationalize the text strings used.
+			add_action( 'plugins_loaded', array( $this, 'constants' ), 1 );
+			add_action( 'plugins_loaded', array( $this, 'lang' ), 2 );
 
 			// Set up a Cherry core.
 			add_action( 'after_setup_theme', require( trailingslashit( __DIR__ ) . 'cherry-framework/setup.php' ), 0 );
 			add_action( 'after_setup_theme', array( $this, 'get_core' ), 1 );
 			add_action( 'after_setup_theme', array( 'Cherry_Core', 'load_all_modules' ), 2 );
-
-			// Internationalize the text strings used.
-			add_action( 'plugins_loaded', array( $this, 'lang' ) );
+			add_action( 'after_setup_theme', array( $this, 'includes' ), 4 );
 
 			// Registers theme support for a `post-thumbnails` feature.
 			add_action( 'after_setup_theme', array( $this, 'add_theme_support' ) );
@@ -178,10 +173,10 @@ if ( ! class_exists( 'TM_Testimonials_Plugin' ) ) {
 					'cherry-interface-builder' => array(
 						'autoload' => false,
 					),
-					'cherry-post-meta' => array(
+					'cherry-handler'  => array(
 						'autoload' => false,
 					),
-					'cherry-page-builder' => array(
+					'cherry-post-meta' => array(
 						'autoload' => false,
 					),
 				),
@@ -196,6 +191,7 @@ if ( ! class_exists( 'TM_Testimonials_Plugin' ) ) {
 		 * @since 1.0.0
 		 */
 		public function includes() {
+			require_once( TM_TESTI_DIR . 'public/includes/class-tm-testimonials-options.php' );
 			require_once( TM_TESTI_DIR . 'public/includes/class-tm-testimonials-hook.php' );
 			require_once( TM_TESTI_DIR . 'public/includes/class-tm-testimonials-registration.php' );
 			require_once( TM_TESTI_DIR . 'public/includes/class-tm-testimonials-page-template.php' );
@@ -204,6 +200,7 @@ if ( ! class_exists( 'TM_Testimonials_Plugin' ) ) {
 
 			// Loads admin files.
 			if ( is_admin() ) {
+				require_once( TM_TESTI_DIR . 'admin/includes/class-tm-testimonials-ajax.php' );
 				require_once( TM_TESTI_DIR . 'admin/includes/class-tm-testimonials-admin.php' );
 			}
 		}
@@ -223,17 +220,14 @@ if ( ! class_exists( 'TM_Testimonials_Plugin' ) ) {
 		 * @since 1.0.0
 		 */
 		public function enqueue_assets() {
-			$suffix = '';
-
-			if ( is_rtl() ) {
-				$suffix = '-rtl';
-			}
+			$rtl = is_rtl() ? '-rtl' : '';
+			$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 			wp_enqueue_style( 'jquery-swiper', plugins_url( 'includes/swiper/css/swiper.min.css', __FILE__ ), array(), '3.3.1' );
-			wp_enqueue_style( 'cherry-testi', plugins_url( "public/assets/css/style{$suffix}.css", __FILE__ ), array( 'jquery-swiper' ), TM_TESTI_VERSION );
+			wp_enqueue_style( 'cherry-testi', plugins_url( "public/assets/css/style{$rtl}.css", __FILE__ ), array( 'jquery-swiper' ), TM_TESTI_VERSION );
 
 			wp_register_script( 'jquery-swiper', plugins_url( 'includes/swiper/js/swiper.jquery.min.js', __FILE__ ), array( 'jquery' ), '3.3.1', true );
-			wp_register_script( 'cherry-testi-script', plugins_url( 'public/assets/js/public.min.js', __FILE__ ), array( 'jquery-swiper' ), TM_TESTI_VERSION, true );
+			wp_register_script( 'cherry-testi-public', plugins_url( "public/assets/js/public{$min}.js", __FILE__ ), array( 'jquery-swiper' ), TM_TESTI_VERSION, true );
 		}
 
 		/**
@@ -297,24 +291,21 @@ if ( ! class_exists( 'TM_Testimonials_Plugin' ) ) {
 			// If the single instance hasn't been set, set it now.
 			if ( null == self::$instance ) {
 				self::$instance = new self;
-				self::$instance->constants();
-				self::$instance->includes();
-				self::$instance->actions();
 			}
 
 			return self::$instance;
 		}
 	}
-
-	/**
-	 * Gets the instance of the `TM_Testimonials_Plugin` class.
-	 *
-	 * @since  1.0.0
-	 * @return object
-	 */
-	function tm_testimonials_plugin() {
-		return TM_Testimonials_Plugin::get_instance();
-	}
-
-	tm_testimonials_plugin();
 }
+
+/**
+ * Gets the instance of the `TM_Testimonials_Plugin` class.
+ *
+ * @since  1.0.0
+ * @return object
+ */
+function tm_testimonials_plugin() {
+	return TM_Testimonials_Plugin::get_instance();
+}
+
+tm_testimonials_plugin();
