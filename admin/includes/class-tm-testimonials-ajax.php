@@ -1,6 +1,6 @@
 <?php
 /**
- * Ajax handlers for page settings.
+ * Ajax-handlers for page settings.
  *
  * @package    Cherry_Testi
  * @subpackage Admin
@@ -38,8 +38,6 @@ if ( ! class_exists( 'TM_Testimonials_Ajax_Handler' ) ) {
 		 * Init `cherry-handler` module.
 		 *
 		 * @since 1.0.0
-		 * @access public
-		 * @return void
 		 */
 		public function init() {
 			tm_testimonials_plugin()->get_core()->init_module( 'cherry-handler', array(

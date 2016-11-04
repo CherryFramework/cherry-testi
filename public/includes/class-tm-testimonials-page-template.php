@@ -85,7 +85,7 @@ class TM_Testimonials_Page_Template {
 
 		$page_slug = tm_testimonials_plugin_get_option( 'archive_page' );
 
-		if ( ( is_page( $page_slug ) && '' !== $page_slug )
+		if ( ( is_page( $page_slug ) && false !== $page_slug )
 			|| is_post_type_archive( $this->post_type )
 			|| is_tax( $this->post_type . '_category' )
 			) {

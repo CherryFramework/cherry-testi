@@ -14,18 +14,18 @@
 
 		init: function() {
 			this.saveOptionsInstance = new CherryJsCore.CherryAjaxHandler(
-					{
-						handlerId: this.saveHandlerId,
-						successCallback: this.saveSuccessCallback.bind( this )
-					}
-				);
+				{
+					handlerId: this.saveHandlerId,
+					successCallback: this.saveSuccessCallback.bind( this )
+				}
+			);
 
 			this.resetOptionsInstance = new CherryJsCore.CherryAjaxHandler(
-					{
-						handlerId: this.resetHandlerId,
-						successCallback: this.resetSuccessCallback.bind( this )
-					}
-				);
+				{
+					handlerId: this.resetHandlerId,
+					successCallback: this.resetSuccessCallback.bind( this )
+				}
+			);
 
 			this.addEvents();
 		},
@@ -47,65 +47,6 @@
 		},
 
 		resetSuccessCallback: function( data ) {
-			var defaultSettings = data.data,
-				key,
-				input,
-				type,
-				value,
-				valueKey,
-				iconPickerAddon,
-				baseClass;
-
-			for ( key in defaultSettings ) {
-				input = $( '[name="' + key + '"], #' + key );
-
-				if ( ! input[0] ) {
-					continue;
-				}
-
-				value = defaultSettings[ key ];
-				type = input.attr( 'type' );
-
-				if ( undefined === type ) {
-					type = input.prop( 'tagName' );
-				}
-
-				switch ( type.toLowerCase() ) {
-					case 'radio':
-					case 'checkbox':
-						input
-							.attr( 'checked', false )
-							.filter( '[value="' + value + '"]' )
-							.attr( 'checked', true );
-					break;
-					case 'select':
-						input
-							.find( 'option' )
-							.attr( 'selected', false );
-
-						for ( valueKey in value ) {
-							input
-								.find( '[value="' + value[ valueKey ] + '"]' )
-								.attr( 'selected', true );
-						}
-					break;
-					default:
-						input.val( value );
-
-						iconPickerAddon = input.siblings( '.input-group-addon' );
-						if ( iconPickerAddon[0] ) {
-							baseClass = $( 'i', iconPickerAddon )[0].classList[0];
-
-							$( 'i', iconPickerAddon )
-								.removeClass()
-								.addClass( baseClass + ' ' + value );
-						}
-					break;
-				}
-
-				input.trigger( 'change' );
-			}
-
 			this.enableButton( this.resetButtonId );
 		},
 

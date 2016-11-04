@@ -406,7 +406,7 @@ class TM_Testimonials_Data {
 		$page_slug  = tm_testimonials_plugin_get_option( 'archive_page' );
 		$is_listing = false;
 
-		if ( ( $this->wp_query->is_page( $page_slug ) && '' !== $page_slug )
+		if ( ( $this->wp_query->is_page( $page_slug ) && false !== $page_slug )
 			|| $this->wp_query->is_post_type_archive( $this->post_type )
 			|| $this->wp_query->is_tax( $this->post_type . '_category' )
 			|| $this->wp_query->is_singular( $this->post_type )

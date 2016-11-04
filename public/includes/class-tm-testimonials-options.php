@@ -41,9 +41,19 @@ class TM_Testimonials_Options {
 	public function __construct() {
 		$hook_suffix = $this->get_page_hook_suffix();
 
-		add_action( "load-{$hook_suffix}", array( $this, 'init_modules' ) );
+		add_action( "load-{$hook_suffix}", array( $this, 'ajax_handlers' ), 9 );
+		add_action( "load-{$hook_suffix}", array( $this, 'init_modules' ), 10 );
 		add_action( 'admin_menu', array( $this, 'add_submenu_page' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
+	}
+
+	/**
+	 * Load Ajax-handlers.
+	 *
+	 * @since 1.0.0
+	 */
+	public function ajax_handlers() {
+		require_once( TM_TESTI_DIR . 'admin/includes/class-tm-testimonials-ajax.php' );
 	}
 
 	/**
@@ -104,22 +114,22 @@ class TM_Testimonials_Options {
 
 		$this->builder->register_control( array(
 			'archive_page' => array(
-				'type'        => 'select',
-				'parent'      => 'general_settings',
-				'title'       => esc_html__( 'Testimonails archive page', 'cherry-testi' ),
-				'multiple'    => false,
-				'filter'      => true,
-				'value'       => $this->get_option( 'archive_page' ),
-				'options'     => $this->get_pages(),
+				'type'     => 'select',
+				'parent'   => 'general_settings',
+				'title'    => esc_html__( 'Testimonails archive page', 'cherry-testi' ),
+				'multiple' => false,
+				'filter'   => true,
+				'value'    => $this->get_option( 'archive_page' ),
+				'options'  => $this->get_pages(),
 			),
 			'posts_per_page' => array(
-				'type'        => 'stepper',
-				'parent'      => 'general_settings',
-				'title'       => esc_html__( 'Posts number per archive page', 'cherry-testi' ),
-				'value'       => $this->get_option( 'posts_per_page' ),
-				'max_value'   => 100,
-				'min_value'   => 1,
-				'step_value'  => 1,
+				'type'       => 'stepper',
+				'parent'     => 'general_settings',
+				'title'      => esc_html__( 'Posts number per archive page', 'cherry-testi' ),
+				'value'      => $this->get_option( 'posts_per_page' ),
+				'max_value'  => 100,
+				'min_value'  => 1,
+				'step_value' => 1,
 			),
 		) );
 
@@ -134,7 +144,7 @@ class TM_Testimonials_Options {
 			'cherry-testi-option-form__reset' => array(
 				'type'          => 'button',
 				'parent'        => 'cherry-testi-option-form__buttons',
-				'content'       => esc_html__( 'Reset', 'cherry-testi' ),
+				'content'       => esc_html__( 'Reset', 'cherry-testi' ) . $this->get_loader(),
 				'view_wrapping' => false,
 				'form'          => 'cherry-testi-option-form',
 			),
@@ -142,7 +152,7 @@ class TM_Testimonials_Options {
 				'type'          => 'button',
 				'parent'        => 'cherry-testi-option-form__buttons',
 				'style'         => 'success',
-				'content'       => esc_html__( 'Save', 'cherry-testi' ),
+				'content'       => esc_html__( 'Save', 'cherry-testi' ) . $this->get_loader(),
 				'view_wrapping' => false,
 				'form'          => 'cherry-testi-option-form',
 			),
@@ -253,6 +263,16 @@ class TM_Testimonials_Options {
 	 */
 	public function get_menu_slug() {
 		return apply_filters( 'tm_testimonials_menu_slug', 'settings' );
+	}
+
+	/**
+	 * Retrieve a HTML for loader.
+	 *
+	 * @since  1.0.0
+	 * @return string
+	 */
+	public function get_loader() {
+		return apply_filters( 'tm_testimonials_options_loader', '<svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid"><rect x="0" y="0" width="100" height="100" fill="none"></rect><circle cx="50" cy="50" r="40" stroke-dasharray="163.36281798666926 87.9645943005142" fill="none" stroke-width="20"><animateTransform attributeName="transform" type="rotate" values="0 50 50;180 50 50;360 50 50;" keyTimes="0;0.5;1" dur="1s" repeatCount="indefinite" begin="0s"></animateTransform></circle></svg>' );
 	}
 
 	/**

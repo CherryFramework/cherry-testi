@@ -200,8 +200,11 @@ if ( ! class_exists( 'TM_Testimonials_Plugin' ) ) {
 
 			// Loads admin files.
 			if ( is_admin() ) {
-				require_once( TM_TESTI_DIR . 'admin/includes/class-tm-testimonials-ajax.php' );
 				require_once( TM_TESTI_DIR . 'admin/includes/class-tm-testimonials-admin.php' );
+
+				if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+					require_once( TM_TESTI_DIR . 'admin/includes/class-tm-testimonials-ajax.php' );
+				}
 			}
 		}
 
