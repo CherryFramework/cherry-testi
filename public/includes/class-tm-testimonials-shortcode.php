@@ -194,14 +194,6 @@ class TM_Testimonials_Shortcode {
 			$atts['navigation'] = false;
 		}
 
-		$data_defaults = apply_filters( 'tm_testimonials_slider_data_defaults', array(
-			'autoplay'      => 0,
-			'effect'        => 'slide',
-			'loop'          => false,
-			'slidesPerView' => 1,
-			'spaceBetween'  => 0,
-		), $defaults, $atts );
-
 		$atts['data_atts'] = apply_filters( 'tm_testimonials_slider_data_atts', array(
 			'autoplay'      => intval( $atts['autoplay'] ),
 			'effect'        => sanitize_key( $atts['effect'] ),

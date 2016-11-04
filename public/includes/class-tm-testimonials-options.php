@@ -158,6 +158,7 @@ class TM_Testimonials_Options {
 			),
 		) );
 
+		$this->builder = apply_filters( 'tm_testimonials_builder_instance', $this->builder, $this );
 		$this->builder->render();
 	}
 
