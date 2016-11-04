@@ -176,8 +176,8 @@ class TM_Testimonials_Registration {
 	 * Custom "enter title here" text.
 	 *
 	 * @since  1.0.0
-	 * @param  string $title
-	 * @param  object $post
+	 * @param  string $title Placeholder text.
+	 * @param  object $post  Post object.
 	 * @return string
 	 */
 	public function enter_title_here( $title, $post ) {

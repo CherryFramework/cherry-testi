@@ -69,7 +69,7 @@ class TM_Testimonials_Data {
 	 * Display or return HTML-formatted testimonials.
 	 *
 	 * @since  1.0.0
-	 * @param  array  $args Arguments.
+	 * @param  array $args Arguments.
 	 * @return string
 	 */
 	public function the_testimonials( $args = array() ) {
@@ -231,8 +231,8 @@ class TM_Testimonials_Data {
 	 * Get testimonials.
 	 *
 	 * @since  1.0.0
-	 * @param  array      $args Arguments to be passed to the query.
-	 * @return array|bool       Array if true, boolean if false.
+	 * @param  array $args Arguments to be passed to the query.
+	 * @return array|bool  Array if true, boolean if false.
 	 */
 	public function get_testimonials( $args = array() ) {
 		$defaults = array(

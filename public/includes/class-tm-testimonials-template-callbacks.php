@@ -133,7 +133,7 @@ class TM_Testimonials_Template_Callbacks {
 			return;
 		}
 
-		$email = '<a href="mailto:' . antispambot( $post_meta['email'], 1 ) .'" class="tm-testi__item-email">' . antispambot( $post_meta['email'] ) .'</a>';
+		$email = '<a href="mailto:' . antispambot( $post_meta['email'], 1 ) . '" class="tm-testi__item-email">' . antispambot( $post_meta['email'] ) . '</a>';
 
 		return apply_filters( 'tm_testimonials_email_template_callbacks', $email, $post->ID, $this->atts );
 	}

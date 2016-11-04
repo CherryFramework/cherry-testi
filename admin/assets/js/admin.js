@@ -78,4 +78,4 @@
 
 	CherryJsCore.cherryTestiAdminScripts.init();
 
-} ( jQuery, window.CherryJsCore ) );
+}( jQuery, window.CherryJsCore ) );

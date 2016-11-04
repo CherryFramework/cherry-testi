@@ -1,5 +1,5 @@
-(function( $ ) {
-	"use strict";
+( function( $ ) {
+	'use strict';
 
 	$(function() {
 		$( '.tm-testi-slider' ).each( function() {
@@ -24,6 +24,7 @@
 				key;
 
 			if ( 'undefined' !== atts ) {
+
 				// Parse params.
 				for ( key in atts ) {
 					params[ key ] = atts[ key ];
@@ -34,4 +35,4 @@
 		});
 	});
 
-})( jQuery );
+} )( jQuery );

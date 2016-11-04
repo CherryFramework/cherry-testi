@@ -294,7 +294,7 @@ class TM_Testimonials_Options {
 
 TM_Testimonials_Options::get_instance();
 
-if ( ! function_exists( 'tm_testimonials_plugin_get_option') ) {
+if ( ! function_exists( 'tm_testimonials_plugin_get_option' ) ) {
 
 	/**
 	 * Wrapper-function for retrieve a option value by name (key).
@@ -310,13 +310,12 @@ if ( ! function_exists( 'tm_testimonials_plugin_get_option') ) {
 	}
 }
 
-if ( ! function_exists( 'tm_testimonials_plugin_get_defaults_option') ) {
+if ( ! function_exists( 'tm_testimonials_plugin_get_defaults_option' ) ) {
 
 	/**
 	 * Wrapper-function for retrieve a defaults option.
 	 *
-	 * @since  1.0.0
-	 * @param  string $name Option key.
+	 * @since 1.0.0
 	 * @return mixed
 	 */
 	function tm_testimonials_plugin_get_defaults_option() {

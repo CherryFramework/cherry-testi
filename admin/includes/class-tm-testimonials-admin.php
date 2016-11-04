@@ -141,7 +141,7 @@ class TM_Testimonials_Admin {
 
 		unset(
 			$post_columns['author'],
-			$post_columns['taxonomy-' . $this->post_type . '_category'],
+			$post_columns[ 'taxonomy-' . $this->post_type . '_category' ],
 			$post_columns['date']
 		);
 
@@ -208,15 +208,15 @@ class TM_Testimonials_Admin {
 	/**
 	 * Print styles.
 	 *
-	 * @since  1.0.0
-	 * @return void
+	 * @since 1.0.0
 	 */
-	public function print_styles() { ?>
-		<style type="text/css">
-			.tm-testi-ui-container { padding-right: 0; padding-left: 0; }
-			.tm-testi-ui-container .cherry-control__content { flex: auto; }
-		</style>
-	<?php }
+	public function print_styles() {
+?>
+<style type="text/css">
+	.tm-testi-ui-container { padding-right: 0; padding-left: 0; }
+	.tm-testi-ui-container .cherry-control__content { flex: auto; }
+</style>
+<?php }
 
 	/**
 	 * Returns the instance.

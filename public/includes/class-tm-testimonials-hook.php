@@ -16,6 +16,12 @@
  */
 class TM_Testimonials_Hook {
 
+	/**
+	 * Counter for slider instances.
+	 *
+	 * @since 1.0.0
+	 * @var int
+	 */
 	public static $instance = 0;
 
 	/**
@@ -25,6 +31,14 @@ class TM_Testimonials_Hook {
 	 */
 	public function __construct() {}
 
+	/**
+	 * Rewrite a string format for slider.
+	 *
+	 * @since  1.0.0
+	 * @param  string $format String format.
+	 * @param  array  $args   Argument.
+	 * @return string
+	 */
 	public static function slider_settings( $format, $args ) {
 
 		if ( ! self::is_slider( $args ) ) {
@@ -161,7 +175,7 @@ class TM_Testimonials_Hook {
 	 * Check if we use a slider now.
 	 *
 	 * @since  1.0.0
-	 * @param  array   $args The array of arguments.
+	 * @param  array $args The array of arguments.
 	 * @return boolean
 	 */
 	public static function is_slider( $args ) {
