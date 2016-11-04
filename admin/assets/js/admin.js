@@ -46,7 +46,7 @@
 			this.resetOptionsInstance.send();
 		},
 
-		resetSuccessCallback: function( data ) {
+		resetSuccessCallback: function() {
 			this.enableButton( this.resetButtonId );
 		},
 
