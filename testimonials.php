@@ -80,6 +80,7 @@ if ( ! class_exists( 'TM_Testimonials_Plugin' ) ) {
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_assets' ), 9 );
 
 			// Register activation and deactivation hook.
+			add_action( 'tm_testimonials_plugin_pre_activation', array( $this, 'cpt_registration' ) );
 			register_activation_hook( __FILE__, array( $this, 'activation' ) );
 			register_deactivation_hook( __FILE__, array( $this, 'deactivation' ) );
 		}
@@ -129,6 +130,15 @@ if ( ! class_exists( 'TM_Testimonials_Plugin' ) ) {
 			if ( ! defined( 'TM_TESTI_TMPL_SUBDIR' ) ) {
 				define( 'TM_TESTI_TMPL_SUBDIR', 'templates/shortcodes/testimonials/' );
 			}
+		}
+
+		/**
+		 * Loads the translation files.
+		 *
+		 * @since 1.0.0
+		 */
+		public function lang() {
+			load_plugin_textdomain( 'cherry-testi', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 		}
 
 		/**
@@ -209,15 +219,6 @@ if ( ! class_exists( 'TM_Testimonials_Plugin' ) ) {
 		}
 
 		/**
-		 * Loads the translation files.
-		 *
-		 * @since 1.0.0
-		 */
-		public function lang() {
-			load_plugin_textdomain( 'cherry-testi', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
-		}
-
-		/**
 		 * Register and enqueue public-facing stylesheet.
 		 *
 		 * @since 1.0.0
@@ -238,13 +239,7 @@ if ( ! class_exists( 'TM_Testimonials_Plugin' ) ) {
 		 * @since 1.0.0
 		 */
 		public function activation() {
-			/**
-			 * Call CPT registration function.
-			 *
-			 * @link https://codex.wordpress.org/Function_Reference/flush_rewrite_rules#Examples
-			 */
-			TM_Testimonials_Registration::register_post_type();
-			TM_Testimonials_Registration::register_taxonomy();
+			do_action( 'tm_testimonials_plugin_pre_activation' );
 
 			flush_rewrite_rules();
 
@@ -258,6 +253,23 @@ if ( ! class_exists( 'TM_Testimonials_Plugin' ) ) {
 		 */
 		public function deactivation() {
 			flush_rewrite_rules();
+		}
+
+		/**
+		 * Loads the CPT registration.
+		 *
+		 * @since 1.0.0
+		 */
+		public function cpt_registration() {
+			require_once( trailingslashit( plugin_dir_path( __FILE__ ) ) . 'public/includes/class-tm-testimonials-registration.php' );
+
+			/**
+			 * Call CPT registration function.
+			 *
+			 * @link https://codex.wordpress.org/Function_Reference/flush_rewrite_rules#Examples
+			 */
+			TM_Testimonials_Registration::register_post_type();
+			TM_Testimonials_Registration::register_taxonomy();
 		}
 
 		/**
