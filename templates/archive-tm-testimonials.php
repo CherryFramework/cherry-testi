@@ -21,11 +21,12 @@ if ( ! did_action( 'get_header' ) ) {
 <?php } ?>
 
 <?php $args = apply_filters( 'tm_testimonials_archive_template_args', array(
-	'limit'        => TM_Testimonials_Page_Template::$posts_per_page,
-	'pager'        => 'true',
-	'template'     => 'default.tmpl',
-	'custom_class' => 'tm-testi-page tm-testi-page--archive',
-	'category'     => ! empty( $wp_query->query_vars['term'] ) ? $wp_query->query_vars['term'] : '',
+	'limit'          => TM_Testimonials_Page_Template::$posts_per_page,
+	'category'       => ! empty( $wp_query->query_vars['term'] ) ? $wp_query->query_vars['term'] : '',
+	'content_length' => 55,
+	'pager'          => 'true',
+	'template'       => 'default.tmpl',
+	'custom_class'   => 'tm-testi-page tm-testi-page--archive',
 ) );
 $data = TM_Testimonials_Data::get_instance(); ?>
 

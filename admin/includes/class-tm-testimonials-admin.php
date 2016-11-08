@@ -147,7 +147,7 @@ class TM_Testimonials_Admin {
 
 		// Add custom columns and overwrite the 'date' column.
 		$post_columns['thumbnail']    = esc_html__( 'Avatar', 'cherry-testi' );
-		$post_columns['author_name']  = esc_html__( 'Author', 'cherry-testi' );
+		$post_columns['author_name']  = esc_html__( 'Author Name', 'cherry-testi' );
 		$post_columns['position']     = esc_html__( 'Position', 'cherry-testi' );
 		$post_columns['company_name'] = esc_html__( 'Company Name', 'cherry-testi' );
 		$post_columns['shortcode']    = esc_html__( 'Shortcode', 'cherry-testi' );

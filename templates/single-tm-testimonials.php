@@ -21,12 +21,15 @@ if ( ! did_action( 'get_header' ) ) {
 
 <?php $args = apply_filters( 'tm_testimonials_single_template_args', array(
 	'ids'            => get_the_ID(),
-	'template'       => 'default.tmpl',
-	'content_length' => -1,
-	'custom_class'   => 'tm-testi-page tm-testi-page--single',
 	'echo'           => false,
+	'content_length' => -1,
+	'template'       => 'default.tmpl',
+	'custom_class'   => 'tm-testi-page tm-testi-page--single',
 ) );
+
+// Validate `echo` param.
 $args['echo'] = false;
+
 $data = TM_Testimonials_Data::get_instance();
 $item = $data->the_testimonials( $args ); ?>
 

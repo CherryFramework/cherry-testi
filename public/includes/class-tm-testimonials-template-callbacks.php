@@ -103,6 +103,7 @@ class TM_Testimonials_Template_Callbacks {
 
 		if ( -1 == $content_length || post_password_required() ) {
 			$content = apply_filters( 'the_content', $_content );
+			$content = str_replace( ']]>', ']]&gt;', $content );
 		} else {
 			/* wp_trim_excerpt analog */
 			$content = strip_shortcodes( $_content );

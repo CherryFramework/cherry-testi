@@ -158,6 +158,28 @@ class TM_Testimonials_Options {
 			),
 		) );
 
+		$this->builder->register_settings( array(
+			'info' => array(
+				'type'   => 'settings',
+				'parent' => 'general_section',
+			),
+		) );
+
+		$this->builder->register_component( array(
+			'toggle' => array(
+				'type'   => 'component-toggle',
+				'parent' => 'info',
+			),
+		) );
+
+		$this->builder->register_settings( array(
+			'shortcode_settings' => array(
+				'parent'      => 'toggle',
+				'title'       => esc_html__( 'Shortcode settings', 'cherry-testi' ),
+				'description' => Cherry_Toolkit::render_view( TM_TESTI_DIR . 'admin/views/shortcode-settings.php' ),
+			),
+		) );
+
 		$this->builder = apply_filters( 'tm_testimonials_builder_instance', $this->builder, $this );
 		$this->builder->render();
 	}
