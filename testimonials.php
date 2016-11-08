@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Cherry Testimonials
- * Plugin URI:
+ * Plugin URI:  https://github.com/CherryFramework/cherry-testi
  * Description: A testimonials management plugin for WordPress.
  * Version:     1.0.0
  * Author:      Template Monster
