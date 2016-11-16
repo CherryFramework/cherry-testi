@@ -65,4 +65,48 @@ Insert a shortcode `[tm_testimonials]` to the post/page content.
 
 == Documentation ==
 
-Plugin's documentation goes here
+Shortcode
+=========
+
+* type Layout type (list, slider)
+* sup_title Specify the super title
+* title Specify the title
+* sub_title Specify the subtitle
+* divider Show/hide divider between titles and testimonials
+* limit Number of testimonials (limit="-1" – show all)
+* orderby Order testimonials by a specific attribute
+* order order testimonials
+* category Define the category from which testimonials will be displayed
+* ids Display testimonials with certain IDs (e.g ids="1721,1723")
+* show_avatar Show/hide author avatar
+* size Photo/avatar width (in px)
+* content_length Content length (in words)
+* show_email Show/hide author email
+* show_position Show/hide testimonial author position
+* show_company Show/hide company name
+* template Template with macros which sets testimonial display structure
+* custom_class Custom CSS-class
+
+The following attributes are applied for slider (type="slider") only:
+
+* autoplay Time between scrolled slides (ms)
+* effect "slide" or "coverflow"
+* loop Enable/disable slider "loop"
+* pagination Show/hide pagination
+* navigation Show/hide prev/next buttons
+* slides_per_view Number of slides per view
+* space_between Ppadding between slides (px)
+
+To use testimonials slider use [Swiper script](http://idangero.us/swiper/)
+Default script values can be changed with the help of **tm_testimonials_slider_data_atts** filter.
+
+Templates
+=========
+
+* __/templates/__ -- subdirectory with templates for pages (single, archive)
+* __/templates/shortcodes/testimonials/__ -- subdirectory with _*.tmpl_ files
+
+If you need to change the template content, you need to rewrite it in the theme keeping the folder structure. For instance:
+
+* __wp-content/themes/twentysixteen/templates/__
+* __wp-content/themes/twentysixteen/templates/shortcodes/testimonials/__
