@@ -1,6 +1,6 @@
 === Cherry Testimonials ===
 Contributors: TemplateMonster 2002
-Tags: custom post type
+Tags: testimonials, reviews, custom post type, slider, swiper, cherry framework
 Requires at least: 4.5
 Tested up to: 4.6.1
 Stable tag: 1.0.0
@@ -65,8 +65,7 @@ Insert a shortcode `[tm_testimonials]` to the post/page content.
 
 == Documentation ==
 
-Shortcode
-=========
+= Shortcode =
 
 * type Layout type (list, slider)
 * sup_title Specify the super title
@@ -100,8 +99,7 @@ The following attributes are applied for slider (type="slider") only:
 To use testimonials slider use [Swiper script](http://idangero.us/swiper/)
 Default script values can be changed with the help of **tm_testimonials_slider_data_atts** filter.
 
-Templates
-=========
+= Templates =
 
 * __/templates/__ -- subdirectory with templates for pages (single, archive)
 * __/templates/shortcodes/testimonials/__ -- subdirectory with _*.tmpl_ files
