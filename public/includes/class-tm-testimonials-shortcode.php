@@ -237,7 +237,7 @@ class TM_Testimonials_Shortcode {
 			'type' => array(
 				'default' => 'list',
 				'name'    => esc_html__( 'Type', 'cherry-testi' ),
-				'desc'    => esc_html__( 'Layout type', 'cherry-testi' ),
+				'desc'    => esc_html__( 'Layout type (`list` or `slider`)', 'cherry-testi' ),
 			),
 			'sup_title' => array(
 				'default' => '',
@@ -267,7 +267,7 @@ class TM_Testimonials_Shortcode {
 			'order' => array(
 				'default' => 'DESC',
 				'name'    => esc_html__( 'Order', 'cherry-testi' ),
-				'desc'    => esc_html__( 'Testimonials order', 'cherry-testi' ),
+				'desc'    => esc_html__( 'Testimonials order (`DESC` or `ASC`)', 'cherry-testi' ),
 			),
 			'category' => array(
 				'default'  => '',
