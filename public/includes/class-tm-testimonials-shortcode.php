@@ -168,12 +168,36 @@ class TM_Testimonials_Shortcode {
 			$atts['navigation'] = false;
 		}
 
+		// Fix slides_per_view
+		foreach ( array( 'slides_per_view', 'slides_per_view_laptop', 'slides_per_view_tablet', 'slides_per_view_phone' ) as $val ) {
+			$atts[ $val ] = ( 0 !== intval( $atts[ $val ] ) ) ? intval( $atts[ $val ] ) : 1;
+		}
+
+		// Fix space_between
+		foreach ( array( 'space_between', 'space_between_laptop', 'space_between_tablet', 'space_between_phone' ) as $val ) {
+			$atts[ $val ] = ( 0 !== intval( $atts[ $val ] ) ) ? intval( $atts[ $val ] ) : 15;
+		}
+
 		$atts['data_atts'] = apply_filters( 'tm_testimonials_slider_data_atts', array(
 			'autoplay'      => intval( $atts['autoplay'] ),
 			'effect'        => sanitize_key( $atts['effect'] ),
 			'loop'          => (bool) $atts['loop'],
-			'slidesPerView' => intval( $atts['slides_per_view'] ),
-			'spaceBetween'  => intval( $atts['space_between'] ),
+			'slidesPerView' => $atts['slides_per_view'],
+			'spaceBetween'  => $atts['space_between'],
+			'breakpoints'   => array(
+				'991' => array(
+					'slidesPerView' => $atts['slides_per_view_laptop'],
+					'spaceBetween'  => $atts['space_between_laptop'],
+				),
+				'767' => array(
+					'slidesPerView' => $atts['slides_per_view_tablet'],
+					'spaceBetween'  => $atts['space_between_tablet'],
+				),
+				'543' => array(
+					'slidesPerView' => $atts['slides_per_view_phone'],
+					'spaceBetween'  => $atts['space_between_phone'],
+				),
+			),
 		), $defaults, $atts );
 
 		add_filter( 'tm_testimonials_wrapper_format', array( 'TM_Testimonials_Hook', 'slider_settings' ), 10, 2 );
@@ -315,15 +339,45 @@ class TM_Testimonials_Shortcode {
 				'name'    => esc_html__( 'Navigation', 'cherry-testi' ),
 				'desc'    => esc_html__( 'Show navigation (only for slider)', 'cherry-testi' ),
 			),
+			'slides_per_view_phone' => array(
+				'default' => 1,
+				'name'    => esc_html__( 'Number of slides per view on phones', 'cherry-testi' ),
+				'desc'    => esc_html__( "Slides visible at the same time on slider's containe (only for slider on phones)", 'cherry-testi' ),
+			),
+			'slides_per_view_tablet' => array(
+				'default' => 1,
+				'name'    => esc_html__( 'Number of slides per view on tablets', 'cherry-testi' ),
+				'desc'    => esc_html__( "Slides visible at the same time on slider's containe (only for slider on tablets)", 'cherry-testi' ),
+			),
+			'slides_per_view_laptop' => array(
+				'default' => 1,
+				'name'    => esc_html__( 'Number of slides per view on laptops', 'cherry-testi' ),
+				'desc'    => esc_html__( "Slides visible at the same time on slider's containe (only for slider on laptops)", 'cherry-testi' ),
+			),
 			'slides_per_view' => array(
 				'default' => 1,
-				'name'    => esc_html__( 'Number of slides per view', 'cherry-testi' ),
-				'desc'    => esc_html__( "Slides visible at the same time on slider's containe (only for slider)", 'cherry-testi' ),
+				'name'    => esc_html__( 'Number of slides per view on desktops', 'cherry-testi' ),
+				'desc'    => esc_html__( "Slides visible at the same time on slider's containe (only for slider on desktops)", 'cherry-testi' ),
+			),
+			'space_between_phone' => array(
+				'default' => 15,
+				'name'    => esc_html__( 'Space between on phones', 'cherry-testi' ),
+				'desc'    => esc_html__( 'Distance between slides in px (only for slider on phones)', 'cherry-testi' ),
+			),
+			'space_between_tablet' => array(
+				'default' => 15,
+				'name'    => esc_html__( 'Space between on tablets', 'cherry-testi' ),
+				'desc'    => esc_html__( 'Distance between slides in px (only for slider on tablets)', 'cherry-testi' ),
+			),
+			'space_between_laptop' => array(
+				'default' => 15,
+				'name'    => esc_html__( 'Space between on laptops', 'cherry-testi' ),
+				'desc'    => esc_html__( 'Distance between slides in px (only for slider on laptops)', 'cherry-testi' ),
 			),
 			'space_between' => array(
 				'default' => 15,
 				'name'    => esc_html__( 'Space between', 'cherry-testi' ),
-				'desc'    => esc_html__( 'Distance between slides in px (only for slider)', 'cherry-testi' ),
+				'desc'    => esc_html__( 'Distance between slides in px (only for slider on desktops)', 'cherry-testi' ),
 			),
 			'template' => array(
 				'default' => 'default.tmpl',
