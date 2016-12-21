@@ -97,12 +97,12 @@
 		 */
 		self.send = function() {
 			if ( self.ajaxProcessing ) {
-				CherryJsCore.cherryHandlerUtils.noticeCreate( 'error-notice', self.handlerSettings.sys_messages.wait_processing );
+				CherryJsCore.cherryHandlerUtils.noticeCreate( 'error-notice', self.handlerSettings.sys_messages.wait_processing, self.handlerSettings.is_public );
 			}
 			self.ajaxProcessing = true;
 
 			self.ajaxRequest = jQuery.ajax( {
-				type: self.handlerSettings.type.toUpperCase(),
+				type: self.handlerSettings.type,
 				url: settings.url,
 				data: self.data,
 				cache: settings.cache,
@@ -128,7 +128,7 @@
 						settings.successCallback( data, textStatus, jqXHR );
 					}
 
-					CherryJsCore.cherryHandlerUtils.noticeCreate( data.type, data.message );
+					CherryJsCore.cherryHandlerUtils.noticeCreate( data.type, data.message, self.handlerSettings.is_public );
 				},
 				complete: function( jqXHR, textStatus ) {
 					if ( settings.completeCallback && 'function' === typeof( settings.completeCallback ) ) {
@@ -180,12 +180,13 @@
 		 * @param  {String} message Message content
 		 * @return {Void}
 		 */
-		noticeCreate: function( type, message ) {
+		noticeCreate: function( type, message, isPublicPage ) {
 			var notice,
 				rightDelta = 0,
-				timeoutId;
+				timeoutId,
+				isPublic = isPublicPage || false;
 
-			if ( ! message ) {
+			if ( ! message || 'true' === isPublic ) {
 				return false;
 			}
 

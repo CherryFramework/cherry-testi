@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: Cherry Testimonials
- * Plugin URI:  https://github.com/CherryFramework/cherry-testi
+ * Plugin URI:  http://www.cherryframework.com/plugins/
  * Description: A testimonials management plugin for WordPress.
- * Version:     1.0.0
+ * Version:     1.0.1-beta
  * Author:      Template Monster
- * Author URI:  http://www.templatemonster.com/
+ * Author URI:  http://www.cherryframework.com/
  * Text Domain: cherry-testi
  * License:     GPL-3.0+
  * License URI: http://www.gnu.org/licenses/gpl-3.0.txt
@@ -104,7 +104,7 @@ if ( ! class_exists( 'TM_Testimonials_Plugin' ) ) {
 			 *
 			 * @since 1.0.0
 			 */
-			define( 'TM_TESTI_VERSION', '1.0.0' );
+			define( 'TM_TESTI_VERSION', '1.0.1-beta' );
 
 			/**
 			 * Set the name for the `meta_key` value in the `wp_postmeta` table.
@@ -229,7 +229,7 @@ if ( ! class_exists( 'TM_Testimonials_Plugin' ) ) {
 			wp_register_style( 'jquery-swiper', plugins_url( 'includes/swiper/css/swiper.min.css', __FILE__ ), array(), '3.3.1' );
 			wp_enqueue_style( 'cherry-testi', plugins_url( 'public/assets/css/style.css', __FILE__ ), array( 'jquery-swiper' ), TM_TESTI_VERSION );
 
-			wp_register_script( 'jquery-swiper', plugins_url( 'includes/swiper/js/swiper.jquery.min.js', __FILE__ ), array( 'jquery' ), '3.3.1', true );
+			wp_register_script( 'jquery-swiper', plugins_url( "includes/swiper/js/swiper.jquery{$min}.js", __FILE__ ), array( 'jquery' ), '3.3.1', true );
 			wp_register_script( 'cherry-testi-public', plugins_url( "public/assets/js/public{$min}.js", __FILE__ ), array( 'jquery-swiper' ), TM_TESTI_VERSION, true );
 		}
 

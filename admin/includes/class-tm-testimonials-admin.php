@@ -40,6 +40,9 @@ class TM_Testimonials_Admin {
 
 		// Only run our customization on the 'edit.php' page in the admin.
 		add_action( 'load-edit.php', array( $this, 'manage_columns' ) );
+
+		// Modify the quick links in admin table list.
+		add_filter( 'post_row_actions', array( $this, 'modify_row_actions' ), 10, 2 );
 	}
 
 	/**
@@ -150,7 +153,8 @@ class TM_Testimonials_Admin {
 		$post_columns['author_name']  = esc_html__( 'Author Name', 'cherry-testi' );
 		$post_columns['position']     = esc_html__( 'Position', 'cherry-testi' );
 		$post_columns['company_name'] = esc_html__( 'Company Name', 'cherry-testi' );
-		$post_columns['shortcode']    = esc_html__( 'Shortcode', 'cherry-testi' );
+		$post_columns[ 'taxonomy-' . $this->post_type . '_category' ] = esc_html__( 'Category', 'cherry-testi' );
+		$post_columns['shortcode'] = esc_html__( 'Shortcode', 'cherry-testi' );
 
 		// Return the columns.
 		return $post_columns;
@@ -203,6 +207,25 @@ class TM_Testimonials_Admin {
 			default :
 				break;
 		}
+	}
+
+	/**
+	 * Modify the quick links.
+	 *
+	 * @since  1.0.1
+	 * @param  array   $actions An array of row action links.
+	 * @param  WP_Post $post    The post object.
+	 * @return array
+	 */
+	public function modify_row_actions( $actions, $post ) {
+
+		if ( $post->post_type == $this->post_type && isset( $actions['inline hide-if-no-js'] ) ) {
+
+			// Remove `Quick Edit`.
+			unset( $actions['inline hide-if-no-js'] );
+		}
+
+		return $actions;
 	}
 
 	/**
