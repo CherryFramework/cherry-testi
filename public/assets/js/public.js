@@ -11,15 +11,7 @@
 					nextButton: '#tm-testi-slider-next-' + atts.id,
 					prevButton: '#tm-testi-slider-prev-' + atts.id,
 					paginationClickable: true,
-					autoHeight: false,
-					breakpoints: {
-						991: {
-							slidesPerView: 2
-						},
-						767: {
-							slidesPerView: 1
-						}
-					}
+					autoHeight: false
 				},
 				swiper = null,
 				key;
