@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: Cherry Testimonials
- * Plugin URI:
+ * Plugin URI:  http://www.cherryframework.com/plugins/
  * Description: A testimonials management plugin for WordPress.
- * Version:     1.0.0
+ * Version:     1.0.1-beta
  * Author:      Template Monster
- * Author URI:  http://www.templatemonster.com/
+ * Author URI:  http://www.cherryframework.com/
  * Text Domain: cherry-testi
  * License:     GPL-3.0+
  * License URI: http://www.gnu.org/licenses/gpl-3.0.txt
@@ -104,7 +104,7 @@ if ( ! class_exists( 'TM_Testimonials_Plugin' ) ) {
 			 *
 			 * @since 1.0.0
 			 */
-			define( 'TM_TESTI_VERSION', '1.0.0' );
+			define( 'TM_TESTI_VERSION', '1.0.1-beta' );
 
 			/**
 			 * Set the name for the `meta_key` value in the `wp_postmeta` table.
