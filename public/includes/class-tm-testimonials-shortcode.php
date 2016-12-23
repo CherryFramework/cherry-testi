@@ -185,15 +185,15 @@ class TM_Testimonials_Shortcode {
 			'slidesPerView' => $atts['slides_per_view'],
 			'spaceBetween'  => $atts['space_between'],
 			'breakpoints'   => array(
-				'991' => array(
+				'1199' => array(
 					'slidesPerView' => $atts['slides_per_view_laptop'],
 					'spaceBetween'  => $atts['space_between_laptop'],
 				),
-				'767' => array(
+				'991' => array(
 					'slidesPerView' => $atts['slides_per_view_tablet'],
 					'spaceBetween'  => $atts['space_between_tablet'],
 				),
-				'543' => array(
+				'767' => array(
 					'slidesPerView' => $atts['slides_per_view_phone'],
 					'spaceBetween'  => $atts['space_between_phone'],
 				),
