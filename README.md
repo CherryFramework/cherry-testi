@@ -6,7 +6,7 @@ A testimonials management plugin for WordPress.
 #### In a post/page
 Insert a shortcode `[tm_testimonials]` to the post/page content.
 
-== Changelog ==
+## Changelog
 
 = 1.0.0 =
 * Initial release
