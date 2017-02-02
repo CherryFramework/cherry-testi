@@ -24,4 +24,4 @@ foreach ( $atts as $key => $att ) {
 }
 
 printf( '<code>[%1$s%2$s%3$s]</code>', $shortcode->get_prefix(), $shortcode::$name, $code_text );
-printf( '<h4 class="cherry-testi-shortcode-title">%s</h4><ul class="cherry-testi-shortcode-params">%s</ul>', esc_html__( 'Parameters list:', 'cherry_testi' ), $list );
+printf( '<h4 class="cherry-testi-shortcode-title">%s</h4><ul class="cherry-testi-shortcode-params">%s</ul>', esc_html__( 'Parameters list:', 'cherry-testi' ), $list );
