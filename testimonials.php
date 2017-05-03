@@ -175,9 +175,12 @@ if ( ! class_exists( 'TM_Testimonials_Plugin' ) ) {
 				'base_url' => TM_TESTI_URI . 'cherry-framework',
 				'modules'  => array(
 					'cherry-js-core' => array(
-						'autoload' => false,
+						'autoload' => true,
 					),
 					'cherry-ui-elements' => array(
+						'autoload' => false,
+					),
+					'cherry-utility' => array(
 						'autoload' => false,
 					),
 					'cherry-interface-builder' => array(
@@ -187,6 +190,9 @@ if ( ! class_exists( 'TM_Testimonials_Plugin' ) ) {
 						'autoload' => false,
 					),
 					'cherry-post-meta' => array(
+						'autoload' => false,
+					),
+					'cherry5-insert-shortcode' => array(
 						'autoload' => false,
 					),
 				),

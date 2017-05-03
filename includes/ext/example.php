@@ -36,6 +36,10 @@ class TM_Testimonials_VC_Compat extends WPBakeryShortCode {
 	 * @return string
 	 */
 	protected function content( $atts, $content = null ) {
+		$short = TM_Testimonials_Shortcode::get_instance()->do_shortcode( $atts, $content );
+
+		return $short;
+
 		extract( shortcode_atts( array(
 			'width'       => '1/2',
 			'el_position' => '',
@@ -87,38 +91,56 @@ class TM_Testimonials_VC_Compat extends WPBakeryShortCode {
  *
  */
 
+$shortcode_atts = $this->get_shortcode_atts();
+$params         = array();
+
+foreach ( $shortcode_atts as $name => $attribute ) {
+	$params[] = array(
+		'type'        => 'textfield',
+		'heading'     => $attribute['title'],
+		'description' => $attribute['description'],
+		'value'       => $attribute['value'],
+		'param_name'  => $name,
+	);
+}
+
 vc_map( array(
 	'base'           => 'testi2',
 	'name'           => esc_html__( 'Cherry Testimonials', 'cherry-testi' ),
-	'class'          => '',
-	'icon'           => 'icon-testi',
+	'category'       => esc_html__( 'Cherry', 'cherry-testi' ),
 	'php_class_name' => 'TM_Testimonials_VC_Compat',
-	'params'         => array(
-		array(
-			'type'        => 'textfield',
-			'holder'      => 'h2',
-			'class'       => '',
-			'heading'     => esc_html__( 'Foo attribute', 'cherry-testi' ),
-			'param_name'  => 'foo',
-			'value'       => esc_html__( "I'm foo attribute", 'cherry-testi' ),
-			'description' => esc_html__( 'Enter foo value.', 'cherry-testi' ),
-		),
-		array(
-			'type'        => 'textarea_html',
-			'holder'      => 'div',
-			'class'       => '',
-			'heading'     => esc_html__( 'Text', 'cherry-testi' ),
-			'param_name'  => 'content',
-			'value'       => esc_html__( "I'm hello world", 'cherry-testi' ),
-			'description' => esc_html__( 'Enter your content.', 'cherry-testi' ),
-		),
-		array(
-			'type'        => 'dropdown',
-			'heading'     => esc_html__( 'Drop down example', 'cherry-testi' ),
-			'param_name'  => 'my_dropdown',
-			'value'       => array( 1, 2, 'three' ),
-			'description' => esc_html__( 'One, two or three?', 'cherry-testi' ),
-		),
-	),
+	'params'         => $params,
 ) );
 
+$bar = array(
+	array(
+		'type'        => 'textfield',
+		'holder'      => 'h2',
+		'class'       => '',
+		'heading'     => esc_html__( 'Foo attribute', 'cherry-testi' ),
+		'param_name'  => 'foo',
+		'value'       => esc_html__( "I'm foo attribute", 'cherry-testi' ),
+		'description' => esc_html__( 'Enter foo value.', 'cherry-testi' ),
+	),
+	array(
+		'type'        => 'textarea_html',
+		'holder'      => 'div',
+		'class'       => '',
+		'heading'     => esc_html__( 'Text', 'cherry-testi' ),
+		'param_name'  => 'content',
+		'value'       => esc_html__( "I'm hello world", 'cherry-testi' ),
+		'description' => esc_html__( 'Enter your content.', 'cherry-testi' ),
+	),
+	array(
+		'type'        => 'dropdown',
+		'heading'     => esc_html__( 'Drop down example', 'cherry-testi' ),
+		'param_name'  => 'my_dropdown',
+		'value'       => array( 1, 2, 'three' ),
+		'description' => esc_html__( 'One, two or three?', 'cherry-testi' ),
+	),
+);
+
+
+// echo '<pre>';
+// var_dump( $this );
+// echo '</pre>';

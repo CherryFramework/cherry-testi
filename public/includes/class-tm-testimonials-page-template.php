@@ -179,4 +179,10 @@ class TM_Testimonials_Page_Template {
 	}
 }
 
-TM_Testimonials_Page_Template::get_instance();
+if ( ! function_exists( 'tm_testimonials_page_template' ) ) {
+	function tm_testimonials_page_template() {
+		return TM_Testimonials_Page_Template::get_instance();
+	}
+
+	tm_testimonials_page_template();
+}

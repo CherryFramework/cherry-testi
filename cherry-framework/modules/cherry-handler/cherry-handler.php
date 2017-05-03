@@ -2,7 +2,7 @@
 /**
  * Module Name: Cherry handler
  * Description: Initializes handlers
- * Version: 1.1.0
+ * Version: 1.1.3
  * Author: Cherry Team
  * Author URI: http://www.cherryframework.com/
  * License: GPLv3
@@ -10,7 +10,7 @@
  *
  * @package    Cherry_Framework
  * @subpackage Modules
- * @version    1.1.0
+ * @version    1.1.3
  * @author     Cherry Team <cherryframework@gmail.com>
  * @copyright  Copyright (c) 2012 - 2016, Cherry Team
  * @link       http://www.cherryframework.com/
@@ -30,15 +30,6 @@ if ( ! class_exists( 'Cherry_Handler' ) ) {
 	 * @since 1.0.0
 	 */
 	class Cherry_Handler {
-
-		/**
-		 * A reference to an instance of this class.
-		 *
-		 * @since 1.0.0
-		 * @access private
-		 * @var   object
-		 */
-		private static $handlers_list = array();
 
 		/**
 		 * Default settings.
@@ -111,19 +102,19 @@ if ( ! class_exists( 'Cherry_Handler' ) ) {
 				$nonce_action = ! empty( $this->settings['action'] ) ? $this->settings['action'] : 'cherry_ajax_nonce';
 
 				if ( ! wp_verify_nonce( $nonce, $nonce_action ) ) {
-					$response = array(
+					$response = apply_filters( 'cherry_handler_response_nonce', array(
 						'message' => $this->settings['sys_messages']['invalid_nonce'],
 						'type'    => 'error-notice',
-					);
+					) );
 
 					wp_send_json( $response );
 				}
 
 				if ( ! empty( $this->settings['capability'] ) && ! current_user_can( $this->settings['capability'] ) ) {
-					$response = array(
+					$response = apply_filters( 'cherry_handler_response_capability', array(
 						'message' => $this->settings['sys_messages']['no_right'],
 						'type'    => 'error-notice',
-					);
+					) );
 
 					wp_send_json( $response );
 				}
@@ -138,19 +129,19 @@ if ( ! class_exists( 'Cherry_Handler' ) ) {
 					}
 					ob_end_clean();
 
-					$response = array(
-						'message' => $this->settings['sys_messages']['access_is_allowed'],
-						'type'    => 'success-notice',
-						'data'    => $data,
-					);
+					$response = apply_filters( 'cherry_handler_response_data', array(
+						'message'     => $this->settings['sys_messages']['access_is_allowed'],
+						'type'        => 'success-notice',
+						'data'        => $data,
+					) );
 
 					wp_send_json( $response );
 				}
 			} else {
-				$response = array(
+				$response = apply_filters( 'cherry_handler_invalid_data', array(
 					'message' => $this->settings['sys_messages']['invalid_base_data'],
 					'type'    => 'error-notice',
-				);
+				) );
 
 				wp_send_json( $response );
 			}
@@ -166,7 +157,7 @@ if ( ! class_exists( 'Cherry_Handler' ) ) {
 				'cherry-handler-js',
 				esc_url( Cherry_Core::base_url( 'assets/js/min/cherry-handler.min.js', __FILE__ ) ),
 				array( 'jquery' ),
-				'1.0.0',
+				'1.1.3',
 				true
 			);
 
@@ -174,7 +165,7 @@ if ( ! class_exists( 'Cherry_Handler' ) ) {
 				'cherry-handler-css',
 				esc_url( Cherry_Core::base_url( 'assets/css/cherry-handler-styles.min.css', __FILE__ ) ),
 				array(),
-				'1.0.0',
+				'1.1.3',
 				'all'
 			);
 		}
