@@ -47,6 +47,12 @@ class TM_Testimonials_Shortcode {
 	 */
 	public function __construct() {
 		add_action( 'init', array( $this, 'register_shortcode' ) );
+
+		add_action( 'vc_before_init', array( $this, 'foo' ) );
+	}
+
+	public function foo() {
+		require_once( TM_TESTI_DIR . 'includes/ext/example.php' );
 	}
 
 	/**
@@ -85,9 +91,8 @@ class TM_Testimonials_Shortcode {
 		$atts['echo'] = false;
 
 		// Fix integers.
-		if ( isset( $atts['limit'] ) ) {
-			$atts['limit'] = intval( $atts['limit'] );
-		}
+		$atts['limit'] = intval( $atts['limit'] );
+		$atts['content_length'] = intval( $atts['content_length'] );
 
 		if ( isset( $atts['size'] ) && ( 0 < intval( $atts['size'] ) ) ) {
 			$atts['size'] = intval( $atts['size'] );
@@ -115,22 +120,18 @@ class TM_Testimonials_Shortcode {
 			$atts['type'] = 'list';
 		}
 
-		$atts['content_length'] = intval( $atts['content_length'] );
-
-		// CSS classes.
-		$custom_class  = $atts['custom_class'];
-
-		if ( 'list' === $atts['type']  ) {
+		if ( 'list' === $atts['type'] ) {
 			$extra_classes = array( 'tm-testi__wrap--shortcode', 'tm-testi__wrap--listing' );
 		} else {
 			$extra_classes = array( 'tm-testi__wrap--shortcode', 'swiper-container', 'tm-testi-slider' );
 			$atts          = $this->prepare_slider_atts( $defaults, $atts );
 		}
 
-		if ( ! empty( $custom_class ) ) {
-			array_push( $extra_classes, $custom_class );
+		if ( ! empty( $atts['custom_class'] ) ) {
+			array_push( $extra_classes, $atts['custom_class'] );
 		}
 
+		// CSS classes.
 		$atts['custom_class'] = join( ' ', $extra_classes );
 
 		$data = TM_Testimonials_Data::get_instance();
