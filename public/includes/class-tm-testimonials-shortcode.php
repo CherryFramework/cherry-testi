@@ -80,7 +80,7 @@ class TM_Testimonials_Shortcode {
 	public function do_shortcode( $atts, $content = null, $shortcode = 'testimonials' ) {
 
 		// Set up the default arguments.
-		$defaults = wp_list_pluck( $this->get_shortcode_atts(), 'default' );
+		$defaults = wp_list_pluck( $this->get_shortcode_atts(), 'value' );
 
 		/**
 		 * Parse the arguments.
@@ -152,23 +152,15 @@ class TM_Testimonials_Shortcode {
 	public function prepare_slider_atts( $defaults, $atts ) {
 		$atts['context'] = 'slider';
 
-		// Fix boolean.
-		if ( isset( $atts['loop'] ) && ( 'on' == $atts['loop'] ) ) {
-			$atts['loop'] = true;
-		} else {
-			$atts['loop'] = false;
-		}
+		$var_to_bool = array(
+			'loop',
+			'pagination',
+			'navigation',
+		);
 
-		if ( isset( $atts['pagination'] ) && ( 'on' == $atts['pagination'] ) ) {
-			$atts['pagination'] = true;
-		} else {
-			$atts['pagination'] = false;
-		}
-
-		if ( isset( $atts['navigation'] ) && ( 'on' == $atts['navigation'] ) ) {
-			$atts['navigation'] = true;
-		} else {
-			$atts['navigation'] = false;
+		// Fix booleans.
+		foreach ( $var_to_bool as $v ) {
+			$atts[ $v ] = filter_var( $atts[ $v ], FILTER_VALIDATE_BOOLEAN );
 		}
 
 		// Fix slides_per_view
@@ -324,17 +316,27 @@ class TM_Testimonials_Shortcode {
 				'title'       => esc_html__( 'Order by', 'cherry-testi' ),
 				'description' => esc_html__( 'Order testimonials by', 'cherry-testi' ),
 				'options'     => array(
-					'date' => esc_html__( 'Date', 'cherry-testi' ),
+					'none'          => esc_html__( 'None', 'cherry-testi' ),
+					'ID'            => esc_html__( 'Post ID', 'cherry-testi' ),
+					'author'        => esc_html__( 'Post author', 'cherry-testi' ),
+					'title'         => esc_html__( 'Post title', 'cherry-testi' ),
+					'name'          => esc_html__( 'Post slug', 'cherry-testi' ),
+					'date'          => esc_html__( 'Date', 'cherry-testi' ),
+					'modified'      => esc_html__( 'Last modified date', 'cherry-testi' ),
+					'parent'        => esc_html__( 'Post parent', 'cherry-testi' ),
+					'rand'          => esc_html__( 'Random', 'cherry-testi' ),
+					'comment_count' => esc_html__( 'Comments number', 'cherry-testi' ),
+					'menu_order'    => esc_html__( 'Menu order', 'cherry-testi' ),
 				),
 			),
 			'order' => array(
 				'type'        => 'select',
 				'value'       => 'DESC',
 				'title'       => esc_html__( 'Order', 'cherry-testi' ),
-				'description' => esc_html__( 'Testimonials order (`DESC` or `ASC`)', 'cherry-testi' ),
+				'description' => esc_html__( 'Testimonials order', 'cherry-testi' ),
 				'options'     => array(
-					'ASC'  => esc_html__( 'ASC', 'cherry-testi' ),
-					'DESC' => esc_html__( 'DESC', 'cherry-testi' ),
+					'ASC'  => esc_html__( 'Ascending', 'cherry-testi' ),
+					'DESC' => esc_html__( 'Descending', 'cherry-testi' ),
 				),
 			),
 			'category' => array(

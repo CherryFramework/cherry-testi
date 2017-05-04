@@ -308,7 +308,7 @@ class TM_Testimonials_Data {
 		endif;
 
 		// Whitelist checks.
-		if ( ! in_array( $this->query_args['orderby'], array( 'none', 'ID', 'author', 'title', 'date', 'modified', 'parent', 'rand', 'comment_count', 'menu_order', 'meta_value', 'meta_value_num' ) ) ) {
+		if ( ! in_array( $this->query_args['orderby'], array( 'none', 'ID', 'author', 'title', 'name', 'date', 'modified', 'parent', 'rand', 'comment_count', 'menu_order', ) ) ) {
 			$this->query_args['orderby'] = 'date';
 		}
 

@@ -19,8 +19,8 @@ if ( empty( $atts ) || ! is_array( $atts ) ) {
 $code_text = $list = '';
 
 foreach ( $atts as $key => $att ) {
-	$code_text .= sprintf( ' %s="%s"', esc_html( $key ), $att['default'] );
-	$list .= sprintf( '<li><strong class="cherry-testi-shortcode-params__name">%s</strong> - %s</li>', esc_html( $key ), $att['desc'] );
+	$code_text .= sprintf( ' %s="%s"', esc_html( $key ), $att['value'] );
+	$list .= sprintf( '<li><strong class="cherry-testi-shortcode-params__name">%s</strong> - %s</li>', esc_html( $key ), $att['description'] );
 }
 
 printf( '<code>[%1$s%2$s%3$s]</code>', $shortcode->get_prefix(), $shortcode::$name, $code_text );
