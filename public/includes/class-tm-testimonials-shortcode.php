@@ -47,16 +47,21 @@ class TM_Testimonials_Shortcode {
 	 */
 	public function __construct() {
 		add_action( 'init', array( $this, 'register_shortcode' ) );
+		// add_action( 'vc_before_init', array( $this, 'add_vc_compat' ) );
 
-		add_action( 'vc_before_init', array( $this, 'foo' ) );
+		if ( defined( 'WPB_VC_VERSION' ) ) {
+			$this->add_vc_compat();
+		}
 
 		if ( is_admin() ) {
 			$this->register_shortcode_for_builder();
 		}
 	}
 
-	public function foo() {
+	public function add_vc_compat() {
 		require_once( TM_TESTI_DIR . 'includes/ext/example.php' );
+
+		tm_testimonials_vc_mapping( $this->get_shortcode_atts() );
 	}
 
 	/**
@@ -65,6 +70,7 @@ class TM_Testimonials_Shortcode {
 	 * @since 1.0.0
 	 */
 	public function register_shortcode() {
+		error_log( var_export('register_shortcode', true ) );
 		add_shortcode( $this->get_tag(), array( $this, 'do_shortcode' ) );
 	}
 
@@ -591,4 +597,10 @@ class TM_Testimonials_Shortcode {
 	}
 }
 
-TM_Testimonials_Shortcode::get_instance();
+if ( ! function_exists( 'tm_testimonials_shortcode' ) ) {
+	function tm_testimonials_shortcode() {
+		return TM_Testimonials_Shortcode::get_instance();
+	}
+
+	tm_testimonials_shortcode();
+}

@@ -1,64 +1,131 @@
 <?php
 /**
- * An example of how to write WPBakery Visual Composer custom shortcode
- *
- * To create shortcodes for visual composer you need to complete 2 steps.
- *
- * 1. Create new class which extends WPBakeryShortCode.
- * If you are not familiar with OOP in php, don't worry follow this instruction and we will guide you how to
- * create valid shortcode for visual composer without learning OOP.
- *
- * 2. Need to create configurations by using wpb_map function.
- *
- * Shortcode class.
- * Shortcode class extends WPBakeryShortCode abstract class.
- * Correct name for shortcode class should look like WPBakeryShortCode_YOUR_SHORTCODE_HERE.
- * YOUR_SHORTCODE_HERE must contain only latin letters, numbers and symbol "_".
+ * Shortcode class
  */
+
+class TM_Testimonials_VC_Mapping {
+
+	/**
+	 * List of shortcode attributes.
+	 *
+	 * @var array
+	 */
+	public $atts = array();
+
+	/**
+	 * List of shortcode params.
+	 *
+	 * @var array
+	 */
+	public $params = array();
+
+	/**
+	 * A reference to an instance of this class.
+	 *
+	 * @since 1.1.0
+	 * @var   object
+	 */
+	private static $instance = null;
+
+	/**
+	 * Constructor for the class.
+	 *
+	 * @since 1.1.0
+	 */
+	public function __construct( $atts = array() ) {
+		$this->atts = $atts;
+
+		add_action( 'vc_before_init', array( $this, 'mapping' ) );
+	}
+
+	public function mapping() {
+		vc_map( array(
+			'base'           => 'testi',
+			'name'           => esc_html__( 'Testimonials', 'cherry-testi' ),
+			'description'    => esc_html__( 'Shortcode is used to display the testimonials', 'cherry-testi' ),
+			'category'       => esc_html__( 'Cherry', 'cherry-testi' ),
+			'php_class_name' => 'TM_Testimonials_VC_ShortCode', // important
+			'params'         => $this->get_params(),
+		) );
+	}
+
+	public function get_params() {
+
+		if ( empty( $this->params ) ) {
+
+			foreach ( $this->atts as $name => $attribute ) {
+				$this->params[] = array(
+					'type'        => 'textfield',
+					'heading'     => $attribute['title'],
+					'description' => $attribute['description'],
+					'value'       => $attribute['value'],
+					'param_name'  => $name,
+				);
+			}
+		}
+
+		return $this->params;
+	}
+
+	public function _get_control_type() {
+
+		$relations = array(
+			'text'     => 'textfield',
+			'select'   => 'dropdown',
+			'switcher' => 'dropdown',
+			'slider'   => 'dropdown',
+		);
+	}
+
+	/**
+	 * Returns the instance.
+	 *
+	 * @since  1.1.0
+	 * @return object
+	 */
+	public static function get_instance( $params = array() ) {
+
+		// If the single instance hasn't been set, set it now.
+		if ( null == self::$instance ) {
+			self::$instance = new self( $params );
+		}
+
+		return self::$instance;
+	}
+}
+
+if ( class_exists( 'WPBakeryShortCode' ) ) {
+	class TM_Testimonials_VC_ShortCode extends WPBakeryShortCode {
+
+		/**
+		 * Thi methods returns HTML code for frontend representation of your shortcode.
+		 * You can use your own html markup.
+		 *
+		 * @since  1.1.0
+		 * @param  $atts    Shortcode attributes.
+		 * @param  $content Shortcode content.
+		 * @return string
+		 */
+		protected function content( $atts, $content = null ) {
+			return tm_testimonials_shortcode()->do_shortcode( $atts, $content );
+		}
+	}
+}
 
 /**
- * Shortcode class example "Hello World"
+ * Returns instance of TM_Testimonials_VC_Mapping.
  *
- * Lets pretend that we want to create shortcode with this structure: [cheh foo="bar"]Shortcode content
- * here[/cheh]
+ * @since  1.1.0
+ * @return object
  */
-class TM_Testimonials_VC_Compat extends WPBakeryShortCode {
+function tm_testimonials_vc_mapping( $atts = array() ) {
+	// return TM_Testimonials_VC_Mapping::get_instance( $atts );
 
-	/*
-	 * Thi methods returns HTML code for frontend representation of your shortcode.
-	 * You can use your own html markup.
-	 *
-	 * @param $atts - shortcode attributes
-	 * @param @content - shortcode content
-	 *
-	 * @access protected
-	 * vc_filter: VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG vc_shortcodes_css_class - hook to edit element class
-	 * @return string
-	 */
-	protected function content( $atts, $content = null ) {
-		$short = TM_Testimonials_Shortcode::get_instance()->do_shortcode( $atts, $content );
 
-		return $short;
+	$foo = TM_Testimonials_VC_Mapping::get_instance( $atts );
+	error_log( var_export($foo, true) );
 
-		extract( shortcode_atts( array(
-			'width'       => '1/2',
-			'el_position' => '',
-			'foo'         => '',
-			'my_dropdown' => '',
-		), $atts ) );
-
-		$width_class = '';
-		$css_class   = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, $width_class, $this->settings['base'], $atts );
-
-		$output = '<div class="' . $css_class . '">';
-		$output .= '<h2>' . $foo . '</h2>';
-		$output .= wpb_js_remove_wpautop( $content, true );
-		$output .= '<p> Dropdown: ' . $my_dropdown . '</p>';
-		$output .= '</div>';
-
-		// return $output;
-		return '2';
-	}
+	return $foo;
 }
 
 /*
@@ -73,7 +140,7 @@ class TM_Testimonials_VC_Compat extends WPBakeryShortCode {
  * icon - in order to add icon for your shortcode in dropdown menu, add class name here and style it in
  *          your own css file. Note: bootstrap icons supported.
  * controls - in visual composer mode shortcodes can have different controls (popup_delete, edit_popup_delete, size_delete, popup_delete, full).
- 				Default is full.
+				Default is full.
  * params - array which holds your shortcode params. This params will be editable in shortcode settings page.
  *
  * Available param types:
@@ -91,54 +158,54 @@ class TM_Testimonials_VC_Compat extends WPBakeryShortCode {
  *
  */
 
-$shortcode_atts = $this->get_shortcode_atts();
-$params         = array();
+// $shortcode_atts = $this->get_shortcode_atts();
+// $params         = array();
 
-foreach ( $shortcode_atts as $name => $attribute ) {
-	$params[] = array(
-		'type'        => 'textfield',
-		'heading'     => $attribute['title'],
-		'description' => $attribute['description'],
-		'value'       => $attribute['value'],
-		'param_name'  => $name,
-	);
-}
+// foreach ( $shortcode_atts as $name => $attribute ) {
+// 	$params[] = array(
+// 		'type'        => 'textfield',
+// 		'heading'     => $attribute['title'],
+// 		'description' => $attribute['description'],
+// 		'value'       => $attribute['value'],
+// 		'param_name'  => $name,
+// 	);
+// }
 
-vc_map( array(
-	'base'           => 'testi2',
-	'name'           => esc_html__( 'Cherry Testimonials', 'cherry-testi' ),
-	'category'       => esc_html__( 'Cherry', 'cherry-testi' ),
-	'php_class_name' => 'TM_Testimonials_VC_Compat',
-	'params'         => $params,
-) );
+// vc_map( array(
+// 	'base'           => 'testi2',
+// 	'name'           => esc_html__( 'Cherry Testimonials', 'cherry-testi' ),
+// 	'category'       => esc_html__( 'Cherry', 'cherry-testi' ),
+// 	'php_class_name' => 'TM_Testimonials_VC_Compat',
+// 	'params'         => $params,
+// ) );
 
-$bar = array(
-	array(
-		'type'        => 'textfield',
-		'holder'      => 'h2',
-		'class'       => '',
-		'heading'     => esc_html__( 'Foo attribute', 'cherry-testi' ),
-		'param_name'  => 'foo',
-		'value'       => esc_html__( "I'm foo attribute", 'cherry-testi' ),
-		'description' => esc_html__( 'Enter foo value.', 'cherry-testi' ),
-	),
-	array(
-		'type'        => 'textarea_html',
-		'holder'      => 'div',
-		'class'       => '',
-		'heading'     => esc_html__( 'Text', 'cherry-testi' ),
-		'param_name'  => 'content',
-		'value'       => esc_html__( "I'm hello world", 'cherry-testi' ),
-		'description' => esc_html__( 'Enter your content.', 'cherry-testi' ),
-	),
-	array(
-		'type'        => 'dropdown',
-		'heading'     => esc_html__( 'Drop down example', 'cherry-testi' ),
-		'param_name'  => 'my_dropdown',
-		'value'       => array( 1, 2, 'three' ),
-		'description' => esc_html__( 'One, two or three?', 'cherry-testi' ),
-	),
-);
+// $bar = array(
+// 	array(
+// 		'type'        => 'textfield',
+// 		'holder'      => 'h2',
+// 		'class'       => '',
+// 		'heading'     => esc_html__( 'Foo attribute', 'cherry-testi' ),
+// 		'param_name'  => 'foo',
+// 		'value'       => esc_html__( "I'm foo attribute", 'cherry-testi' ),
+// 		'description' => esc_html__( 'Enter foo value.', 'cherry-testi' ),
+// 	),
+// 	array(
+// 		'type'        => 'textarea_html',
+// 		'holder'      => 'div',
+// 		'class'       => '',
+// 		'heading'     => esc_html__( 'Text', 'cherry-testi' ),
+// 		'param_name'  => 'content',
+// 		'value'       => esc_html__( "I'm hello world", 'cherry-testi' ),
+// 		'description' => esc_html__( 'Enter your content.', 'cherry-testi' ),
+// 	),
+// 	array(
+// 		'type'        => 'dropdown',
+// 		'heading'     => esc_html__( 'Drop down example', 'cherry-testi' ),
+// 		'param_name'  => 'my_dropdown',
+// 		'value'       => array( 1, 2, 'three' ),
+// 		'description' => esc_html__( 'One, two or three?', 'cherry-testi' ),
+// 	),
+// );
 
 
 // echo '<pre>';

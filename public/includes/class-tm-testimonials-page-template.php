@@ -38,8 +38,6 @@ class TM_Testimonials_Page_Template {
 	 * @since 1.0.0
 	 */
 	public function __construct() {
-		$this->plugin    = tm_testimonials_plugin();
-		$this->post_type = $this->plugin->get_post_type_name();
 
 		// Add a filter to load a custom templates.
 		add_filter( 'template_include', array( $this, 'get_view_template' ) );
@@ -67,9 +65,11 @@ class TM_Testimonials_Page_Template {
 	 * @param object $query Main query.
 	 */
 	public function set_posts_per_archive_page( $query ) {
+		$post_type = tm_testimonials_plugin()->get_post_type_name();
+
 		if ( ! is_admin()
 			&& $query->is_main_query()
-			&& ( $query->is_post_type_archive( $this->post_type ) || $query->is_tax( $this->post_type . '_category' ) )
+			&& ( $query->is_post_type_archive( $post_type ) || $query->is_tax( $post_type . '_category' ) )
 			) {
 			$query->set( 'posts_per_page', self::$posts_per_page );
 		}
@@ -81,17 +81,16 @@ class TM_Testimonials_Page_Template {
 	 * @since 1.0.0
 	 */
 	public function get_view_template( $template ) {
-		global $post;
-
+		$post_type = tm_testimonials_plugin()->get_post_type_name();
 		$page_slug = tm_testimonials_plugin_get_option( 'archive_page' );
 
 		if ( ( is_page( $page_slug ) && false !== $page_slug )
-			|| is_post_type_archive( $this->post_type )
-			|| is_tax( $this->post_type . '_category' )
+			|| is_post_type_archive( $post_type )
+			|| is_tax( $post_type . '_category' )
 			) {
 
 			// Archive index page template name.
-			$testimonials_template = "templates/archive-{$this->post_type}.php";
+			$testimonials_template = "templates/archive-{$post_type}.php";
 
 			$check_dirs = $this->get_locate_dirs();
 
@@ -113,12 +112,14 @@ class TM_Testimonials_Page_Template {
 	public function get_single_template( $template ) {
 		global $post;
 
-		if ( $post->post_type !== $this->post_type ) {
+		$post_type = tm_testimonials_plugin()->get_post_type_name();
+
+		if ( $post->post_type !== $post_type ) {
 			return $template;
 		}
 
 		// Single page template name.
-		$single_template = "templates/single-{$this->post_type}.php";
+		$single_template = "templates/single-{$post_type}.php";
 
 		$check_dirs = $this->get_locate_dirs();
 
