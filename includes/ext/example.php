@@ -6,8 +6,17 @@
 class TM_Testimonials_VC_Mapping {
 
 	/**
+	 * Shortcode name.
+	 *
+	 * @since 1.1.0
+	 * @var string
+	 */
+	public $tag = '';
+
+	/**
 	 * List of shortcode attributes.
 	 *
+	 * @since 1.1.0
 	 * @var array
 	 */
 	public $atts = array();
@@ -15,6 +24,7 @@ class TM_Testimonials_VC_Mapping {
 	/**
 	 * List of shortcode params.
 	 *
+	 * @since 1.1.0
 	 * @var array
 	 */
 	public $params = array();
@@ -23,7 +33,7 @@ class TM_Testimonials_VC_Mapping {
 	 * A reference to an instance of this class.
 	 *
 	 * @since 1.1.0
-	 * @var   object
+	 * @var object
 	 */
 	private static $instance = null;
 
@@ -32,16 +42,18 @@ class TM_Testimonials_VC_Mapping {
 	 *
 	 * @since 1.1.0
 	 */
-	public function __construct( $atts = array() ) {
+	public function __construct( $tag, $atts ) {
+		$this->tag  = $tag;
 		$this->atts = $atts;
 
 		add_action( 'vc_before_init', array( $this, 'mapping' ) );
+		add_filter( 'tm_testimonials_vc_mapping_params', array( $this, 'convert_types_fix' ), 11, 2 );
 	}
 
 	public function mapping() {
 		vc_map( array(
-			'base'           => 'testi',
-			'name'           => esc_html__( 'Testimonials', 'cherry-testi' ),
+			'base'           => $this->tag,
+			'name'           => esc_html__( 'Cherry Testimonials', 'cherry-testi' ),
 			'description'    => esc_html__( 'Shortcode is used to display the testimonials', 'cherry-testi' ),
 			'category'       => esc_html__( 'Cherry', 'cherry-testi' ),
 			'php_class_name' => 'TM_Testimonials_VC_ShortCode', // important
@@ -53,28 +65,196 @@ class TM_Testimonials_VC_Mapping {
 
 		if ( empty( $this->params ) ) {
 
-			foreach ( $this->atts as $name => $attribute ) {
-				$this->params[] = array(
-					'type'        => 'textfield',
-					'heading'     => $attribute['title'],
-					'description' => $attribute['description'],
-					'value'       => $attribute['value'],
+			foreach ( $this->atts as $name => $attr ) {
+				$params = array(
+					'heading'     => $attr['title'],
+					'description' => ! empty( $attr['description'] ) ? $attr['description'] : '',
+					'type'        => $this->_get_attr_type( $attr ),
+					'value'       => $this->_get_attr_value( $attr ),
 					'param_name'  => $name,
 				);
+
+				if ( ! empty( $attr['default'] ) ) {
+					$params = array_merge( $params, array( 'std' => $this->_get_attr_std( $attr ) ) );
+				}
+
+				if ( ! empty( $attr['master'] ) ) {
+					$params = array_merge( $params, array( 'dependency' => $this->_get_attr_deps( $attr ) ) );
+				}
+
+				$this->params[ $name ] = $params;
 			}
 		}
 
-		return $this->params;
+		return apply_filters( 'tm_testimonials_vc_mapping_params', $this->params, $this->atts );
 	}
 
-	public function _get_control_type() {
+	public function _get_attr_deps( $attribute ) {
+		$master = $attribute['master'];
+		$deps   = array();
 
-		$relations = array(
-			'text'     => 'textfield',
-			'select'   => 'dropdown',
-			'switcher' => 'dropdown',
-			'slider'   => 'dropdown',
-		);
+		foreach ( $this->atts as $key => $attr ) {
+			$type = $attr['type'];
+
+			switch ( $type ) {
+				case 'select':
+				case 'radio':
+				case 'checkbox':
+
+					if ( ! empty( $attr['options'] ) ) {
+						foreach ( $attr['options'] as $option => $data ) {
+
+							if ( ! is_array( $data ) ) {
+								continue;
+							}
+
+							if ( empty( $data['slave'] ) ) {
+								continue;
+							}
+
+							if ( $master == $data['slave'] ) {
+								$deps = array(
+									'element' => $key,
+									'value'   => $option,
+								);
+
+								break;
+							}
+						}
+					}
+					break;
+
+				case 'switcher':
+
+					if ( ! empty( $attr['toggle']['true_slave'] ) ) {
+						$slave = $attr['toggle']['true_slave'];
+
+						if ( $master == $slave ) {
+							$deps = array(
+								'element' => $key,
+								'value'   => 'yes',
+							);
+						}
+					}
+
+					break;
+
+				default:
+
+					if ( ! empty( $attr['slave'] ) ) {
+						$deps = array(
+							'element' => $key,
+							'value'   => $attr['value'],
+						);
+					}
+
+					break;
+			}
+		}
+
+		return $deps;
+	}
+
+	public function _get_attr_type( $attr ) {
+		$type = $attr['type'];
+
+		switch ( $type ) {
+
+			case 'textarea':
+				$vc_type = 'textarea';
+				break;
+
+			case 'switcher':
+				$vc_type = 'checkbox';
+				break;
+
+			case 'select':
+			case 'radio':
+			case 'checkbox':
+				$vc_type = 'dropdown';
+				break;
+
+			default:
+				$vc_type = 'textfield';
+				break;
+		}
+
+		return $vc_type;
+	}
+
+	public function _get_attr_value( $attr ) {
+		$type = $attr['type'];
+
+		switch ( $type ) {
+			case 'select':
+			case 'radio':
+			case 'checkbox':
+				$options  = empty( $attr['options'] ) ? $this->apply_options_cb( $attr ) : $attr['options'];
+				$_options = array();
+
+				foreach ( $options as $option => $data ) {
+
+					if ( is_array( $data ) ) {
+						$_options[ $option ] = $data['label'];
+
+					} else {
+						$_options[ $option ] = $data;
+					}
+				}
+
+				$value = array_flip( $_options );
+				break;
+
+			case 'switcher':
+				$filtered = filter_var( $attr['value'], FILTER_VALIDATE_BOOLEAN );
+				$value    = $filtered ? array( esc_html__( 'Yes', 'cherry-testi' ) => 'yes' ) : false;
+				break;
+
+			default:
+				$value = $attr['value'];
+				break;
+		}
+
+		return $value;
+	}
+
+	public function _get_attr_std( $attr ) {
+		$type = $attr['type'];
+
+		switch ( $type ) {
+			case 'switcher':
+				$filtered = filter_var( $attr['default'], FILTER_VALIDATE_BOOLEAN );
+				$std      = $filtered ? 'yes' : false;
+				break;
+
+			default:
+				$std = $attr['default'];
+				break;
+		}
+
+		return $std;
+	}
+
+	/**
+	 * Apply shortcode options callback if required.
+	 *
+	 * @since  1.1.0
+	 * @param  array $atts
+	 * @return array
+	 */
+	private function apply_options_cb( $atts ) {
+
+		if ( empty( $atts['options_cb'] ) || ! is_callable( $atts['options_cb'] ) ) {
+			return array();
+		}
+
+		return call_user_func( $atts['options_cb'] );
+	}
+
+	public function convert_types_fix( $params, $atts ) {
+		$params['category']['type'] = 'textfield';
+
+		return $params;
 	}
 
 	/**
@@ -83,11 +263,11 @@ class TM_Testimonials_VC_Mapping {
 	 * @since  1.1.0
 	 * @return object
 	 */
-	public static function get_instance( $params = array() ) {
+	public static function get_instance( $tag, $atts ) {
 
 		// If the single instance hasn't been set, set it now.
 		if ( null == self::$instance ) {
-			self::$instance = new self( $params );
+			self::$instance = new self( $tag, $atts );
 		}
 
 		return self::$instance;
@@ -118,96 +298,6 @@ if ( class_exists( 'WPBakeryShortCode' ) ) {
  * @since  1.1.0
  * @return object
  */
-function tm_testimonials_vc_mapping( $atts = array() ) {
-	// return TM_Testimonials_VC_Mapping::get_instance( $atts );
-
-
-	$foo = TM_Testimonials_VC_Mapping::get_instance( $atts );
-	error_log( var_export($foo, true) );
-
-	return $foo;
+function tm_testimonials_vc_mapping( $tag, $atts ) {
+	return TM_Testimonials_VC_Mapping::get_instance( $tag, $atts );
 }
-
-/*
- * Settings array to setup shortcode "Hello world"
- * base param is required.
- *
- * Mapping examples: $PLUGIN_DIR/config/map.php
- *
- * name - used in content elements menu and shortcode edit screen.
- * base - shortcode base. Example cheh
- * class - helper class to target your shortcode in css in visual composer edit mode
- * icon - in order to add icon for your shortcode in dropdown menu, add class name here and style it in
- *          your own css file. Note: bootstrap icons supported.
- * controls - in visual composer mode shortcodes can have different controls (popup_delete, edit_popup_delete, size_delete, popup_delete, full).
-				Default is full.
- * params - array which holds your shortcode params. This params will be editable in shortcode settings page.
- *
- * Available param types:
- *
- * textarea_html (only one html textarea is permitted per shortcode)
- * textfield - simple input field,
- * dropdown - dropdown element with set of available options,
- * attach_image - single image selection,
- * attach_images - multiple images selection,
- * exploded_textarea - textarea, where each line will be imploded with comma (,),
- * posttypes - checkboxes with available post types,
- * widgetised_sidebars - dropdown element with set of available widget regions,
- * textarea - simple textarea,
- * textarea_raw_html - textarea, it's content will be codede into base64 (this allows you to store raw js or raw html code).
- *
- */
-
-// $shortcode_atts = $this->get_shortcode_atts();
-// $params         = array();
-
-// foreach ( $shortcode_atts as $name => $attribute ) {
-// 	$params[] = array(
-// 		'type'        => 'textfield',
-// 		'heading'     => $attribute['title'],
-// 		'description' => $attribute['description'],
-// 		'value'       => $attribute['value'],
-// 		'param_name'  => $name,
-// 	);
-// }
-
-// vc_map( array(
-// 	'base'           => 'testi2',
-// 	'name'           => esc_html__( 'Cherry Testimonials', 'cherry-testi' ),
-// 	'category'       => esc_html__( 'Cherry', 'cherry-testi' ),
-// 	'php_class_name' => 'TM_Testimonials_VC_Compat',
-// 	'params'         => $params,
-// ) );
-
-// $bar = array(
-// 	array(
-// 		'type'        => 'textfield',
-// 		'holder'      => 'h2',
-// 		'class'       => '',
-// 		'heading'     => esc_html__( 'Foo attribute', 'cherry-testi' ),
-// 		'param_name'  => 'foo',
-// 		'value'       => esc_html__( "I'm foo attribute", 'cherry-testi' ),
-// 		'description' => esc_html__( 'Enter foo value.', 'cherry-testi' ),
-// 	),
-// 	array(
-// 		'type'        => 'textarea_html',
-// 		'holder'      => 'div',
-// 		'class'       => '',
-// 		'heading'     => esc_html__( 'Text', 'cherry-testi' ),
-// 		'param_name'  => 'content',
-// 		'value'       => esc_html__( "I'm hello world", 'cherry-testi' ),
-// 		'description' => esc_html__( 'Enter your content.', 'cherry-testi' ),
-// 	),
-// 	array(
-// 		'type'        => 'dropdown',
-// 		'heading'     => esc_html__( 'Drop down example', 'cherry-testi' ),
-// 		'param_name'  => 'my_dropdown',
-// 		'value'       => array( 1, 2, 'three' ),
-// 		'description' => esc_html__( 'One, two or three?', 'cherry-testi' ),
-// 	),
-// );
-
-
-// echo '<pre>';
-// var_dump( $this );
-// echo '</pre>';
