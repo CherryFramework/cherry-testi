@@ -58,7 +58,7 @@ class TM_Testimonials_Shortcode {
 	}
 
 	public function add_vc_compat() {
-		require_once( TM_TESTI_DIR . 'includes/ext/example.php' );
+		require_once( TM_TESTI_DIR . 'includes/ext/class-tm-testimonials-vc-mapping.php' );
 
 		tm_testimonials_vc_mapping( $this->get_tag(), $this->get_shortcode_atts() );
 	}
