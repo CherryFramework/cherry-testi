@@ -170,7 +170,7 @@ class TM_Testimonials_Shortcode {
 
 		// Fix space_between
 		foreach ( array( 'space_between', 'space_between_laptop', 'space_between_tablet', 'space_between_phone' ) as $val ) {
-			$atts[ $val ] = ( 0 !== intval( $atts[ $val ] ) ) ? intval( $atts[ $val ] ) : 15;
+			$atts[ $val ] = absint( $atts[ $val ] );
 		}
 
 		$atts['data_atts'] = apply_filters( 'tm_testimonials_slider_data_atts', array(
