@@ -287,7 +287,7 @@ class TM_Testimonials_Shortcode {
 			'sup_title' => array(
 				'type'        => 'text',
 				'value'       => '',
-				'title'       => esc_html__( 'Suptitle', 'cherry-testi' ),
+				'title'       => esc_html__( 'Super title', 'cherry-testi' ),
 				'description' => esc_html__( 'Text before main title', 'cherry-testi' ),
 			),
 			'title' => array(
@@ -305,7 +305,7 @@ class TM_Testimonials_Shortcode {
 			'limit' => array(
 				'type'        => 'slider',
 				'title'       => esc_html__( 'Limit', 'cherry-testi' ),
-				'description' => esc_html__( 'Testimonials number to show', 'cherry-testi' ),
+				'description' => esc_html__( 'Testimonials number to show (-1 means that will show all testimonials)', 'cherry-testi' ),
 				'max_value'   => 50,
 				'min_value'   => -1,
 				'value'       => 3,
@@ -472,24 +472,24 @@ class TM_Testimonials_Shortcode {
 			),
 			'slides_per_view_phone' => array(
 				'type'        => 'slider',
-				'title'       => esc_html__( 'Number of slides per view on phones', 'cherry-testi' ),
-				'description' => esc_html__( "Slides visible at the same time on slider's containe (only for slider on phones)", 'cherry-testi' ),
+				'title'       => esc_html__( 'Number of slides per view on small screen / phone', 'cherry-testi' ),
+				'description' => esc_html__( "Slides visible at the same time on slider's containe (only for slider on small screen / phone)", 'cherry-testi' ),
 				'max_value'   => 2,
 				'min_value'   => 1,
 				'value'       => 1,
 			),
 			'slides_per_view_tablet' => array(
 				'type'        => 'slider',
-				'title'       => esc_html__( 'Number of slides per view on tablets', 'cherry-testi' ),
-				'description' => esc_html__( "Slides visible at the same time on slider's containe (only for slider on tablets)", 'cherry-testi' ),
+				'title'       => esc_html__( 'Number of slides per view on medium screen / tablet', 'cherry-testi' ),
+				'description' => esc_html__( "Slides visible at the same time on slider's containe (only for slider on medium screen / tablet)", 'cherry-testi' ),
 				'max_value'   => 4,
 				'min_value'   => 1,
 				'value'       => 1,
 			),
 			'slides_per_view_laptop' => array(
 				'type'        => 'slider',
-				'title'       => esc_html__( 'Number of slides per view on laptops', 'cherry-testi' ),
-				'description' => esc_html__( "Slides visible at the same time on slider's containe (only for slider on laptops)", 'cherry-testi' ),
+				'title'       => esc_html__( 'Number of slides per view on large screen / desktop', 'cherry-testi' ),
+				'description' => esc_html__( "Slides visible at the same time on slider's containe (only for slider on large screen / desktop)", 'cherry-testi' ),
 				'max_value'   => 6,
 				'min_value'   => 1,
 				'value'       => 1,
@@ -497,40 +497,40 @@ class TM_Testimonials_Shortcode {
 			'slides_per_view' => array(
 				'type'        => 'slider',
 				'value'       => 1,
-				'title'       => esc_html__( 'Number of slides per view on desktops', 'cherry-testi' ),
-				'description' => esc_html__( "Slides visible at the same time on slider's containe (only for slider on desktops)", 'cherry-testi' ),
+				'title'       => esc_html__( 'Number of slides per view on extra large screen / wide desktop', 'cherry-testi' ),
+				'description' => esc_html__( "Slides visible at the same time on slider's containe (only for slider on extra large screen / wide desktop)", 'cherry-testi' ),
 				'max_value'   => 8,
 				'min_value'   => 1,
 				'value'       => 1,
 			),
 			'space_between_phone' => array(
 				'type'        => 'slider',
-				'title'       => esc_html__( 'Space between on phones', 'cherry-testi' ),
-				'description' => esc_html__( 'Distance between slides in px (only for slider on phones)', 'cherry-testi' ),
+				'title'       => esc_html__( 'Space between on small screen / phone', 'cherry-testi' ),
+				'description' => esc_html__( 'Distance between slides in px (only for slider on small screen / phone)', 'cherry-testi' ),
 				'max_value'   => 100,
 				'min_value'   => 0,
 				'value'       => 15,
 			),
 			'space_between_tablet' => array(
 				'type'        => 'slider',
-				'title'       => esc_html__( 'Space between on tablets', 'cherry-testi' ),
-				'description' => esc_html__( 'Distance between slides in px (only for slider on tablets)', 'cherry-testi' ),
+				'title'       => esc_html__( 'Space between on medium screen / tablet', 'cherry-testi' ),
+				'description' => esc_html__( 'Distance between slides in px (only for slider on medium screen / tablet)', 'cherry-testi' ),
 				'max_value'   => 100,
 				'min_value'   => 0,
 				'value'       => 15,
 			),
 			'space_between_laptop' => array(
 				'type'        => 'slider',
-				'title'       => esc_html__( 'Space between on laptops', 'cherry-testi' ),
-				'description' => esc_html__( 'Distance between slides in px (only for slider on laptops)', 'cherry-testi' ),
+				'title'       => esc_html__( 'Space between on large screen / desktop', 'cherry-testi' ),
+				'description' => esc_html__( 'Distance between slides in px (only for slider on large screen / desktop)', 'cherry-testi' ),
 				'max_value'   => 100,
 				'min_value'   => 0,
 				'value'       => 15,
 			),
 			'space_between' => array(
 				'type'        => 'slider',
-				'title'       => esc_html__( 'Space between', 'cherry-testi' ),
-				'description' => esc_html__( 'Distance between slides in px (only for slider on desktops)', 'cherry-testi' ),
+				'title'       => esc_html__( 'Space between on extra large screen / wide desktop', 'cherry-testi' ),
+				'description' => esc_html__( 'Distance between slides in px (only for slider on extra large screen / wide desktop)', 'cherry-testi' ),
 				'max_value'   => 100,
 				'min_value'   => 0,
 				'value'       => 15,
@@ -568,10 +568,7 @@ class TM_Testimonials_Shortcode {
 			return array();
 		}
 
-		return array_merge(
-			array( '' => esc_html__( 'From All', 'cherry-testi' ) ),
-			$categories
-		);
+		return $categories;
 	}
 
 	/**
