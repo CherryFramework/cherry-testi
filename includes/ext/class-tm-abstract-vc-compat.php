@@ -56,7 +56,7 @@ abstract class TM_Abstract_VC_Compat {
 			}
 		}
 
-		return apply_filters( 'tm_testimonials_vc_mapping_params', $this->params, $this->atts );
+		return $this->params;
 	}
 
 	public function _get_attr_type( $attr ) {

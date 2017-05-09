@@ -41,8 +41,6 @@ class TM_Testimonials_VC_Mapping extends TM_Abstract_VC_Compat {
 		$this->atts = $atts;
 
 		add_action( 'vc_before_init', array( $this, 'mapping' ) );
-		add_filter( 'tm_testimonials_vc_mapping_params', array( $this, 'convert_types_fix' ), 11, 2 );
-
 		parent::__construct();
 	}
 
@@ -52,29 +50,40 @@ class TM_Testimonials_VC_Mapping extends TM_Abstract_VC_Compat {
 	 * @since 1.1.0
 	 */
 	public function mapping() {
+		$_params = $this->get_params();
+		$params  = $this->unique_fix( $_params );
+
 		vc_map( array(
 			'base'           => $this->tag,
 			'name'           => esc_html__( 'Cherry Testimonials', 'cherry-testi' ),
 			'description'    => esc_html__( 'Shortcode is used to display the testimonials', 'cherry-testi' ),
 			'category'       => esc_html__( 'Cherry', 'cherry-testi' ),
 			'php_class_name' => 'TM_Testimonials_VC_ShortCode', // important
-			'params'         => $this->get_params(),
+			'params'         => $params,
 		) );
 	}
 
 	/**
 	 * `Category` control-type fix.
 	 *
-	 * Cause the dropdown(select) control-type is not good for selecting categories.
+	 * Cause, e.g. the dropdown(select) control-type is not good for selecting categories.
 	 * Only for `[tm_testimonials]` shortcode.
 	 *
 	 * @since  1.1.0
 	 * @param  array $params
-	 * @param  array $atts
 	 * @return array
 	 */
-	public function convert_types_fix( $params, $atts ) {
-		$params['category']['type'] = 'textfield';
+	public function unique_fix( $params ) {
+		$params['category']['type']               = 'textfield';
+		$params['slides_per_view_phone']['type']  = 'dropdown';
+		$params['slides_per_view_tablet']['type'] = 'dropdown';
+		$params['slides_per_view_laptop']['type'] = 'dropdown';
+		$params['slides_per_view']['type']        = 'dropdown';
+
+		$params['slides_per_view_phone']['value']  = array( 1, 2, );
+		$params['slides_per_view_tablet']['value'] = array( 1, 2, 3, 4, );
+		$params['slides_per_view_laptop']['value'] = array( 1, 2, 3, 4, 5, 6, );
+		$params['slides_per_view']['value']        = array( 1, 2, 3, 4, 5, 6, 7, 8, );
 
 		return $params;
 	}

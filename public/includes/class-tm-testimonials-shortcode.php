@@ -452,9 +452,9 @@ class TM_Testimonials_Shortcode {
 				'type'        => 'select',
 				'title'       => esc_html__( 'Effect', 'cherry-testi' ),
 				'description' => esc_html__( 'Could be "slide" or "fade" (only for slider)', 'cherry-testi' ),
-				'toggle'      => array(
-					'true_toggle'  => esc_html__( 'On', 'cherry-testi' ),
-					'false_toggle' => esc_html__( 'Off', 'cherry-testi' ),
+				'options'     => array(
+					'slide' => esc_html__( 'Slide', 'cherry-testi' ),
+					'fade'  => esc_html__( 'Fade', 'cherry-testi' ),
 				),
 				'value'   => 'slide',
 				'default' => 'slide',
