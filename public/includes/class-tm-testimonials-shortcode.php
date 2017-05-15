@@ -500,7 +500,7 @@ class TM_Testimonials_Shortcode {
 			'slides_per_view_phone' => array(
 				'type'        => 'slider',
 				'title'       => esc_html__( 'Number of slides per view on small screen / phone', 'cherry-testi' ),
-				'description' => esc_html__( "Slides visible at the same time on slider's containe (only for slider on small screen / phone)", 'cherry-testi' ),
+				'description' => esc_html__( "Slides visible at the same time on slider's containe (only for slider with 'slide' effect on small screen / phone)", 'cherry-testi' ),
 				'value'       => 1,
 				'max_value'   => 2,
 				'min_value'   => 1,
@@ -509,7 +509,7 @@ class TM_Testimonials_Shortcode {
 			'slides_per_view_tablet' => array(
 				'type'        => 'slider',
 				'title'       => esc_html__( 'Number of slides per view on medium screen / tablet', 'cherry-testi' ),
-				'description' => esc_html__( "Slides visible at the same time on slider's containe (only for slider on medium screen / tablet)", 'cherry-testi' ),
+				'description' => esc_html__( "Slides visible at the same time on slider's containe (only for slider with 'slide' effect on medium screen / tablet)", 'cherry-testi' ),
 				'value'       => 1,
 				'max_value'   => 4,
 				'min_value'   => 1,
@@ -518,7 +518,7 @@ class TM_Testimonials_Shortcode {
 			'slides_per_view_laptop' => array(
 				'type'        => 'slider',
 				'title'       => esc_html__( 'Number of slides per view on large screen / desktop', 'cherry-testi' ),
-				'description' => esc_html__( "Slides visible at the same time on slider's containe (only for slider on large screen / desktop)", 'cherry-testi' ),
+				'description' => esc_html__( "Slides visible at the same time on slider's containe (only for slider with 'slide' effect on large screen / desktop)", 'cherry-testi' ),
 				'value'       => 1,
 				'max_value'   => 6,
 				'min_value'   => 1,
@@ -527,7 +527,7 @@ class TM_Testimonials_Shortcode {
 			'slides_per_view' => array(
 				'type'        => 'slider',
 				'title'       => esc_html__( 'Number of slides per view on extra large screen / wide desktop', 'cherry-testi' ),
-				'description' => esc_html__( "Slides visible at the same time on slider's containe (only for slider on extra large screen / wide desktop)", 'cherry-testi' ),
+				'description' => esc_html__( "Slides visible at the same time on slider's containe (only for slider with 'slide' effect on extra large screen / wide desktop)", 'cherry-testi' ),
 				'value'       => 1,
 				'max_value'   => 8,
 				'min_value'   => 1,
