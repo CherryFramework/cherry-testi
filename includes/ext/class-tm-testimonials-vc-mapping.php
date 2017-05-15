@@ -41,6 +41,7 @@ class TM_Testimonials_VC_Mapping extends TM_Abstract_VC_Compat {
 		$this->atts = $atts;
 
 		add_action( 'vc_before_init', array( $this, 'mapping' ) );
+		add_filter( 'tm_testimonials_public_scripts_ver', array( $this, 'scripts_ver' ) );
 		parent::__construct();
 	}
 
@@ -86,6 +87,23 @@ class TM_Testimonials_VC_Mapping extends TM_Abstract_VC_Compat {
 		$params['slides_per_view']['value']        = array( 1, 2, 3, 4, 5, 6, 7, 8, );
 
 		return $params;
+	}
+
+	/**
+	 * Set dynamic script version.
+	 * Don't cache javascript file `public.js` on fronted-editor mode.
+	 *
+	 * @since  1.1.0
+	 * @param  string $version
+	 * @return string
+	 */
+	public function scripts_ver( $version ) {
+
+		if ( did_action( 'vc_inline_editor_page_view' ) ) {
+			return time();
+		}
+
+		return $version;
 	}
 
 	/**
