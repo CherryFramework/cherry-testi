@@ -2,12 +2,11 @@
 /**
  * PHP abstract class for base compatibility with Visual Composer plugin.
  *
- * @package    Cherry_Testi
- * @subpackage Public
  * @author     Template Monster
  * @license    GPL-3.0+
  * @copyright  2002-2016, Template Monster
  */
+
 abstract class TM_Abstract_VC_Compat {
 
 	/**
@@ -217,5 +216,4 @@ abstract class TM_Abstract_VC_Compat {
 
 		return call_user_func( $atts['options_cb'] );
 	}
-
 }
