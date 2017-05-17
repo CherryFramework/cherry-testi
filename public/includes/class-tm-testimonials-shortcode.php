@@ -48,19 +48,9 @@ class TM_Testimonials_Shortcode {
 	public function __construct() {
 		add_action( 'init', array( $this, 'register_shortcode' ) );
 
-		if ( defined( 'WPB_VC_VERSION' ) ) {
-			$this->add_vc_compat();
-		}
-
 		if ( is_admin() ) {
 			$this->register_shortcode_for_builder();
 		}
-	}
-
-	public function add_vc_compat() {
-		require_once( TM_TESTI_DIR . 'includes/ext/class-tm-testimonials-vc-mapping.php' );
-
-		tm_testimonials_vc_mapping( $this->get_tag(), $this->get_shortcode_atts() );
 	}
 
 	/**
