@@ -59,6 +59,22 @@ class TM_Testimonials_Shortcode {
 	 * @since 1.0.0
 	 */
 	public function register_shortcode() {
+
+		if ( defined( 'ELEMENTOR_VERSION' ) ) {
+
+			require_once( TM_TESTI_DIR . 'includes/ext-elementor/class-tm-testimonials-elementor-compat.php' );
+
+			tm_testimonials_elementor_compat( array(
+				$this->get_tag() => array(
+					'title' => esc_html__( 'Cherry Testi', 'cherry-test' ),
+					'file'  => TM_TESTI_DIR . 'includes/ext-elementor/class-tm-testimonials-elementor-module.php',
+					'class' => 'TM_Testimonials_Elementor_Widget',
+					'icon'  => 'eicon-testimonial',
+					'atts'  => $this->get_shortcode_atts(),
+				),
+			) );
+		}
+
 		add_shortcode( $this->get_tag(), array( $this, 'do_shortcode' ) );
 	}
 
@@ -438,6 +454,9 @@ class TM_Testimonials_Shortcode {
 				'min_value'   => 500,
 				'step_value'  => 500,
 				'master'      => 'testi-slider-options',
+				'condition'   => array(
+					'type' => array( 'slider' ),
+				),
 			),
 			'effect' => array(
 				'type'        => 'select',
@@ -450,6 +469,9 @@ class TM_Testimonials_Shortcode {
 				'value'   => 'slide',
 				'default' => 'slide',
 				'master'  => 'testi-slider-options',
+				'condition'   => array(
+					'type' => array( 'slider' ),
+				),
 			),
 			'loop' => array(
 				'type'        => 'switcher',
@@ -462,6 +484,9 @@ class TM_Testimonials_Shortcode {
 				'value'   => 'on',
 				'default' => 'on',
 				'master'  => 'testi-slider-options',
+				'condition'   => array(
+					'type' => array( 'slider' ),
+				),
 			),
 			'pagination' => array(
 				'type'        => 'switcher',
@@ -474,6 +499,9 @@ class TM_Testimonials_Shortcode {
 				'value'   => 'on',
 				'default' => 'on',
 				'master'  => 'testi-slider-options',
+				'condition'   => array(
+					'type' => array( 'slider' ),
+				),
 			),
 			'navigation' => array(
 				'type'        => 'switcher',
@@ -486,6 +514,9 @@ class TM_Testimonials_Shortcode {
 				'value'   => 'on',
 				'default' => 'on',
 				'master'  => 'testi-slider-options',
+				'condition'   => array(
+					'type' => array( 'slider' ),
+				),
 			),
 			'slides_per_view_phone' => array(
 				'type'        => 'slider',
@@ -495,6 +526,9 @@ class TM_Testimonials_Shortcode {
 				'max_value'   => 2,
 				'min_value'   => 1,
 				'master'      => 'testi-slider-options',
+				'condition'   => array(
+					'type' => array( 'slider' ),
+				),
 			),
 			'slides_per_view_tablet' => array(
 				'type'        => 'slider',
@@ -504,6 +538,9 @@ class TM_Testimonials_Shortcode {
 				'max_value'   => 4,
 				'min_value'   => 1,
 				'master'      => 'testi-slider-options',
+				'condition'   => array(
+					'type' => array( 'slider' ),
+				),
 			),
 			'slides_per_view_laptop' => array(
 				'type'        => 'slider',
@@ -513,6 +550,9 @@ class TM_Testimonials_Shortcode {
 				'max_value'   => 6,
 				'min_value'   => 1,
 				'master'      => 'testi-slider-options',
+				'condition'   => array(
+					'type' => array( 'slider' ),
+				),
 			),
 			'slides_per_view' => array(
 				'type'        => 'slider',
@@ -522,6 +562,9 @@ class TM_Testimonials_Shortcode {
 				'max_value'   => 8,
 				'min_value'   => 1,
 				'master'      => 'testi-slider-options',
+				'condition'   => array(
+					'type' => array( 'slider' ),
+				),
 			),
 			'space_between_phone' => array(
 				'type'        => 'slider',
@@ -531,6 +574,9 @@ class TM_Testimonials_Shortcode {
 				'max_value'   => 100,
 				'min_value'   => 0,
 				'master'      => 'testi-slider-options',
+				'condition'   => array(
+					'type' => array( 'slider' ),
+				),
 			),
 			'space_between_tablet' => array(
 				'type'        => 'slider',
@@ -540,6 +586,9 @@ class TM_Testimonials_Shortcode {
 				'max_value'   => 100,
 				'min_value'   => 0,
 				'master'      => 'testi-slider-options',
+				'condition'   => array(
+					'type' => array( 'slider' ),
+				),
 			),
 			'space_between_laptop' => array(
 				'type'        => 'slider',
@@ -549,6 +598,9 @@ class TM_Testimonials_Shortcode {
 				'max_value'   => 100,
 				'min_value'   => 0,
 				'master'      => 'testi-slider-options',
+				'condition'   => array(
+					'type' => array( 'slider' ),
+				),
 			),
 			'space_between' => array(
 				'type'        => 'slider',
@@ -558,6 +610,9 @@ class TM_Testimonials_Shortcode {
 				'max_value'   => 100,
 				'min_value'   => 0,
 				'master'      => 'testi-slider-options',
+				'condition'   => array(
+					'type' => array( 'slider' ),
+				),
 			),
 			'template' => array(
 				'type'        => 'select',
