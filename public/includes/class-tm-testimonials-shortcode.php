@@ -62,12 +62,12 @@ class TM_Testimonials_Shortcode {
 
 		if ( defined( 'ELEMENTOR_VERSION' ) ) {
 
-			require_once( TM_TESTI_DIR . 'includes/ext-elementor/class-tm-testimonials-elementor-compat.php' );
+			require_once( TM_TESTI_DIR . 'includes/ext/class-tm-testimonials-elementor-compat.php' );
 
 			tm_testimonials_elementor_compat( array(
 				$this->get_tag() => array(
 					'title' => esc_html__( 'Cherry Testi', 'cherry-test' ),
-					'file'  => TM_TESTI_DIR . 'includes/ext-elementor/class-tm-testimonials-elementor-module.php',
+					'file'  => TM_TESTI_DIR . 'includes/ext/class-tm-testimonials-elementor-module.php',
 					'class' => 'TM_Testimonials_Elementor_Widget',
 					'icon'  => 'eicon-testimonial',
 					'atts'  => $this->get_shortcode_atts(),
