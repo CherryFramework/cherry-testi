@@ -25,14 +25,6 @@ class TM_Testimonials_Shortcode {
 	public static $name = 'testimonials';
 
 	/**
-	 * A reference to an instance of this class.
-	 *
-	 * @since 1.0.0
-	 * @var   object
-	 */
-	private static $instance = null;
-
-	/**
 	 * Unique shortcode prefix.
 	 *
 	 * @since 1.0.0
@@ -41,12 +33,24 @@ class TM_Testimonials_Shortcode {
 	private $prefix = 'tm_';
 
 	/**
+	 * A reference to an instance of this class.
+	 *
+	 * @since 1.0.0
+	 * @var   object
+	 */
+	private static $instance = null;
+
+	/**
 	 * Sets up our actions/filters.
 	 *
 	 * @since 1.0.0
 	 */
 	public function __construct() {
 		add_action( 'init', array( $this, 'register_shortcode' ) );
+
+		if ( is_admin() ) {
+			$this->register_shortcode_for_builder();
+		}
 	}
 
 	/**
@@ -55,9 +59,23 @@ class TM_Testimonials_Shortcode {
 	 * @since 1.0.0
 	 */
 	public function register_shortcode() {
-		$prefix = $this->get_prefix();
 
-		add_shortcode( $prefix . 'testimonials', array( $this, 'do_shortcode' ) );
+		if ( defined( 'ELEMENTOR_VERSION' ) ) {
+
+			require_once( TM_TESTI_DIR . 'includes/ext/class-tm-testimonials-elementor-compat.php' );
+
+			tm_testimonials_elementor_compat( array(
+				$this->get_tag() => array(
+					'title' => esc_html__( 'Cherry Testi', 'cherry-test' ),
+					'file'  => TM_TESTI_DIR . 'includes/ext/class-tm-testimonials-elementor-module.php',
+					'class' => 'TM_Testimonials_Elementor_Widget',
+					'icon'  => 'eicon-testimonial',
+					'atts'  => $this->get_shortcode_atts(),
+				),
+			) );
+		}
+
+		add_shortcode( $this->get_tag(), array( $this, 'do_shortcode' ) );
 	}
 
 	/**
@@ -72,7 +90,7 @@ class TM_Testimonials_Shortcode {
 	public function do_shortcode( $atts, $content = null, $shortcode = 'testimonials' ) {
 
 		// Set up the default arguments.
-		$defaults = wp_list_pluck( $this->get_shortcode_atts(), 'default' );
+		$defaults = wp_list_pluck( $this->get_shortcode_atts(), 'value' );
 
 		/**
 		 * Parse the arguments.
@@ -85,9 +103,8 @@ class TM_Testimonials_Shortcode {
 		$atts['echo'] = false;
 
 		// Fix integers.
-		if ( isset( $atts['limit'] ) ) {
-			$atts['limit'] = intval( $atts['limit'] );
-		}
+		$atts['limit'] = intval( $atts['limit'] );
+		$atts['content_length'] = intval( $atts['content_length'] );
 
 		if ( isset( $atts['size'] ) && ( 0 < intval( $atts['size'] ) ) ) {
 			$atts['size'] = intval( $atts['size'] );
@@ -115,22 +132,18 @@ class TM_Testimonials_Shortcode {
 			$atts['type'] = 'list';
 		}
 
-		$atts['content_length'] = intval( $atts['content_length'] );
-
-		// CSS classes.
-		$custom_class  = $atts['custom_class'];
-
-		if ( 'list' === $atts['type']  ) {
+		if ( 'list' === $atts['type'] ) {
 			$extra_classes = array( 'tm-testi__wrap--shortcode', 'tm-testi__wrap--listing' );
 		} else {
 			$extra_classes = array( 'tm-testi__wrap--shortcode', 'swiper-container', 'tm-testi-slider' );
 			$atts          = $this->prepare_slider_atts( $defaults, $atts );
 		}
 
-		if ( ! empty( $custom_class ) ) {
-			array_push( $extra_classes, $custom_class );
+		if ( ! empty( $atts['custom_class'] ) ) {
+			array_push( $extra_classes, $atts['custom_class'] );
 		}
 
+		// CSS classes.
 		$atts['custom_class'] = join( ' ', $extra_classes );
 
 		$data = TM_Testimonials_Data::get_instance();
@@ -149,23 +162,15 @@ class TM_Testimonials_Shortcode {
 	public function prepare_slider_atts( $defaults, $atts ) {
 		$atts['context'] = 'slider';
 
-		// Fix boolean.
-		if ( isset( $atts['loop'] ) && ( 'on' == $atts['loop'] ) ) {
-			$atts['loop'] = true;
-		} else {
-			$atts['loop'] = false;
-		}
+		$var_to_bool = array(
+			'loop',
+			'pagination',
+			'navigation',
+		);
 
-		if ( isset( $atts['pagination'] ) && ( 'on' == $atts['pagination'] ) ) {
-			$atts['pagination'] = true;
-		} else {
-			$atts['pagination'] = false;
-		}
-
-		if ( isset( $atts['navigation'] ) && ( 'on' == $atts['navigation'] ) ) {
-			$atts['navigation'] = true;
-		} else {
-			$atts['navigation'] = false;
+		// Fix booleans.
+		foreach ( $var_to_bool as $v ) {
+			$atts[ $v ] = filter_var( $atts[ $v ], FILTER_VALIDATE_BOOLEAN );
 		}
 
 		// Fix slides_per_view
@@ -175,7 +180,7 @@ class TM_Testimonials_Shortcode {
 
 		// Fix space_between
 		foreach ( array( 'space_between', 'space_between_laptop', 'space_between_tablet', 'space_between_phone' ) as $val ) {
-			$atts[ $val ] = ( 0 !== intval( $atts[ $val ] ) ) ? intval( $atts[ $val ] ) : 15;
+			$atts[ $val ] = absint( $atts[ $val ] );
 		}
 
 		$atts['data_atts'] = apply_filters( 'tm_testimonials_slider_data_atts', array(
@@ -211,6 +216,33 @@ class TM_Testimonials_Shortcode {
 	}
 
 	/**
+	 * Register shortcode for shortcodes builder.
+	 *
+	 * @since 1.1.0
+	 */
+	public function register_shortcode_for_builder() {
+		tm_testimonials_plugin()->get_core()->init_module( 'cherry5-insert-shortcode', array() );
+
+		cherry5_register_shortcode(
+			array(
+				'title'       => esc_html__( 'Testimonials', 'cherry-testi' ),
+				'description' => esc_html__( 'A testimonials management plugin for WordPress', 'cherry-testi' ),
+				'icon'        => '<span class="dashicons dashicons-testimonial"></span>',
+				'slug'        => 'cherry-testi-plugin',
+				'shortcodes'  => array(
+					array(
+						'title'       => esc_html__( 'Testimonials', 'cherry-testi' ),
+						'description' => esc_html__( 'Shortcode is used to display the testimonials', 'cherry-testi' ),
+						'icon'        => '<span class="dashicons dashicons-testimonial"></span>',
+						'slug'        => $this->get_tag(),
+						'options'     => $this->get_shortcode_atts(),
+					),
+				),
+			)
+		);
+	}
+
+	/**
 	 * Retrieve a shortcode prefix.
 	 *
 	 * @since  1.0.0
@@ -227,169 +259,396 @@ class TM_Testimonials_Shortcode {
 	}
 
 	/**
+	 * Retrieve a shortcode tag.
+	 *
+	 * @since  1.0.0
+	 * @return string
+	 */
+	public function get_tag() {
+		$tag = $this->get_prefix() . self::$name;
+
+		/**
+		 * Filters a shortcode tag.
+		 *
+		 * @since 1.0.0
+		 * @param string $name Shortcode tag.
+		 */
+		return apply_filters( $tag . '_shortcode_name', $tag );
+	}
+
+	/**
 	 * Retrieve a shortcode attributes.
 	 *
 	 * @since  1.0.0
 	 * @return array
 	 */
 	public function get_shortcode_atts() {
-		return array(
+		return apply_filters( 'tm_testimonials_get_shortcode_atts', array(
 			'type' => array(
+				'type'        => 'select',
+				'title'       => esc_html__( 'Type', 'cherry-testi' ),
+				'description' => esc_html__( 'Layout type (`list` or `slider`)', 'cherry-testi' ),
+				'options'     => array(
+					'list'   => esc_html__( 'List', 'cherry-testi' ),
+					'slider' => array(
+						'label' => esc_html__( 'Slider', 'cherry-testi' ),
+						'slave' => 'testi-slider-options',
+					),
+				),
+				'value'   => 'list',
 				'default' => 'list',
-				'name'    => esc_html__( 'Type', 'cherry-testi' ),
-				'desc'    => esc_html__( 'Layout type (`list` or `slider`)', 'cherry-testi' ),
 			),
 			'sup_title' => array(
-				'default' => '',
-				'name'    => esc_html__( 'Suptitle', 'cherry-testi' ),
-				'desc'    => esc_html__( 'Text before main title', 'cherry-testi' ),
+				'type'        => 'text',
+				'value'       => '',
+				'title'       => esc_html__( 'Super title', 'cherry-testi' ),
+				'description' => esc_html__( 'Text before main title', 'cherry-testi' ),
+				'value'       => '',
 			),
 			'title' => array(
-				'default' => '',
-				'name'    => esc_html__( 'Title', 'cherry-testi' ),
-				'desc'    => esc_html__( 'Main title', 'cherry-testi' ),
+				'type'        => 'text',
+				'title'       => esc_html__( 'Title', 'cherry-testi' ),
+				'description' => esc_html__( 'Main title', 'cherry-testi' ),
+				'value'       => '',
 			),
 			'sub_title' => array(
-				'default' => '',
-				'name'    => esc_html__( 'Subtitle', 'cherry-testi' ),
-				'desc'    => esc_html__( 'Text after main title', 'cherry-testi' ),
+				'type'        => 'text',
+				'title'       => esc_html__( 'Subtitle', 'cherry-testi' ),
+				'description' => esc_html__( 'Text after main title', 'cherry-testi' ),
+				'value'       => '',
 			),
 			'limit' => array(
-				'default' => 3,
-				'name'    => esc_html__( 'Limit', 'cherry-testi' ),
-				'desc'    => esc_html__( 'Testimonials number to show', 'cherry-testi' ),
+				'type'        => 'slider',
+				'title'       => esc_html__( 'Limit', 'cherry-testi' ),
+				'description' => esc_html__( 'Testimonials number to show (-1 means that will show all testimonials)', 'cherry-testi' ),
+				'value'       => 3,
+				'max_value'   => 50,
+				'min_value'   => -1,
 			),
 			'orderby' => array(
+				'type'        => 'select',
+				'title'       => esc_html__( 'Order by', 'cherry-testi' ),
+				'description' => esc_html__( 'Order testimonials by', 'cherry-testi' ),
+				'options'     => array(
+					'none'          => esc_html__( 'None', 'cherry-testi' ),
+					'ID'            => esc_html__( 'Post ID', 'cherry-testi' ),
+					'author'        => esc_html__( 'Post author', 'cherry-testi' ),
+					'title'         => esc_html__( 'Post title', 'cherry-testi' ),
+					'name'          => esc_html__( 'Post slug', 'cherry-testi' ),
+					'date'          => esc_html__( 'Date', 'cherry-testi' ),
+					'modified'      => esc_html__( 'Last modified date', 'cherry-testi' ),
+					'parent'        => esc_html__( 'Post parent', 'cherry-testi' ),
+					'rand'          => esc_html__( 'Random', 'cherry-testi' ),
+					'comment_count' => esc_html__( 'Comments number', 'cherry-testi' ),
+					'menu_order'    => esc_html__( 'Menu order', 'cherry-testi' ),
+				),
+				'value'   => 'date',
 				'default' => 'date',
-				'name'    => esc_html__( 'Order by', 'cherry-testi' ),
-				'desc'    => esc_html__( 'Order testimonials by', 'cherry-testi' ),
 			),
 			'order' => array(
+				'type'        => 'select',
+				'title'       => esc_html__( 'Order', 'cherry-testi' ),
+				'description' => esc_html__( 'Testimonials order', 'cherry-testi' ),
+				'options'     => array(
+					'ASC'  => esc_html__( 'Ascending', 'cherry-testi' ),
+					'DESC' => esc_html__( 'Descending', 'cherry-testi' ),
+				),
+				'value'   => 'DESC',
 				'default' => 'DESC',
-				'name'    => esc_html__( 'Order', 'cherry-testi' ),
-				'desc'    => esc_html__( 'Testimonials order (`DESC` or `ASC`)', 'cherry-testi' ),
 			),
 			'category' => array(
-				'default'  => '',
-				'name'     => esc_html__( 'Category', 'cherry-testi' ),
-				'desc'     => esc_html__( 'Select category to show testimonials from (use category slug, pass multiplie categories via comma)', 'cherry-testi' ),
+				'type'        => 'select',
+				'title'       => esc_html__( 'Category', 'cherry-testi' ),
+				'description' => esc_html__( 'Select category to show testimonials from (use category slug, pass multiplie categories via comma)', 'cherry-testi' ),
+				'class'       => 'cherry-multi-select',
+				'multiple'    => true,
+				'options'     => false,
+				'options_cb'  => array( $this, 'get_categories' ),
+				'value'       => '',
 			),
 			'ids' => array(
-				'default' => 0,
-				'name'    => esc_html__( "Post ID's", 'cherry-testi' ),
-				'desc'    => esc_html__( "Enter comma separated ID's of the testimonials that you want to show", 'cherry-testi' ),
+				'type'        => 'text',
+				'title'       => esc_html__( "Post ID's", 'cherry-testi' ),
+				'description' => esc_html__( "Enter comma separated ID's of the testimonials that you want to show", 'cherry-testi' ),
+				'value'       => '',
 			),
 			'content_length' => array(
-				'default' => 55,
-				'name'    => esc_html__( 'Content Length', 'cherry-testi' ),
-				'desc'    => esc_html__( 'Insert the number of words you want to show in the testimonial content.', 'cherry-testi' ),
+				'type'        => 'slider',
+				'title'       => esc_html__( 'Content Length', 'cherry-testi' ),
+				'description' => esc_html__( 'The number of words you want to show in the testimonial content.', 'cherry-testi' ),
+				'value'       => 55,
+				'max_value'   => 150,
+				'min_value'   => -1,
 			),
 			'divider' => array(
+				'type'        => 'switcher',
+				'title'       => esc_html__( 'Divider', 'cherry-testi' ),
+				'description' => esc_html__( 'Divider between title and testimonials', 'cherry-testi' ),
+				'toggle'      => array(
+					'true_toggle'  => esc_html__( 'On', 'cherry-testi' ),
+					'false_toggle' => esc_html__( 'Off', 'cherry-testi' ),
+				),
+				'value'   => 'off',
 				'default' => 'off',
-				'name'    => esc_html__( 'Divider', 'cherry-testi' ),
-				'desc'    => esc_html__( 'Show divider between title and testimonials', 'cherry-testi' ),
 			),
 			'show_avatar' => array(
+				'type'        => 'switcher',
+				'title'       => esc_html__( 'Avatar', 'cherry-testi' ),
+				'description' => esc_html__( "Author's avatar", 'cherry-testi' ),
+				'toggle'      => array(
+					'true_toggle'  => esc_html__( 'On', 'cherry-testi' ),
+					'false_toggle' => esc_html__( 'Off', 'cherry-testi' ),
+					'true_slave'   => 'testi-avatar-visible-true',
+				),
+				'value'   => 'on',
 				'default' => 'on',
-				'name'    => esc_html__( 'Avatar', 'cherry-testi' ),
-				'desc'    => esc_html__( "Show author's avatar", 'cherry-testi' ),
 			),
 			'size' => array(
-				'default' => 100,
-				'name'    => esc_html__( 'Avatar size', 'cherry-testi' ),
-				'desc'    => esc_html__( 'Avatar size (in pixels)', 'cherry-testi' ),
+				'type'        => 'slider',
+				'title'       => esc_html__( 'Avatar size', 'cherry-testi' ),
+				'description' => esc_html__( 'Avatar size (in pixels)', 'cherry-testi' ),
+				'master'      => 'testi-avatar-visible-true',
+				'value'       => 100,
+				'max_value'   => 500,
+				'min_value'   => 50,
 			),
 			'show_email' => array(
+				'type'        => 'switcher',
+				'title'       => esc_html__( 'Email', 'cherry-testi' ),
+				'description' => esc_html__( "Author's email", 'cherry-testi' ),
+				'toggle'      => array(
+					'true_toggle'  => esc_html__( 'On', 'cherry-testi' ),
+					'false_toggle' => esc_html__( 'Off', 'cherry-testi' ),
+				),
+				'value'   => 'on',
 				'default' => 'on',
-				'name'    => esc_html__( 'Email', 'cherry-testi' ),
-				'desc'    => esc_html__( "Show author's email", 'cherry-testi' ),
 			),
 			'show_position' => array(
+				'type'        => 'switcher',
+				'title'       => esc_html__( 'Position', 'cherry-testi' ),
+				'description' => esc_html__( "Author's position", 'cherry-testi' ),
+				'toggle'      => array(
+					'true_toggle'  => esc_html__( 'On', 'cherry-testi' ),
+					'false_toggle' => esc_html__( 'Off', 'cherry-testi' ),
+				),
+				'value'   => 'on',
 				'default' => 'on',
-				'name'    => esc_html__( 'Position', 'cherry-testi' ),
-				'desc'    => esc_html__( "Show author's position", 'cherry-testi' ),
 			),
 			'show_company' => array(
+				'type'        => 'switcher',
+				'title'       => esc_html__( 'Company', 'cherry-testi' ),
+				'description' => esc_html__( "Author's company", 'cherry-testi' ),
+				'toggle'      => array(
+					'true_toggle'  => esc_html__( 'On', 'cherry-testi' ),
+					'false_toggle' => esc_html__( 'Off', 'cherry-testi' ),
+				),
+				'value'   => 'on',
 				'default' => 'on',
-				'name'    => esc_html__( 'Company', 'cherry-testi' ),
-				'desc'    => esc_html__( "Show author's company", 'cherry-testi' ),
 			),
 			'autoplay' => array(
-				'default' => 7000,
-				'name'    => esc_html__( 'Autoplay', 'cherry-testi' ),
-				'desc'    => esc_html__( 'Delay between transitions, in ms (only for slider)', 'cherry-testi' ),
+				'type'        => 'slider',
+				'title'       => esc_html__( 'Autoplay', 'cherry-testi' ),
+				'description' => esc_html__( 'Delay between transitions, in ms (only for slider)', 'cherry-testi' ),
+				'value'       => 7000,
+				'max_value'   => 15000,
+				'min_value'   => 500,
+				'step_value'  => 500,
+				'master'      => 'testi-slider-options',
+				'condition'   => array(
+					'type' => array( 'slider' ),
+				),
 			),
 			'effect' => array(
+				'type'        => 'select',
+				'title'       => esc_html__( 'Effect', 'cherry-testi' ),
+				'description' => esc_html__( 'Could be "slide" or "fade" (only for slider)', 'cherry-testi' ),
+				'options'     => array(
+					'slide' => esc_html__( 'Slide', 'cherry-testi' ),
+					'fade'  => esc_html__( 'Fade', 'cherry-testi' ),
+				),
+				'value'   => 'slide',
 				'default' => 'slide',
-				'name'    => esc_html__( 'Effect', 'cherry-testi' ),
-				'desc'    => esc_html__( 'Could be "slide" or "fade" (only for slider)', 'cherry-testi' ),
+				'master'  => 'testi-slider-options',
+				'condition'   => array(
+					'type' => array( 'slider' ),
+				),
 			),
 			'loop' => array(
+				'type'        => 'switcher',
+				'title'       => esc_html__( 'Loop', 'cherry-testi' ),
+				'description' => esc_html__( 'Set to on to enable continuous loop mode (only for slider)', 'cherry-testi' ),
+				'toggle'      => array(
+					'true_toggle'  => esc_html__( 'On', 'cherry-testi' ),
+					'false_toggle' => esc_html__( 'Off', 'cherry-testi' ),
+				),
+				'value'   => 'on',
 				'default' => 'on',
-				'name'    => esc_html__( 'Loop', 'cherry-testi' ),
-				'desc'    => esc_html__( 'Set to on to enable continuous loop mode (only for slider)', 'cherry-testi' ),
+				'master'  => 'testi-slider-options',
+				'condition'   => array(
+					'type' => array( 'slider' ),
+				),
 			),
 			'pagination' => array(
+				'type'        => 'switcher',
+				'title'       => esc_html__( 'Pagination', 'cherry-testi' ),
+				'description' => esc_html__( 'Pagination (only for slider)', 'cherry-testi' ),
+				'toggle'      => array(
+					'true_toggle'  => esc_html__( 'On', 'cherry-testi' ),
+					'false_toggle' => esc_html__( 'Off', 'cherry-testi' ),
+				),
+				'value'   => 'on',
 				'default' => 'on',
-				'name'    => esc_html__( 'Pagination', 'cherry-testi' ),
-				'desc'    => esc_html__( 'Show pagination (only for slider)', 'cherry-testi' ),
+				'master'  => 'testi-slider-options',
+				'condition'   => array(
+					'type' => array( 'slider' ),
+				),
 			),
 			'navigation' => array(
+				'type'        => 'switcher',
+				'title'       => esc_html__( 'Navigation', 'cherry-testi' ),
+				'description' => esc_html__( 'Navigation (only for slider)', 'cherry-testi' ),
+				'toggle'      => array(
+					'true_toggle'  => esc_html__( 'On', 'cherry-testi' ),
+					'false_toggle' => esc_html__( 'Off', 'cherry-testi' ),
+				),
+				'value'   => 'on',
 				'default' => 'on',
-				'name'    => esc_html__( 'Navigation', 'cherry-testi' ),
-				'desc'    => esc_html__( 'Show navigation (only for slider)', 'cherry-testi' ),
+				'master'  => 'testi-slider-options',
+				'condition'   => array(
+					'type' => array( 'slider' ),
+				),
 			),
 			'slides_per_view_phone' => array(
-				'default' => 1,
-				'name'    => esc_html__( 'Number of slides per view on phones', 'cherry-testi' ),
-				'desc'    => esc_html__( "Slides visible at the same time on slider's containe (only for slider on phones)", 'cherry-testi' ),
+				'type'        => 'slider',
+				'title'       => esc_html__( 'Number of slides per view on small screen / phone', 'cherry-testi' ),
+				'description' => esc_html__( "Slides visible at the same time on slider's containe (only for slider with 'slide' effect on small screen / phone)", 'cherry-testi' ),
+				'value'       => 1,
+				'max_value'   => 2,
+				'min_value'   => 1,
+				'master'      => 'testi-slider-options',
+				'condition'   => array(
+					'type' => array( 'slider' ),
+				),
 			),
 			'slides_per_view_tablet' => array(
-				'default' => 1,
-				'name'    => esc_html__( 'Number of slides per view on tablets', 'cherry-testi' ),
-				'desc'    => esc_html__( "Slides visible at the same time on slider's containe (only for slider on tablets)", 'cherry-testi' ),
+				'type'        => 'slider',
+				'title'       => esc_html__( 'Number of slides per view on medium screen / tablet', 'cherry-testi' ),
+				'description' => esc_html__( "Slides visible at the same time on slider's containe (only for slider with 'slide' effect on medium screen / tablet)", 'cherry-testi' ),
+				'value'       => 1,
+				'max_value'   => 4,
+				'min_value'   => 1,
+				'master'      => 'testi-slider-options',
+				'condition'   => array(
+					'type' => array( 'slider' ),
+				),
 			),
 			'slides_per_view_laptop' => array(
-				'default' => 1,
-				'name'    => esc_html__( 'Number of slides per view on laptops', 'cherry-testi' ),
-				'desc'    => esc_html__( "Slides visible at the same time on slider's containe (only for slider on laptops)", 'cherry-testi' ),
+				'type'        => 'slider',
+				'title'       => esc_html__( 'Number of slides per view on large screen / desktop', 'cherry-testi' ),
+				'description' => esc_html__( "Slides visible at the same time on slider's containe (only for slider with 'slide' effect on large screen / desktop)", 'cherry-testi' ),
+				'value'       => 1,
+				'max_value'   => 6,
+				'min_value'   => 1,
+				'master'      => 'testi-slider-options',
+				'condition'   => array(
+					'type' => array( 'slider' ),
+				),
 			),
 			'slides_per_view' => array(
-				'default' => 1,
-				'name'    => esc_html__( 'Number of slides per view on desktops', 'cherry-testi' ),
-				'desc'    => esc_html__( "Slides visible at the same time on slider's containe (only for slider on desktops)", 'cherry-testi' ),
+				'type'        => 'slider',
+				'title'       => esc_html__( 'Number of slides per view on extra large screen / wide desktop', 'cherry-testi' ),
+				'description' => esc_html__( "Slides visible at the same time on slider's containe (only for slider with 'slide' effect on extra large screen / wide desktop)", 'cherry-testi' ),
+				'value'       => 1,
+				'max_value'   => 8,
+				'min_value'   => 1,
+				'master'      => 'testi-slider-options',
+				'condition'   => array(
+					'type' => array( 'slider' ),
+				),
 			),
 			'space_between_phone' => array(
-				'default' => 15,
-				'name'    => esc_html__( 'Space between on phones', 'cherry-testi' ),
-				'desc'    => esc_html__( 'Distance between slides in px (only for slider on phones)', 'cherry-testi' ),
+				'type'        => 'slider',
+				'title'       => esc_html__( 'Space between on small screen / phone', 'cherry-testi' ),
+				'description' => esc_html__( 'Distance between slides in px (only for slider on small screen / phone)', 'cherry-testi' ),
+				'value'       => 15,
+				'max_value'   => 100,
+				'min_value'   => 0,
+				'master'      => 'testi-slider-options',
+				'condition'   => array(
+					'type' => array( 'slider' ),
+				),
 			),
 			'space_between_tablet' => array(
-				'default' => 15,
-				'name'    => esc_html__( 'Space between on tablets', 'cherry-testi' ),
-				'desc'    => esc_html__( 'Distance between slides in px (only for slider on tablets)', 'cherry-testi' ),
+				'type'        => 'slider',
+				'title'       => esc_html__( 'Space between on medium screen / tablet', 'cherry-testi' ),
+				'description' => esc_html__( 'Distance between slides in px (only for slider on medium screen / tablet)', 'cherry-testi' ),
+				'value'       => 15,
+				'max_value'   => 100,
+				'min_value'   => 0,
+				'master'      => 'testi-slider-options',
+				'condition'   => array(
+					'type' => array( 'slider' ),
+				),
 			),
 			'space_between_laptop' => array(
-				'default' => 15,
-				'name'    => esc_html__( 'Space between on laptops', 'cherry-testi' ),
-				'desc'    => esc_html__( 'Distance between slides in px (only for slider on laptops)', 'cherry-testi' ),
+				'type'        => 'slider',
+				'title'       => esc_html__( 'Space between on large screen / desktop', 'cherry-testi' ),
+				'description' => esc_html__( 'Distance between slides in px (only for slider on large screen / desktop)', 'cherry-testi' ),
+				'value'       => 15,
+				'max_value'   => 100,
+				'min_value'   => 0,
+				'master'      => 'testi-slider-options',
+				'condition'   => array(
+					'type' => array( 'slider' ),
+				),
 			),
 			'space_between' => array(
-				'default' => 15,
-				'name'    => esc_html__( 'Space between', 'cherry-testi' ),
-				'desc'    => esc_html__( 'Distance between slides in px (only for slider on desktops)', 'cherry-testi' ),
+				'type'        => 'slider',
+				'title'       => esc_html__( 'Space between on extra large screen / wide desktop', 'cherry-testi' ),
+				'description' => esc_html__( 'Distance between slides in px (only for slider on extra large screen / wide desktop)', 'cherry-testi' ),
+				'value'       => 15,
+				'max_value'   => 100,
+				'min_value'   => 0,
+				'master'      => 'testi-slider-options',
+				'condition'   => array(
+					'type' => array( 'slider' ),
+				),
 			),
 			'template' => array(
-				'default' => 'default.tmpl',
-				'name'    => esc_html__( 'Template', 'cherry-testi' ),
-				'desc'    => esc_html__( 'Template name to use', 'cherry-testi' ),
+				'type'        => 'select',
+				'title'       => esc_html__( 'Template', 'cherry-testi' ),
+				'description' => esc_html__( 'Template name to use', 'cherry-testi' ),
+				'options'     => false,
+				'options_cb'  => array( tm_testimonials_page_template(), 'get_templates_list' ),
+				'value'       => 'default.tmpl',
+				'default'     => 'default.tmpl',
 			),
 			'custom_class' => array(
-				'default' => '',
-				'name'    => esc_html__( 'Class', 'cherry-testi' ),
-				'desc'    => esc_html__( 'Extra CSS class', 'cherry-testi' ),
+				'type'        => 'text',
+				'title'       => esc_html__( 'Class', 'cherry-testi' ),
+				'description' => esc_html__( 'Extra CSS class', 'cherry-testi' ),
+				'value'       => '',
 			),
-		);
+		), $this );
+	}
+
+	/**
+	 * Returns categories list.
+	 *
+	 * @since 1.1.0
+	 * @return array
+	 */
+	public function get_categories() {
+		$post_type  = tm_testimonials_plugin()->get_post_type_name();
+		$tax_name   = $post_type . '_category';
+		$utility    = tm_testimonials_plugin()->get_core()->init_module( 'cherry-utility', array() );
+		$categories = $utility->utility->satellite->get_terms_array( $tax_name, 'slug' );
+
+		if ( empty( $categories ) ) {
+			return array();
+		}
+
+		return $categories;
 	}
 
 	/**
@@ -409,4 +668,10 @@ class TM_Testimonials_Shortcode {
 	}
 }
 
-TM_Testimonials_Shortcode::get_instance();
+if ( ! function_exists( 'tm_testimonials_shortcode' ) ) {
+	function tm_testimonials_shortcode() {
+		return TM_Testimonials_Shortcode::get_instance();
+	}
+
+	tm_testimonials_shortcode();
+}

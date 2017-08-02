@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: Cherry Testimonials
- * Plugin URI:  http://www.cherryframework.com/plugins/
+ * Plugin URI:
  * Description: A testimonials management plugin for WordPress.
- * Version:     1.0.1
- * Author:      Template Monster
- * Author URI:  http://www.cherryframework.com/
+ * Version:     1.1.0
+ * Author:      JetImpex
+ * Author URI:  https://jetimpex.com/wordpress/
  * Text Domain: cherry-testi
  * License:     GPL-3.0+
  * License URI: http://www.gnu.org/licenses/gpl-3.0.txt
@@ -104,7 +104,7 @@ if ( ! class_exists( 'TM_Testimonials_Plugin' ) ) {
 			 *
 			 * @since 1.0.0
 			 */
-			define( 'TM_TESTI_VERSION', '1.0.1' );
+			define( 'TM_TESTI_VERSION', '1.1.0' );
 
 			/**
 			 * Set the name for the `meta_key` value in the `wp_postmeta` table.
@@ -175,9 +175,12 @@ if ( ! class_exists( 'TM_Testimonials_Plugin' ) ) {
 				'base_url' => TM_TESTI_URI . 'cherry-framework',
 				'modules'  => array(
 					'cherry-js-core' => array(
-						'autoload' => false,
+						'autoload' => true,
 					),
 					'cherry-ui-elements' => array(
+						'autoload' => false,
+					),
+					'cherry-utility' => array(
 						'autoload' => false,
 					),
 					'cherry-interface-builder' => array(
@@ -187,6 +190,9 @@ if ( ! class_exists( 'TM_Testimonials_Plugin' ) ) {
 						'autoload' => false,
 					),
 					'cherry-post-meta' => array(
+						'autoload' => false,
+					),
+					'cherry5-insert-shortcode' => array(
 						'autoload' => false,
 					),
 				),
@@ -230,7 +236,7 @@ if ( ! class_exists( 'TM_Testimonials_Plugin' ) ) {
 			wp_enqueue_style( 'cherry-testi', plugins_url( 'public/assets/css/style.css', __FILE__ ), array( 'jquery-swiper' ), TM_TESTI_VERSION );
 
 			wp_register_script( 'jquery-swiper', plugins_url( "includes/swiper/js/swiper.jquery{$min}.js", __FILE__ ), array( 'jquery' ), '3.3.1', true );
-			wp_register_script( 'cherry-testi-public', plugins_url( "public/assets/js/public{$min}.js", __FILE__ ), array( 'jquery-swiper' ), TM_TESTI_VERSION, true );
+			wp_register_script( 'cherry-testi-public', plugins_url( "public/assets/js/public{$min}.js", __FILE__ ), array( 'jquery-swiper' ), apply_filters( 'tm_testimonials_public_scripts_ver', TM_TESTI_VERSION ), true );
 		}
 
 		/**

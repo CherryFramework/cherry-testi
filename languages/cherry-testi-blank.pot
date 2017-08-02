@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cherry Testimonials\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/plugins/plugin-name\n"
-"POT-Creation-Date: 2016-06-09 18:21+0300\n"
+"POT-Creation-Date: 2017-05-09 23:01+0300\n"
 "PO-Revision-Date: 2014-08-20 15:31+0200\n"
 "Last-Translator: FULL NAME <email@example.com>\n"
 "Language-Team: Cherry Team <translations@example.com >\n"
@@ -13,97 +13,259 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.7\n"
+"X-Generator: Poedit 2.0.1\n"
 "X-Poedit-KeywordsList: __;_e;_n;_x;esc_html_e;esc_html__;esc_attr_e;"
 "esc_attr__;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;_x:1,2c;_n:1,2\n"
 "X-Poedit-Basepath: .\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Poedit-SearchPath-0: ..\n"
 
-#: ../admin/includes/class-tm-testimonials-admin.php:72
+#: ../admin/includes/class-tm-testimonials-admin.php:70
 msgid "Testimonial Options"
 msgstr ""
 
-#: ../admin/includes/class-tm-testimonials-admin.php:83
+#: ../admin/includes/class-tm-testimonials-admin.php:81
 msgid "Email:"
 msgstr ""
 
-#: ../admin/includes/class-tm-testimonials-admin.php:84
+#: ../admin/includes/class-tm-testimonials-admin.php:82
 msgid "email@demolink.org"
 msgstr ""
 
-#: ../admin/includes/class-tm-testimonials-admin.php:92
+#: ../admin/includes/class-tm-testimonials-admin.php:90
 msgid "URL:"
 msgstr ""
 
-#: ../admin/includes/class-tm-testimonials-admin.php:93
+#: ../admin/includes/class-tm-testimonials-admin.php:91
 msgid "http://demolink.org"
 msgstr ""
 
-#: ../admin/includes/class-tm-testimonials-admin.php:101
+#: ../admin/includes/class-tm-testimonials-admin.php:99
 msgid "Position:"
 msgstr ""
 
-#: ../admin/includes/class-tm-testimonials-admin.php:102
+#: ../admin/includes/class-tm-testimonials-admin.php:100
 msgid "CEO/Founder"
 msgstr ""
 
-#: ../admin/includes/class-tm-testimonials-admin.php:110
+#: ../admin/includes/class-tm-testimonials-admin.php:108
 msgid "Company Name:"
 msgstr ""
 
-#: ../admin/includes/class-tm-testimonials-admin.php:111
+#: ../admin/includes/class-tm-testimonials-admin.php:109
 msgid "Demo &amp; Co"
 msgstr ""
 
-#: ../admin/includes/class-tm-testimonials-admin.php:139
-msgid "Settings"
-msgstr ""
-
-#: ../admin/includes/class-tm-testimonials-admin.php:182
+#: ../admin/includes/class-tm-testimonials-admin.php:152
+#: ../public/includes/class-tm-testimonials-shortcode.php:389
 msgid "Avatar"
 msgstr ""
 
-#: ../admin/includes/class-tm-testimonials-admin.php:183
-msgid "Author"
+#: ../admin/includes/class-tm-testimonials-admin.php:153
+msgid "Author Name"
 msgstr ""
 
-#: ../admin/includes/class-tm-testimonials-admin.php:184
+#: ../admin/includes/class-tm-testimonials-admin.php:154
+#: ../public/includes/class-tm-testimonials-shortcode.php:421
 msgid "Position"
 msgstr ""
 
-#: ../admin/includes/class-tm-testimonials-admin.php:185
+#: ../admin/includes/class-tm-testimonials-admin.php:155
 msgid "Company Name"
 msgstr ""
 
-#: ../admin/includes/class-tm-testimonials-admin.php:186
+#: ../admin/includes/class-tm-testimonials-admin.php:156
+#: ../public/includes/class-tm-testimonials-registration.php:133
+#: ../public/includes/class-tm-testimonials-shortcode.php:354
+msgid "Category"
+msgstr ""
+
+#: ../admin/includes/class-tm-testimonials-admin.php:157
 msgid "Shortcode"
 msgstr ""
 
-#: ../admin/includes/class-tm-testimonials-admin.php:251
-msgid "General Settings"
+#: ../admin/includes/class-tm-testimonials-ajax.php:49
+#: ../admin/includes/class-tm-testimonials-ajax.php:62
+msgid "Unable to process the request without nonce or server error"
 msgstr ""
 
-#: ../admin/includes/class-tm-testimonials-admin.php:270
-msgid "Testimonails page"
+#: ../admin/includes/class-tm-testimonials-ajax.php:50
+#: ../admin/includes/class-tm-testimonials-ajax.php:63
+msgid "No capabilities for this action"
 msgstr ""
 
-#: ../admin/includes/class-tm-testimonials-admin.php:281
-msgid "Number of post to show per page"
+#: ../admin/includes/class-tm-testimonials-ajax.php:51
+#: ../admin/includes/class-tm-testimonials-ajax.php:64
+msgid "Sorry, you are not allowed to save settings"
 msgstr ""
 
-#: ../admin/includes/class-tm-testimonials-admin.php:291
-msgid "Shortcodes prefix"
+#: ../admin/includes/class-tm-testimonials-ajax.php:52
+msgid "Settings save successfully"
 msgstr ""
 
-#: ../admin/includes/class-tm-testimonials-admin.php:360
+#: ../admin/includes/class-tm-testimonials-ajax.php:65
+msgid "Settings reset successfully"
+msgstr ""
+
+#: ../admin/views/shortcode-settings.php:27
+msgid "Parameters list:"
+msgstr ""
+
+#: ../cherry-framework/modules/cherry-breadcrumbs/cherry-breadcrumbs.php:346
+msgid "Home"
+msgstr ""
+
+#: ../cherry-framework/modules/cherry-breadcrumbs/cherry-breadcrumbs.php:352
+msgid "Browse:"
+msgstr ""
+
+#: ../cherry-framework/modules/cherry-breadcrumbs/cherry-breadcrumbs.php:354
+msgid "404 Not Found"
+msgstr ""
+
+#: ../cherry-framework/modules/cherry-breadcrumbs/cherry-breadcrumbs.php:355
+msgid "Archives"
+msgstr ""
+
+#: ../cherry-framework/modules/cherry-breadcrumbs/cherry-breadcrumbs.php:356
+#, php-format
+msgid "Search results for &#8220;%s&#8221;"
+msgstr ""
+
+#: ../cherry-framework/modules/cherry-breadcrumbs/cherry-breadcrumbs.php:357
+#, php-format
+msgid "Page %s"
+msgstr ""
+
+#: ../cherry-framework/modules/cherry-breadcrumbs/cherry-breadcrumbs.php:358
+#, php-format
+msgid "Minute %s"
+msgstr ""
+
+#: ../cherry-framework/modules/cherry-breadcrumbs/cherry-breadcrumbs.php:359
+#, php-format
+msgid "Week %s"
+msgstr ""
+
+#: ../cherry-framework/modules/cherry-customizer/cherry-customizer.php:269
+msgid "Untitled Panel"
+msgstr ""
+
+#: ../cherry-framework/modules/cherry-customizer/cherry-customizer.php:305
+msgid "Untitled Section"
+msgstr ""
+
+#: ../cherry-framework/modules/cherry-customizer/cherry-customizer.php:338
+msgid "Untitled Control"
+msgstr ""
+
+#: ../cherry-framework/modules/cherry-db-updater/cherry-db-updater.php:105
+#, php-format
+msgid ""
+"Module DB Updater init error in %s - version and slug is required "
+"arguments"
+msgstr ""
+
+#: ../cherry-framework/modules/cherry-db-updater/cherry-db-updater.php:106
+msgid "We need to update your database to the latest version."
+msgstr ""
+
+#: ../cherry-framework/modules/cherry-db-updater/cherry-db-updater.php:107
+msgid "Update complete, thank you for updating to the latest version!"
+msgstr ""
+
+#: ../cherry-framework/modules/cherry-db-updater/cherry-db-updater.php:331
+msgid "Start Update"
+msgstr ""
+
+#: ../cherry-framework/modules/cherry-db-updater/cherry-db-updater.php:368
+msgid "Data Update"
+msgstr ""
+
+#: ../cherry-framework/modules/cherry5-insert-shortcode/inc/class-cherry5-insertion-button.php:63
+msgid "Cherry shortcodes"
+msgstr ""
+
+#: ../cherry-framework/modules/cherry5-insert-shortcode/inc/class-cherry5-insertion-popup.php:128
+msgid "insert shortcode"
+msgstr ""
+
+#: ../cherry-framework/modules/cherry5-insert-shortcode/inc/class-cherry5-insertion-popup.php:148
+msgid "Shortcode List"
+msgstr ""
+
+#: ../cherry-framework/modules/cherry5-insert-shortcode/inc/class-cherry5-insertion-popup.php:206
+msgid "Shortcode not found."
+msgstr ""
+
+#: ../cherry-framework/modules/cherry5-insert-shortcode/inc/class-cherry5-insertion-popup.php:285
+msgid "Shortcode content."
+msgstr ""
+
+#: ../cherry-framework/modules/cherry5-insert-shortcode/inc/class-cherry5-insertion-popup.php:286
+msgid "Input shortcode content."
+msgstr ""
+
+#: ../cherry-framework/modules/cherry5-insert-shortcode/inc/class-cherry5-insertion-popup.php:301
+msgid "Shortcode not a have options."
+msgstr ""
+
+#: ../includes/ext/class-tm-abstract-vc-compat.php:114
+msgid "Yes"
+msgstr ""
+
+#: ../includes/ext/class-tm-testimonials-vc-mapping.php:58
+msgid "Cherry Testimonials"
+msgstr ""
+
+#: ../includes/ext/class-tm-testimonials-vc-mapping.php:59
+#: ../public/includes/class-tm-testimonials-shortcode.php:229
+msgid "Shortcode is used to display the testimonials"
+msgstr ""
+
+#: ../includes/ext/class-tm-testimonials-vc-mapping.php:60
+msgid "Cherry"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-options.php:78
+#: ../public/includes/class-tm-testimonials-options.php:79
+#: ../public/includes/class-tm-testimonials-options.php:103
+msgid "Settings"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-options.php:111
+msgid "General"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-options.php:119
+msgid "Testimonails archive page"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-options.php:128
+msgid "Posts number per archive page"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-options.php:147
+msgid "Reset"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-options.php:155
+msgid "Save"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-options.php:178
+msgid "Shortcode settings"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-options.php:260
 msgid "&mdash;&nbsp;Select&nbsp;&mdash;"
 msgstr ""
 
 #: ../public/includes/class-tm-testimonials-registration.php:55
 #: ../public/includes/class-tm-testimonials-registration.php:57
 #: ../public/includes/class-tm-testimonials-registration.php:67
-#: ../public/includes/class-tm-testimonials-shortcode.php:78
+#: ../public/includes/class-tm-testimonials-shortcode.php:222
+#: ../public/includes/class-tm-testimonials-shortcode.php:228
 msgid "Testimonials"
 msgstr ""
 
@@ -168,11 +330,6 @@ msgstr ""
 msgid "Categories"
 msgstr ""
 
-#: ../public/includes/class-tm-testimonials-registration.php:133
-#: ../public/includes/class-tm-testimonials-shortcode.php:127
-msgid "Category"
-msgstr ""
-
 #: ../public/includes/class-tm-testimonials-registration.php:134
 msgid "Search Categories"
 msgstr ""
@@ -217,131 +374,348 @@ msgstr ""
 msgid "Enter author's name"
 msgstr ""
 
-#: ../public/includes/class-tm-testimonials-shortcode.php:79
-msgid "This is a Testimonials Shortcode"
+#: ../public/includes/class-tm-testimonials-shortcode.php:223
+msgid "A testimonials management plugin for WordPress"
 msgstr ""
 
-#: ../public/includes/class-tm-testimonials-shortcode.php:89
+#: ../public/includes/class-tm-testimonials-shortcode.php:283
+msgid "Type"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:284
+msgid "Layout type (`list` or `slider`)"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:286
+msgid "List"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:288
+msgid "Slider"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:297
+msgid "Suptitle"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:298
+msgid "Text before main title"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:303
+msgid "Title"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:304
+msgid "Main title"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:309
+msgid "Subtitle"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:310
+msgid "Text after main title"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:315
 msgid "Limit"
 msgstr ""
 
-#: ../public/includes/class-tm-testimonials-shortcode.php:90
-msgid "Maximum number of posts."
+#: ../public/includes/class-tm-testimonials-shortcode.php:316
+msgid "Testimonials number to show"
 msgstr ""
 
-#: ../public/includes/class-tm-testimonials-shortcode.php:95
-msgid "Descending"
-msgstr ""
-
-#: ../public/includes/class-tm-testimonials-shortcode.php:96
-msgid "Ascending"
-msgstr ""
-
-#: ../public/includes/class-tm-testimonials-shortcode.php:99
-msgid "Order"
-msgstr ""
-
-#: ../public/includes/class-tm-testimonials-shortcode.php:100
-msgid "Posts order"
-msgstr ""
-
-#: ../public/includes/class-tm-testimonials-shortcode.php:105
-msgid "None"
-msgstr ""
-
-#: ../public/includes/class-tm-testimonials-shortcode.php:106
-msgid "Post ID"
-msgstr ""
-
-#: ../public/includes/class-tm-testimonials-shortcode.php:107
-msgid "Post author"
-msgstr ""
-
-#: ../public/includes/class-tm-testimonials-shortcode.php:108
-msgid "Post title"
-msgstr ""
-
-#: ../public/includes/class-tm-testimonials-shortcode.php:109
-msgid "Post slug"
-msgstr ""
-
-#: ../public/includes/class-tm-testimonials-shortcode.php:110
-msgid "Date"
-msgstr ""
-
-#: ../public/includes/class-tm-testimonials-shortcode.php:111
-msgid "Last modified date"
-msgstr ""
-
-#: ../public/includes/class-tm-testimonials-shortcode.php:112
-msgid "Post parent"
-msgstr ""
-
-#: ../public/includes/class-tm-testimonials-shortcode.php:113
-msgid "Random"
-msgstr ""
-
-#: ../public/includes/class-tm-testimonials-shortcode.php:114
-msgid "Comments number"
-msgstr ""
-
-#: ../public/includes/class-tm-testimonials-shortcode.php:115
-msgid "Menu order"
-msgstr ""
-
-#: ../public/includes/class-tm-testimonials-shortcode.php:116
-msgid "Meta key values"
-msgstr ""
-
-#: ../public/includes/class-tm-testimonials-shortcode.php:119
+#: ../public/includes/class-tm-testimonials-shortcode.php:323
 msgid "Order by"
 msgstr ""
 
-#: ../public/includes/class-tm-testimonials-shortcode.php:120
-msgid "Order posts by"
+#: ../public/includes/class-tm-testimonials-shortcode.php:324
+msgid "Order testimonials by"
 msgstr ""
 
-#: ../public/includes/class-tm-testimonials-shortcode.php:128
-msgid "Select category to show testimonials from"
+#: ../public/includes/class-tm-testimonials-shortcode.php:326
+msgid "None"
 msgstr ""
 
-#: ../public/includes/class-tm-testimonials-shortcode.php:132
+#: ../public/includes/class-tm-testimonials-shortcode.php:327
+msgid "Post ID"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:328
+msgid "Post author"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:329
+msgid "Post title"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:330
+msgid "Post slug"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:331
+msgid "Date"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:332
+msgid "Last modified date"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:333
+msgid "Post parent"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:334
+msgid "Random"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:335
+msgid "Comments number"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:336
+msgid "Menu order"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:343
+msgid "Order"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:344
+msgid "Testimonials order"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:346
+msgid "Ascending"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:347
+msgid "Descending"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:355
+msgid ""
+"Select category to show testimonials from (use category slug, pass "
+"multiplie categories via comma)"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:364
 msgid "Post ID's"
 msgstr ""
 
-#: ../public/includes/class-tm-testimonials-shortcode.php:133
-msgid "Enter comma separated ID's of the posts that you want to show"
+#: ../public/includes/class-tm-testimonials-shortcode.php:365
+msgid ""
+"Enter comma separated ID's of the testimonials that you want to show"
 msgstr ""
 
-#: ../public/includes/class-tm-testimonials-shortcode.php:141
-msgid "Avatar size"
-msgstr ""
-
-#: ../public/includes/class-tm-testimonials-shortcode.php:142
-msgid "Avatar size (in pixels)"
-msgstr ""
-
-#: ../public/includes/class-tm-testimonials-shortcode.php:150
+#: ../public/includes/class-tm-testimonials-shortcode.php:370
 msgid "Content Length"
 msgstr ""
 
-#: ../public/includes/class-tm-testimonials-shortcode.php:151
+#: ../public/includes/class-tm-testimonials-shortcode.php:371
 msgid ""
-"Insert the number of words you want to show in the post content."
+"The number of words you want to show in the testimonial content."
 msgstr ""
 
-#: ../public/includes/class-tm-testimonials-shortcode.php:159
+#: ../public/includes/class-tm-testimonials-shortcode.php:378
+msgid "Divider"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:379
+msgid "Divider between title and testimonials"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:381
+#: ../public/includes/class-tm-testimonials-shortcode.php:392
+#: ../public/includes/class-tm-testimonials-shortcode.php:413
+#: ../public/includes/class-tm-testimonials-shortcode.php:424
+#: ../public/includes/class-tm-testimonials-shortcode.php:435
+#: ../public/includes/class-tm-testimonials-shortcode.php:468
+#: ../public/includes/class-tm-testimonials-shortcode.php:480
+#: ../public/includes/class-tm-testimonials-shortcode.php:492
+msgid "On"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:382
+#: ../public/includes/class-tm-testimonials-shortcode.php:393
+#: ../public/includes/class-tm-testimonials-shortcode.php:414
+#: ../public/includes/class-tm-testimonials-shortcode.php:425
+#: ../public/includes/class-tm-testimonials-shortcode.php:436
+#: ../public/includes/class-tm-testimonials-shortcode.php:469
+#: ../public/includes/class-tm-testimonials-shortcode.php:481
+#: ../public/includes/class-tm-testimonials-shortcode.php:493
+msgid "Off"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:390
+msgid "Author's avatar"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:401
+msgid "Avatar size"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:402
+msgid "Avatar size (in pixels)"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:410
+msgid "Email"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:411
+msgid "Author's email"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:422
+msgid "Author's position"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:432
+msgid "Company"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:433
+msgid "Author's company"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:443
+msgid "Autoplay"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:444
+msgid "Delay between transitions, in ms (only for slider)"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:453
+msgid "Effect"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:454
+msgid "Could be \"slide\" or \"fade\" (only for slider)"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:456
+msgid "Slide"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:457
+msgid "Fade"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:465
+msgid "Loop"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:466
+msgid "Set to on to enable continuous loop mode (only for slider)"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:477
+msgid "Pagination"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:478
+msgid "Pagination (only for slider)"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:489
+msgid "Navigation"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:490
+msgid "Navigation (only for slider)"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:501
+msgid "Number of slides per view on phones"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:502
+msgid ""
+"Slides visible at the same time on slider's containe (only for "
+"slider on phones)"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:510
+msgid "Number of slides per view on tablets"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:511
+msgid ""
+"Slides visible at the same time on slider's containe (only for "
+"slider on tablets)"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:519
+msgid "Number of slides per view on laptops"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:520
+msgid ""
+"Slides visible at the same time on slider's containe (only for "
+"slider on laptops)"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:528
+msgid "Number of slides per view on desktops"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:529
+msgid ""
+"Slides visible at the same time on slider's containe (only for "
+"slider on desktops)"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:537
+msgid "Space between on phones"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:538
+msgid "Distance between slides in px (only for slider on phones)"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:546
+msgid "Space between on tablets"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:547
+msgid "Distance between slides in px (only for slider on tablets)"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:555
+msgid "Space between on laptops"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:556
+msgid "Distance between slides in px (only for slider on laptops)"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:564
+msgid "Space between"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:565
+msgid "Distance between slides in px (only for slider on desktops)"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:573
 msgid "Template"
 msgstr ""
 
-#: ../public/includes/class-tm-testimonials-shortcode.php:160
-msgid "Shortcode template"
+#: ../public/includes/class-tm-testimonials-shortcode.php:574
+msgid "Template name to use"
 msgstr ""
 
-#: ../public/includes/class-tm-testimonials-shortcode.php:164
+#: ../public/includes/class-tm-testimonials-shortcode.php:582
 msgid "Class"
 msgstr ""
 
-#: ../public/includes/class-tm-testimonials-shortcode.php:165
+#: ../public/includes/class-tm-testimonials-shortcode.php:583
 msgid "Extra CSS class"
+msgstr ""
+
+#: ../public/includes/class-tm-testimonials-shortcode.php:606
+msgid "From All"
 msgstr ""

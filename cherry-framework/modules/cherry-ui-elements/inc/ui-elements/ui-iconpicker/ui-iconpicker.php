@@ -7,7 +7,7 @@
  * @author     Cherry Team <support@cherryframework.com>
  * @copyright  Copyright (c) 2012 - 2015, Cherry Team
  * @link       http://www.cherryframework.com/
- * @license    http://www.gnu.org/licenses/old-licenses/gpl-3.0.html
+ * @license    http://www.gnu.org/licenses/gpl-3.0.en.html
  */
 
 // If this file is called directly, abort.
@@ -23,8 +23,9 @@ if ( ! class_exists( 'UI_Iconpicker' ) ) {
 	class UI_Iconpicker extends UI_Element implements I_UI {
 
 		/**
-		 * Default settings
+		 * Default settings.
 		 *
+		 * @since 1.0.0
 		 * @var array
 		 */
 		private $defaults_settings = array(
@@ -38,11 +39,12 @@ if ( ! class_exists( 'UI_Iconpicker' ) ) {
 			'label'       => '',
 			'class'       => '',
 			'master'      => '',
+			'width'       => 'fixed', // full, fixed
 			'required'    => false,
 		);
 
 		/**
-		 * Default icon data settings
+		 * Default icon data settings.
 		 *
 		 * @var array
 		 */
@@ -76,9 +78,9 @@ if ( ! class_exists( 'UI_Iconpicker' ) ) {
 		public static $printed_sets = array();
 
 		/**
-		 * Constructor method for the UI_Text class.
+		 * Constructor method for the UI_Iconpicker class.
 		 *
-		 * @since  4.0.0
+		 * @since 1.0.0
 		 */
 		function __construct( $args = array() ) {
 			$this->defaults_settings['id'] = 'cherry-ui-input-icon-' . uniqid();
@@ -87,6 +89,7 @@ if ( ! class_exists( 'UI_Iconpicker' ) ) {
 			add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_assets' ) );
 			add_action( 'admin_footer', array( $this, 'print_icon_set' ), 1 );
 			add_action( 'customize_controls_print_footer_scripts', array( $this, 'print_icon_set' ), 9999 );
+			add_filter( 'cherry_handler_response_data', array( $this, 'send_icon_set' ), 10, 1 );
 		}
 
 		/**
@@ -102,13 +105,13 @@ if ( ! class_exists( 'UI_Iconpicker' ) ) {
 		}
 
 		/**
-		 * Render html UI_Text.
+		 * Render html UI_Iconpicker.
 		 *
-		 * @since  4.0.0
+		 * @since 1.0.0
 		 */
 		public function render() {
 			$html = '';
-			$class = $this->settings['class'];
+			$class = $this->settings['class'] . $this->settings['width'] ;
 			$class .= ' ' . $this->settings['master'];
 
 			$html .= '<div class="cherry-ui-container ' . esc_attr( $class ) . '">';
@@ -121,8 +124,6 @@ if ( ! class_exists( 'UI_Iconpicker' ) ) {
 					$this->default_icon_data
 				);
 
-				$this->maybe_parse_set_from_css();
-
 				$html .= '<div class="cherry-ui-iconpicker-group">';
 
 				if ( $this->validate_icon_data( $this->settings['icon_data'] ) ) {
@@ -133,6 +134,7 @@ if ( ! class_exists( 'UI_Iconpicker' ) ) {
 
 				$html .= '</div>';
 			$html .= '</div>';
+
 			return $html;
 		}
 
@@ -165,6 +167,10 @@ if ( ! class_exists( 'UI_Iconpicker' ) ) {
 		 */
 		public function prepare_icon_set() {
 
+			if ( empty( $this->settings['icon_data']['icons'] ) ) {
+				$this->maybe_parse_set_from_css();
+			}
+
 			if ( ! array_key_exists( $this->settings['icon_data']['icon_set'], self::$sets ) ) {
 				self::$sets[ $this->settings['icon_data']['icon_set'] ] = array(
 					'iconCSS'    => $this->settings['icon_data']['icon_css'],
@@ -173,7 +179,6 @@ if ( ! class_exists( 'UI_Iconpicker' ) ) {
 					'icons'      => $this->settings['icon_data']['icons'],
 				);
 			}
-
 		}
 
 		/**
@@ -196,7 +201,7 @@ if ( ! class_exists( 'UI_Iconpicker' ) ) {
 
 			$result = ob_get_clean();
 
-			preg_match_all( '/\.([-a-zA-Z0-9]+):before[, {]/', $result, $matches );
+			preg_match_all( '/\.([-_a-zA-Z0-9]+):before[, {]/', $result, $matches );
 
 			if ( ! is_array( $matches ) || empty( $matches[1] ) ) {
 				return;
@@ -235,6 +240,25 @@ if ( ! class_exists( 'UI_Iconpicker' ) ) {
 		}
 
 		/**
+		 * Function sends the icons into ajax response.
+		 *
+		 * @param  array $data Icon data.
+		 * @return array
+		 */
+		public function send_icon_set( $data ) {
+
+			if ( empty( $data['cherryIconsSets'] ) ) {
+				$data['cherry5IconSets'] = array();
+			}
+
+			foreach ( self::$sets as $key => $value ) {
+				$data['cherry5IconSets'][ $key ] = $value;
+			}
+
+			return $data;
+		}
+
+		/**
 		 * Print icon sets
 		 *
 		 * @return void
@@ -256,15 +280,15 @@ if ( ! class_exists( 'UI_Iconpicker' ) ) {
 				self::$printed_sets[] = $set;
 				$json = json_encode( $data );
 
-				printf( '<script>window.%1$s = %2$s</script>', $set, $json );
+				printf( '<script> if ( ! window.cherry5IconSets ) { window.cherry5IconSets = {} } window.cherry5IconSets.%1$s = %2$s</script>', $set, $json );
 			}
 
 		}
 
 		/**
-		 * Enqueue javascript and stylesheet UI_Text
+		 * Enqueue javascript and stylesheet UI_Iconpicker
 		 *
-		 * @since  4.0.0
+		 * @since 1.0.0
 		 */
 		public static function enqueue_assets() {
 
@@ -272,7 +296,7 @@ if ( ! class_exists( 'UI_Iconpicker' ) ) {
 				'ui-iconpicker',
 				esc_url( Cherry_Core::base_url( 'assets/min/ui-iconpicker.min.css', __FILE__ ) ),
 				array(),
-				'1.0.0',
+				'1.3.2',
 				'all'
 			);
 
@@ -280,14 +304,15 @@ if ( ! class_exists( 'UI_Iconpicker' ) ) {
 				'jquery-iconpicker',
 				esc_url( Cherry_Core::base_url( 'assets/min/jquery-iconpicker.min.js', __FILE__ ) ),
 				array( 'jquery' ),
-				'1.0.0',
+				'1.3.2',
 				true
 			);
+
 			wp_enqueue_script(
 				'ui-iconpicker',
 				esc_url( Cherry_Core::base_url( 'assets/min/ui-iconpicker.min.js', __FILE__ ) ),
 				array( 'jquery' ),
-				'1.0.0',
+				'1.3.2',
 				true
 			);
 		}

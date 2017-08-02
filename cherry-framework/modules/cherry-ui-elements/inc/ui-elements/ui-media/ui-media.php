@@ -7,7 +7,7 @@
  * @author     Cherry Team <support@cherryframework.com>
  * @copyright  Copyright (c) 2012 - 2015, Cherry Team
  * @link       http://www.cherryframework.com/
- * @license    http://www.gnu.org/licenses/old-licenses/gpl-3.0.html
+ * @license    http://www.gnu.org/licenses/gpl-3.0.en.html
  */
 
 // If this file is called directly, abort.
@@ -23,8 +23,9 @@ if ( ! class_exists( 'UI_Media' ) ) {
 	class UI_Media extends UI_Element implements I_UI {
 
 		/**
-		 * Default settings
+		 * Default settings.
 		 *
+		 * @since 1.0.0
 		 * @var array
 		 */
 		private $defaults_settings = array(
@@ -32,7 +33,7 @@ if ( ! class_exists( 'UI_Media' ) ) {
 			'name'               => 'cherry-ui-media-name',
 			'value'              => '',
 			'multi_upload'       => true,
-			'library_type'       => '', // image, video
+			'library_type'       => '', // image, video, sound
 			'upload_button_text' => 'Choose Media',
 			'label'              => '',
 			'class'              => '',
@@ -42,7 +43,7 @@ if ( ! class_exists( 'UI_Media' ) ) {
 		/**
 		 * Constructor method for the UI_Media class.
 		 *
-		 * @since  4.0.0
+		 * @since 1.0.0
 		 */
 		public function __construct( $args = array() ) {
 
@@ -55,7 +56,7 @@ if ( ! class_exists( 'UI_Media' ) ) {
 		/**
 		 * Render html UI_Media.
 		 *
-		 * @since  4.0.0
+		 * @since 1.0.0
 		 */
 		public function render() {
 			$html = '';
@@ -136,7 +137,7 @@ if ( ! class_exists( 'UI_Media' ) ) {
 						$html .= '</div>';
 						$html .= '<div class="cherry-element-wrap">';
 							$html .= '<input type="hidden" id="' . esc_attr( $this->settings['id'] ) . '" class="cherry-upload-input" name="' . esc_attr( $this->settings['name'] ) . '" value="' . esc_html( $this->settings['value'] ) . '" >';
-							$html .= '<input type="button" class="upload-button cherry-upload-button button-default_" value="' . esc_attr( $this->settings['upload_button_text'] ) . '" data-title="' . esc_attr( $this->settings['upload_button_text'] ) . '" data-multi-upload="' . esc_attr( $this->settings['multi_upload'] ) . '" data-library-type="' . esc_attr( $this->settings['library_type'] ) . '"/>';
+							$html .= '<button type="button" class="upload-button cherry-upload-button button-default_" value="' . esc_attr( $this->settings['upload_button_text'] ) . '" data-title="' . esc_attr( $this->settings['upload_button_text'] ) . '" data-multi-upload="' . esc_attr( $this->settings['multi_upload'] ) . '" data-library-type="' . esc_attr( $this->settings['library_type'] ) . '">' . esc_attr( $this->settings['upload_button_text'] ) . '</button>';
 							$html .= '<div class="clear"></div>';
 						$html .= '</div>';
 					$html .= '</div>';
@@ -147,9 +148,9 @@ if ( ! class_exists( 'UI_Media' ) ) {
 		}
 
 		/**
-		 * Enqueue javascript and stylesheet UI_Media
+		 * Enqueue javascript and stylesheet UI_Media.
 		 *
-		 * @since  4.0.0
+		 * @since 1.0.0
 		 */
 		public static function enqueue_assets() {
 			if ( current_user_can( 'upload_files' ) ) {
@@ -159,7 +160,7 @@ if ( ! class_exists( 'UI_Media' ) ) {
 					'ui-media-min',
 					esc_url( Cherry_Core::base_url( 'assets/min/ui-media.min.js', __FILE__ ) ),
 					array( 'jquery', 'jquery-ui-sortable' ),
-					'1.0.0',
+					'1.3.2',
 					true
 				);
 
@@ -167,7 +168,7 @@ if ( ! class_exists( 'UI_Media' ) ) {
 					'ui-media-min',
 					esc_url( Cherry_Core::base_url( 'assets/min/ui-media.min.css', __FILE__ ) ),
 					array(),
-					'1.0.0',
+					'1.3.2',
 					'all'
 				);
 			}
