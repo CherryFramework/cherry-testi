@@ -17,7 +17,8 @@
 					nextButton: '#tm-testi-slider-next-' + atts.id,
 					prevButton: '#tm-testi-slider-prev-' + atts.id,
 					paginationClickable: true,
-					autoHeight: false
+					autoHeight: false,
+					paginationBulletRender: imgPagination
 				};
 
 				// Parse params.
@@ -29,5 +30,24 @@
 			swiper = new Swiper( $container, params );
 		});
 	} );
+
+	function imgPagination( swiper, index, className ) {
+		var avatars = swiper.paginationContainer.data( 'avatars' ),
+			size    = swiper.paginationContainer.data( 'size' ),
+			current = null;
+
+		if ( avatars ) {
+			current = avatars[ index ];
+			return '<span class="' + className + ' img-pagination-item" style="background-image: url(\'' + current + '\'); width:' + size + 'px; height:' + size + 'px;"></span>';
+		} else {
+			return '<span class="' + className + '"></span>';
+		}
+	}
+
+	function initElementorPlugin() {
+
+	}
+
+	$( window ).on( 'elementor/frontend/init', initElementorPlugin );
 
 } )( jQuery );

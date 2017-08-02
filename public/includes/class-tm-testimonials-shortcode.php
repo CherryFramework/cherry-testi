@@ -46,7 +46,7 @@ class TM_Testimonials_Shortcode {
 	 * @since 1.0.0
 	 */
 	public function __construct() {
-		add_action( 'init', array( $this, 'register_shortcode' ) );
+		add_action( 'init', array( $this, 'register_shortcode' ), -999 );
 
 		if ( is_admin() ) {
 			$this->register_shortcode_for_builder();
@@ -165,6 +165,7 @@ class TM_Testimonials_Shortcode {
 		$var_to_bool = array(
 			'loop',
 			'pagination',
+			'img_pagination',
 			'navigation',
 		);
 
@@ -502,6 +503,24 @@ class TM_Testimonials_Shortcode {
 				'condition'   => array(
 					'type' => array( 'slider' ),
 				),
+			),
+			'img_pagination' => array(
+				'type'        => 'switcher',
+				'title'       => esc_html__( 'Avatars Pagination', 'cherry-testi' ),
+				'description' => esc_html__( 'Use client avatars for pagination (only for slider)', 'cherry-testi' ),
+				'toggle'      => array(
+					'true_toggle'  => esc_html__( 'On', 'cherry-testi' ),
+					'false_toggle' => esc_html__( 'Off', 'cherry-testi' ),
+				),
+				'value'       => 'on',
+				'default'     => 'on',
+			),
+			'img_pagination_size' => array(
+				'type'        => 'slider',
+				'title'       => esc_html__( 'Pagination Avatar Size', 'cherry-testi' ),
+				'value'       => 80,
+				'max_value'   => 400,
+				'min_value'   => 50,
 			),
 			'navigation' => array(
 				'type'        => 'switcher',

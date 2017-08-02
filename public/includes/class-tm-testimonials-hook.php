@@ -122,10 +122,34 @@ class TM_Testimonials_Hook {
 		}
 
 		return sprintf(
-			'%s<div id="tm-testi-slider-pagination-%d" class="swiper-pagination tm-testi-slider__pags"></div>',
+			'%1$s<div id="tm-testi-slider-pagination-%2$d" class="swiper-pagination tm-testi-slider__pags%4$s"%3$s></div>',
 			$output,
-			self::$instance
+			self::$instance,
+			self::get_pagintaion_data( $args ),
+			( ! empty( $args['avatars'] ) ? ' img-pagination' : '' )
 		);
+	}
+
+	/**
+	 * Return pagination data arguments
+	 *
+	 * @return string
+	 */
+	public static function get_pagintaion_data( $args ) {
+
+		$data = array(
+			'avatars' => $args['avatars'],
+			'size'    => ! empty( $args['img_pagination_size'] ) ? absint( $args['img_pagination_size'] ) : 80,
+		);
+
+		$result = '';
+
+		foreach ( $data as $key => $value ) {
+			$result .= sprintf( ' data-%1$s=\'%2$s\'', $key, json_encode( $value ) );
+		}
+
+		return $result;
+
 	}
 
 	/**
