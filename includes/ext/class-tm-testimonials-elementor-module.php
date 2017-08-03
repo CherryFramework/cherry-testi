@@ -34,6 +34,10 @@ class TM_Testimonials_Elementor_Widget extends Elementor\Widget_Base {
 		return isset( $shortcode[ $name ] ) ? $shortcode[ $name ] : false;
 	}
 
+	public function get_script_depends() {
+		return array( 'cherry-testi-public' );
+	}
+
 	public function get_name() {
 		return tm_testimonials_shortcode()->get_tag();
 	}
