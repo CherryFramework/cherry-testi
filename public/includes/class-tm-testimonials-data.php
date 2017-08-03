@@ -49,6 +49,13 @@ class TM_Testimonials_Data {
 	private $wp_query = null;
 
 	/**
+	 * Avatars list for image pagination
+	 *
+	 * @var array
+	 */
+	private $avatars = array();
+
+	/**
 	 * Sets up our actions/filters.
 	 *
 	 * @since 1.0.0
@@ -195,9 +202,10 @@ class TM_Testimonials_Data {
 			$inner .= $this->get_testimonials_loop( $query, $args );
 		}
 
-		$inner          = apply_filters( 'tm_testimonials_loop_after', $inner, $args );
-		$wrapper_format = apply_filters( 'tm_testimonials_wrapper_format', '<div class="tm-testi">%s<div class="%s">%s</div></div>', $args );
-		$output         = sprintf( $wrapper_format, $titles, join( ' ', array_unique( $css_classes ) ), $inner );
+		$args['avatars'] = $this->avatars;
+		$inner           = apply_filters( 'tm_testimonials_loop_after', $inner, $args );
+		$wrapper_format  = apply_filters( 'tm_testimonials_wrapper_format', '<div class="tm-testi">%s<div class="%s">%s</div></div>', $args );
+		$output          = sprintf( $wrapper_format, $titles, join( ' ', array_unique( $css_classes ) ), $inner );
 
 		// Pagination (if we need).
 		if ( true == $args['pager'] ) {
@@ -445,11 +453,64 @@ class TM_Testimonials_Data {
 
 			$output .= '</div></div>';
 
+			$this->store_avatar( $post, $args );
+
 			$callbacks->clear_data();
 
 		endwhile;
 
 		return $output;
+	}
+
+	/**
+	 * Store avatar URLs for later use
+	 *
+	 * @return bool
+	 */
+	public function store_avatar( $post = null, $args = array() ) {
+
+		$cols = array(
+			'slides_per_view',
+			'slides_per_view_laptop',
+			'slides_per_view_tablet',
+			'slides_per_view_phone'
+		);
+
+		foreach ( $cols as $col ) {
+			if ( isset( $args[ $col ] ) && 1 !== $args[ $col ] ) {
+				return false;
+			}
+		}
+
+		if ( ! $args['pagination'] || ! $args['img_pagination'] ) {
+			return false;
+		}
+
+		$size = ! empty( $args['img_pagination_size'] ) ? absint( $args['img_pagination_size'] ) : 80;
+
+		if ( has_post_thumbnail( $post->ID ) ) {
+			$thumb_id        = get_post_thumbnail_id( $post->ID );
+			$this->avatars[] = wp_get_attachment_image_url( $thumb_id, $size );
+			return true;
+		}
+
+		$post_meta = get_post_meta( $post->ID, TM_TESTI_POSTMETA, true );
+
+		if ( empty( $post_meta['email'] ) ) {
+			$this->avatars[] = 'https://via.placeholder.com/' . $size;
+			return true;
+		}
+
+		$email = $post_meta['email'];
+
+		if ( ! is_email( $email ) ) {
+			$this->avatars[] = 'https://via.placeholder.com/' . $size;
+			return true;
+		}
+
+		$this->avatars[] = get_avatar_url( $email, array( 'size' => $size ) );
+		return true;
+
 	}
 
 	/**
