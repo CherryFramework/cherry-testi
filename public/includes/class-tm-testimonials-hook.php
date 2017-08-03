@@ -137,6 +137,10 @@ class TM_Testimonials_Hook {
 	 */
 	public static function get_pagintaion_data( $args ) {
 
+		if ( empty( $args['avatars'] ) ) {
+			return '';
+		}
+
 		$data = array(
 			'avatars' => $args['avatars'],
 			'size'    => ! empty( $args['img_pagination_size'] ) ? absint( $args['img_pagination_size'] ) : 80,
