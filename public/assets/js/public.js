@@ -49,12 +49,9 @@
 	}
 
 	function initElementorPlugin() {
-		console.log( 123 );
 		elementorFrontend.hooks.addAction( 'frontend/element_ready/tm_testimonials.default', function( $scope ) {
-			console.log( $scope );
 			$scope.find( '.tm-testi-slider' ).each( initSlider );
 		} );
-
 	}
 
 	$( window ).on( 'elementor/frontend/init', initElementorPlugin );
