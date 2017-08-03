@@ -2,7 +2,7 @@
 Contributors: TemplateMonster 2002
 Tags: testimonials, reviews, custom post type, slider, swiper, cherry framework, elementor
 Requires at least: 4.5
-Tested up to: 4.8
+Tested up to: 4.8.1
 Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -57,16 +57,6 @@ Insert a shortcode `[tm_testimonials]` to the post/page content.
 1. Testimonials Options.
 2. Plugin Settings.
 3. Example.
-
-== Changelog ==
-
-= 1.0.0 =
-* Initial release
-
-= 1.0.1 =
-* UPD: slider settings for devices
-* UPD: parameters list
-* UPD: cherry-framework to 1.3.1 version
 
 == Documentation ==
 
