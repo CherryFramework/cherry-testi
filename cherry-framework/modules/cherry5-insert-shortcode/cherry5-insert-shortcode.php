@@ -2,7 +2,6 @@
 /**
  * Module Name: Insert Shortcode
  * Description: The module allows you to add shortcodes from editor tinyMCE.
- * Version: 1.0.2
  * Author: Cherry Team
  * Author URI: http://www.cherryframework.com/
  * License: GPLv3
@@ -10,9 +9,8 @@
  *
  * @package    Cherry_Framework
  * @subpackage Modules
- * @version    1.0.2
  * @author     Cherry Team <cherryframework@gmail.com>
- * @copyright  Copyright (c) 2012 - 2016, Cherry Team
+ * @copyright  Copyright (c) 2012 - 2017, Cherry Team
  * @link       http://www.cherryframework.com/
  * @license    http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -31,12 +29,22 @@ if ( ! class_exists( 'Cherry5_Insert_Shortcode' ) ) {
 	class Cherry5_Insert_Shortcode {
 
 		/**
-		 * Module version.
+		 * Core version.
 		 *
-		 * @since 1.0.0
+		 * @since 1.5.0
+		 * @access public
 		 * @var string
 		 */
-		private $module_version = '1.0.2';
+		public $core_version = '';
+
+		/**
+		 * Module directory path.
+		 *
+		 * @since 1.5.0
+		 * @access protected
+		 * @var srting.
+		 */
+		protected $module_path;
 
 		/**
 		 * A reference to an instance of this class.
@@ -48,7 +56,7 @@ if ( ! class_exists( 'Cherry5_Insert_Shortcode' ) ) {
 		private static $instance = null;
 
 		/**
-		 * Module arguments
+		 * Module arguments.
 		 *
 		 * @since 1.0.0
 		 * @var array
@@ -57,7 +65,7 @@ if ( ! class_exists( 'Cherry5_Insert_Shortcode' ) ) {
 		private $args = array();
 
 		/**
-		 * Core instance
+		 * Core instance.
 		 *
 		 * @since 1.0.0
 		 * @var object
@@ -68,8 +76,8 @@ if ( ! class_exists( 'Cherry5_Insert_Shortcode' ) ) {
 		/**
 		 * UI element instance.
 		 *
-		 * @since  1.0.0
-		 * @var    object
+		 * @since 1.0.0
+		 * @var object
 		 * @access public
 		 */
 		public $ui_elements = null;
@@ -77,8 +85,8 @@ if ( ! class_exists( 'Cherry5_Insert_Shortcode' ) ) {
 		/**
 		 * Cherry Interface Builder instance.
 		 *
-		 * @since  1.0.0
-		 * @var    object
+		 * @since 1.0.0
+		 * @var object
 		 * @access public
 		 */
 		public $cherry_interface_builder = null;
@@ -90,7 +98,7 @@ if ( ! class_exists( 'Cherry5_Insert_Shortcode' ) ) {
 		 * @var object
 		 * @access private
 		 */
-		private $shortcodes_button = null;
+		public $shortcodes_button = null;
 
 		/**
 		 * A reference to an instance of this class Cherry5_Insertion_Popup.
@@ -99,13 +107,13 @@ if ( ! class_exists( 'Cherry5_Insert_Shortcode' ) ) {
 		 * @var object
 		 * @access private
 		 */
-		private $shortcodes_popup = null;
+		public $shortcodes_popup = null;
 
 		/**
 		 * Shortcode list.
 		 *
-		 * @since  1.0.0
-		 * @var    object
+		 * @since 1.0.0
+		 * @var object
 		 * @access private
 		 */
 		private $added_shortcodes = array();
@@ -120,10 +128,12 @@ if ( ! class_exists( 'Cherry5_Insert_Shortcode' ) ) {
 		public function __construct( $core = null, $args = array(), $init = true ) {
 			if ( $init ) {
 				$this->core = $core;
+				$this->core_version = $core->get_core_version();
+				$this->module_path  = $args['module_path'];
+
 				$this->args = array_merge_recursive(
 					$args,
 					array(
-						'module_dir' => trailingslashit( dirname( __FILE__ ) ),
 						'in_screen'  => array( 'post' ),
 					)
 				);
@@ -135,8 +145,8 @@ if ( ! class_exists( 'Cherry5_Insert_Shortcode' ) ) {
 				$this->includes();
 
 				// Initializing child classes.
+				$this->shortcodes_popup  = new Cherry5_Insertion_Popup( $this->core, $this->args, $this );
 				$this->shortcodes_button = new Cherry5_Insertion_Button( $this->core, $this->args, $this );
-				$this->shortcodes_popup = new Cherry5_Insertion_Popup( $this->core, $this->args, $this );
 
 				// Register admin assets.
 				add_action( 'admin_enqueue_scripts', array( $this, 'register_assets' ), 0 );
@@ -154,8 +164,8 @@ if ( ! class_exists( 'Cherry5_Insert_Shortcode' ) ) {
 		 * @return void
 		 */
 		private function includes() {
-			require_once( dirname( __FILE__ ) . '/inc/class-cherry5-insertion-button.php' );
-			require_once( dirname( __FILE__ ) . '/inc/class-cherry5-insertion-popup.php' );
+			require_once( $this->module_path  . 'inc/class-cherry5-insertion-button.php' );
+			require_once( $this->module_path  . 'inc/class-cherry5-insertion-popup.php' );
 		}
 
 		/**
@@ -167,10 +177,22 @@ if ( ! class_exists( 'Cherry5_Insert_Shortcode' ) ) {
 		 */
 		public function register_assets() {
 			// Register stylesheets.
-			wp_register_style( 'cherry5-insert-shortcode', esc_url( Cherry_Core::base_url( 'assets/min/cherry-insert-shortcode.min.css', __FILE__ ) ), array(), $this->module_version, 'all' );
+			wp_register_style(
+				'cherry5-insert-shortcode',
+				esc_url( Cherry_Core::base_url( 'assets/min/cherry-insert-shortcode.min.css', $this->module_path ) ),
+				array(),
+				$this->core_version,
+				'all'
+			);
 
 			// Register JavaScripts.
-			wp_register_script( 'cherry5-insert-shortcode-js', esc_url( Cherry_Core::base_url( 'assets/min/cherry-insert-shortcode.min.js', __FILE__ ) ), array( 'cherry-js-core' ), $this->module_version, true );
+			wp_register_script(
+				'cherry5-insert-shortcode-js',
+				esc_url( Cherry_Core::base_url( 'assets/min/cherry-insert-shortcode.min.js', $this->module_path ) ),
+				array( 'cherry-js-core' ),
+				$this->core_version,
+				true
+			);
 		}
 
 		/**
@@ -187,8 +209,10 @@ if ( ! class_exists( 'Cherry5_Insert_Shortcode' ) ) {
 				wp_enqueue_style( 'cherry5-insert-shortcode' );
 				wp_enqueue_script( 'cherry5-insert-shortcode-js' );
 
-				$dev_mode = ( constant( 'WP_DEBUG' ) ) ? 'true' : 'false' ;
-				wp_localize_script( 'cherry-js-core', 'cherry5InsertShortcode', array( 'devMode' => $dev_mode ) );
+				$dev_mode = ( constant( 'WP_DEBUG' ) ) ? 'true' : 'false';
+				wp_localize_script( 'cherry-js-core', 'cherry5InsertShortcode', array(
+					'devMode' => $dev_mode,
+				) );
 			}
 		}
 

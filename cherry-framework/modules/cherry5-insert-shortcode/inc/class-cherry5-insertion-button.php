@@ -5,7 +5,7 @@
  * @package    Cherry_Framework
  * @subpackage Modules
  * @author     Cherry Team <cherryframework@gmail.com>
- * @copyright  Copyright (c) 2012 - 2016, Cherry Team
+ * @copyright  Copyright (c) 2012 - 2017, Cherry Team
  * @link       http://www.cherryframework.com/
  * @license    http://www.gnu.org/licenses/gpl-3.0.html
  */
@@ -55,16 +55,17 @@ if ( ! class_exists( 'Cherry5_Insertion_Button' ) ) {
 		 * @access public
 		 * @return void
 		 */
-		public function add_button() {
-			$args = apply_filters( 'cherry5-is__open-button', array(
-				'id'         => '',
-				'name'       => '',
-				'style'      => 'primary',
-				'content'    => '<span class="cherry5-is__icon dashicons dashicons-plus"></span>' . esc_html__( 'Cherry shortcodes', 'cherry-framework' ),
-				'class'      => 'cherry5-is__open-button',
-			) );
+		public function add_button( $editor_id ) {
 
-			echo $this->parent_self->ui_elements->get_ui_element_instance( 'button', $args )->render();
+			if ( 'content' !== $editor_id ) {
+				return;
+			}
+
+			echo '<button class="button cherry5-is__open-button" type="button"><span class="cherry5-is__icon dashicons dashicons-plus"></span>' . esc_html__( 'Cherry Shortcodes', 'cherry-framework' ) . '</button>';
+
+			if ( ! defined( 'DOING_AJAX' ) ) {
+				add_action( 'admin_print_footer_scripts', array( $this->parent_self->shortcodes_popup, 'render_popup' ), 99 );
+			}
 		}
 	}
 }
