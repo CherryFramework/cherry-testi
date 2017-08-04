@@ -36,6 +36,11 @@
 	}
 
 	function imgPagination( swiper, index, className ) {
+
+		if ( ! swiper.paginationContainer ) {
+			return '<span class="' + className + '"></span>';
+		}
+
 		var avatars = swiper.paginationContainer.data( 'avatars' ),
 			size    = swiper.paginationContainer.data( 'size' ),
 			current = null;
