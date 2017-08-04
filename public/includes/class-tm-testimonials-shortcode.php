@@ -518,6 +518,7 @@ class TM_Testimonials_Shortcode {
 			'img_pagination_size' => array(
 				'type'        => 'slider',
 				'title'       => esc_html__( 'Pagination Avatar Size', 'cherry-testi' ),
+				'description' => esc_html__( 'Set width and height of the thumbnails in pagination', 'cherry-testi' ),
 				'value'       => 80,
 				'max_value'   => 400,
 				'min_value'   => 50,
