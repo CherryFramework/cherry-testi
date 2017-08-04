@@ -37,6 +37,10 @@
 
 	function imgPagination( swiper, index, className ) {
 
+		console.log(swiper);
+		console.log(index);
+		console.log(className);
+
 		if ( ! swiper.paginationContainer ) {
 			return '<span class="' + className + '"></span>';
 		}
