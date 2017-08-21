@@ -3,7 +3,7 @@
  * Plugin Name: Cherry Testimonials
  * Plugin URI:
  * Description: A testimonials management plugin for WordPress.
- * Version:     1.2.0
+ * Version:     1.1.0.1
  * Author:      JetImpex
  * Author URI:  https://jetimpex.com/wordpress/
  * Text Domain: cherry-testi
@@ -104,7 +104,7 @@ if ( ! class_exists( 'TM_Testimonials_Plugin' ) ) {
 			 *
 			 * @since 1.0.0
 			 */
-			define( 'TM_TESTI_VERSION', '1.2.0' );
+			define( 'TM_TESTI_VERSION', '1.1.0.1' );
 
 			/**
 			 * Set the name for the `meta_key` value in the `wp_postmeta` table.
