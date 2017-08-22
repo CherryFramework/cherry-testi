@@ -92,6 +92,9 @@ class TM_Testimonials_Shortcode {
 		// Set up the default arguments.
 		$defaults = wp_list_pluck( $this->get_shortcode_atts(), 'value' );
 
+		// Fix img pagination defaults
+		$defaults['img_pagination'] = false;
+
 		/**
 		 * Parse the arguments.
 		 *
@@ -513,7 +516,7 @@ class TM_Testimonials_Shortcode {
 					'false_toggle' => esc_html__( 'Off', 'cherry-testi' ),
 				),
 				'value'       => 'on',
-				'default'     => 'on',
+				'default'     => '',
 			),
 			'img_pagination_size' => array(
 				'type'        => 'slider',
