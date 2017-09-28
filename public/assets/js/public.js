@@ -31,15 +31,13 @@
 			}
 		}
 
+		params.slidesPerView = 1;
+
 		swiper = new Swiper( $container, params );
 
 	}
 
 	function imgPagination( swiper, index, className ) {
-
-		console.log(swiper);
-		console.log(index);
-		console.log(className);
 
 		if ( ! swiper.paginationContainer ) {
 			return '<span class="' + className + '"></span>';

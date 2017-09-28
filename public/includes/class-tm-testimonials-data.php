@@ -482,7 +482,11 @@ class TM_Testimonials_Data {
 			}
 		}
 
-		if ( ! $args['pagination'] || ! $args['img_pagination'] ) {
+		if ( ! isset( $args['pagination'] ) || ! isset( $args['img_pagination'] ) ) {
+			return false;
+		}
+
+		if ( empty( $args['pagination'] ) || empty( $args['img_pagination'] ) ) {
 			return false;
 		}
 
