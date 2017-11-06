@@ -154,11 +154,8 @@ class TM_Testimonials_Template_Callbacks {
 			$format = '<a class="%3$s" href="%2$s" target="_blank">%1$s</a>';
 		}
 
-		$name = sprintf( $format,
-			esc_html( get_the_title( $post->ID ) ),
-			esc_url( $post_meta['url'] ),
-			'tm-testi__item-name'
-		);
+		$url  = isset( $post_meta['url'] ) ? $post_meta['url'] : '';
+		$name = sprintf( $format, esc_html( get_the_title( $post->ID ) ), $url, 'tm-testi__item-name' );
 
 		return apply_filters( 'tm_testimonials_author_name_template_callbacks',
 			$name,
