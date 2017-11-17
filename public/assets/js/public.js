@@ -10,9 +10,16 @@
 
 		var $container = $( this ),
 			atts       = $container.data( 'atts' ),
+			inited     = $container.data( 'init' ),
 			params     = {},
 			swiper     = null,
 			key;
+
+		if ( true === inited ) {
+			return;
+		}
+
+		$container.data( 'init', true );
 
 		if ( undefined !== atts ) {
 
@@ -64,3 +71,4 @@
 	$( window ).on( 'elementor/frontend/init', initElementorPlugin );
 
 } )( jQuery );
+
