@@ -38,8 +38,6 @@
 			}
 		}
 
-		params.slidesPerView = 1;
-
 		swiper = new Swiper( $container, params );
 
 	}
