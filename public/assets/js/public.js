@@ -24,12 +24,20 @@
 		if ( undefined !== atts ) {
 
 			params = {
-				pagination: '#tm-testi-slider-pagination-' + atts.id,
-				nextButton: '#tm-testi-slider-next-' + atts.id,
-				prevButton: '#tm-testi-slider-prev-' + atts.id,
-				paginationClickable: true,
+				navigation: {
+					nextEl: '#tm-testi-slider-next-' + atts.id,
+					prevEl: '#tm-testi-slider-prev-' + atts.id,
+				},
+				pagination: {
+					el: '#tm-testi-slider-pagination-' + atts.id,
+					clickable: true,
+					renderBullet: function ( index, className ) {
+						console.log(this.pagination.$el);
+						return imgPagination( this, index, className);
+						return '<span class="' + className + '"></span>';
+					},
+				},
 				autoHeight: false,
-				paginationBulletRender: imgPagination
 			};
 
 			// Parse params.
@@ -44,12 +52,14 @@
 
 	function imgPagination( swiper, index, className ) {
 
-		if ( ! swiper.paginationContainer ) {
+		var paginInstance = $( swiper.pagination.$el[0] );
+
+		if ( ! paginInstance ) {
 			return '<span class="' + className + '"></span>';
 		}
 
-		var avatars = swiper.paginationContainer.data( 'avatars' ),
-			size    = swiper.paginationContainer.data( 'size' ),
+		var avatars = paginInstance.data( 'avatars' ),
+			size    = paginInstance.data( 'size' ),
 			current = null;
 
 		if ( avatars ) {
