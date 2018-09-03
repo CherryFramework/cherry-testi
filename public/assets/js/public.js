@@ -32,18 +32,16 @@
 					el: '#tm-testi-slider-pagination-' + atts.id,
 					clickable: true,
 					renderBullet: function ( index, className ) {
-						console.log(this.pagination.$el);
 						return imgPagination( this, index, className);
-						return '<span class="' + className + '"></span>';
 					},
 				},
 				autoHeight: false,
+				autoplay: {
+					delay: atts.autoplay || 5000
+				}
 			};
 
-			// Parse params.
-			for ( key in atts ) {
-				params[ key ] = atts[ key ];
-			}
+			params = $.extend({}, atts, params);
 		}
 
 		swiper = new Swiper( $container, params );
