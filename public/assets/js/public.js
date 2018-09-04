@@ -38,11 +38,22 @@
 				autoHeight: false,
 				autoplay: {
 					delay: atts.autoplay || 5000
+				},
+				fadeEffect: {
+					crossFade: true
 				}
 			};
 
-			params = $.extend({}, atts, params);
+			if ( 'fade' === atts.effect ) {
+				params.fadeEffect = {
+					crossFade: true
+				}
+			}
+
+			params = $.extend( {}, atts, params );
 		}
+
+		console.log(params);
 
 		swiper = new Swiper( $container, params );
 

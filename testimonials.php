@@ -232,10 +232,10 @@ if ( ! class_exists( 'TM_Testimonials_Plugin' ) ) {
 		public function enqueue_assets() {
 			$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
-			wp_register_style( 'cherry-testi-swiper', plugins_url( 'includes/swiper/css/swiper.min.css', __FILE__ ), array(), '4.3.3' );
+			wp_register_style( 'cherry-testi-swiper', plugins_url( 'includes/swiper/css/swiper.min.css', __FILE__ ), array(), '4.3.5' );
 			wp_enqueue_style( 'cherry-testi', plugins_url( 'public/assets/css/style.css', __FILE__ ), array( 'cherry-testi-swiper' ), TM_TESTI_VERSION );
 
-			wp_register_script( 'cherry-testi-swiper', plugins_url( "includes/swiper/js/swiper.jquery{$min}.js", __FILE__ ), array( 'jquery' ), '4.3.3', true );
+			wp_register_script( 'cherry-testi-swiper', plugins_url( "includes/swiper/js/swiper{$min}.js", __FILE__ ), array( 'jquery' ), '4.3.5', true );
 			wp_register_script( 'cherry-testi-public', plugins_url( "public/assets/js/public{$min}.js", __FILE__ ), array( 'cherry-testi-swiper' ), apply_filters( 'tm_testimonials_public_scripts_ver', TM_TESTI_VERSION ), true );
 		}
 

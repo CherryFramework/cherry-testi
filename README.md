@@ -8,6 +8,10 @@ Insert a shortcode `[tm_testimonials]` to the post/page content.
 
 ## Changelog
 
+
+= 1.1.2 =
+* UPD: new swiper slider compat
+
 = 1.0.1 =
 * UPD: slider settings for devices
 * UPD: parameters list
