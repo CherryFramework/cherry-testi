@@ -8,6 +8,8 @@ Insert a shortcode `[tm_testimonials]` to the post/page content.
 
 ## Changelog
 
+= 1.1.3 =
+* UPD: Cherry Framework
 
 = 1.1.2 =
 * UPD: new swiper slider compat
